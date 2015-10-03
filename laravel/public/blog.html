@@ -1,0 +1,1066 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# blog: http://ogp.me/ns/blog#">
+
+<title>Tadas' blog</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="js/jquery/jquery-1.11.3.js"></script>
+<script src="js/jquery-template/jquery.loadTemplate-1.5.0.js"></script>
+<link rel="stylesheet" href="css/bootstrap-3.3.5-dist/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="css/abtl.css"></link>
+<script src="css/bootstrap-3.3.5-dist/js/bootstrap.js"></script>
+<script src="js/abtl.js"></script>
+
+
+        <meta name="description" content="Little big things" />
+	<!-- custom colors -->
+	<meta name="if:Show Reblog Credit" content="1">
+	<meta name="if:Show Tags" content="1">
+	<meta name="if:Facebook Comments On" content="1" />
+	
+	<meta name="font:TitleAndBody" content="Georgia">
+	<meta name="font:DatesReblogTags" content="Verdana">
+	<meta name="font:TextWithinBars" content="Verdana">
+	<meta name="color:Background" content="#FFFFFF"/>
+	<meta name="color:Title" content="#1D1801"/>
+	<meta name="color:BodyText" content="#1D1801"/>
+	<meta name="color:Links" content="#1D1801"/>
+	<meta name="color:Bars" content="#1D1801"/>
+	<meta name="color:TextWithinBars" content="#FFFFFF"/>
+	<meta name="color:NotesBackground" content="#FCFF8B"/>
+	<meta name="color:TagsBackground" content="#E0F1FF"/>
+	<!-- those were the custom colors -->
+	
+	<meta name="if:Show notes" content="1"/>
+	<meta name="text:Disqus Shortname" content="" />
+
+	<style type="text/css">
+		body {
+			margin: 30px 0;
+			padding: 0;
+			color: #1D1801;
+			font-family: Futura, 'Century Gothic', AppleGothic, sans-serif;
+			background: #FFFFFF;
+		}
+		
+		a {
+			color: #1D1801;
+			text-decoration: underline;
+		}
+		
+		a:active,
+		a:focus {
+			outline: 0;
+		}
+		
+		#header {
+			width: 800px;
+			margin: auto;
+			position: relative;
+		}
+		
+			#header .description {
+				line-height: 1.6em;
+				font-size: 0.81em;
+				letter-spacing: 0;
+				padding-bottom: 10px;
+			}
+		
+			#header a.title {
+				color: #1D1801;
+				text-decoration: none;
+				font-size: 3.75em;
+				letter-spacing: -1px;
+			}
+			
+			#header .bar {
+				width: 788px;
+				height: 21px;
+				font-family: 'Courier New', Courier, monospace;
+				font-size: 0.69em;
+				line-height: 1.8em;
+				color: #ffffff;
+				text-align: right;
+				background: #1D1801;
+				margin-top: 2px;
+				padding: 0 6px;
+			}
+			
+				#header .bar a {
+					color: #FFFFFF;
+					text-decoration: none;
+				}
+		
+		#content {
+			width: 800px;
+			margin: 30px auto auto auto;
+		}
+		
+			#content .space {
+				width: 100%;
+				clear: both;
+			}
+			
+				#content .space.big {
+					height: 30px;
+				}
+		
+				#content .space.small {
+					height: 3px;
+				}
+		
+			#content #post {
+				width: 800px;
+				position: relative;
+			}
+		
+				#content #post .left {
+					width: 270px;
+					font-family: 'Courier New', Courier, monospace;
+					font-size: 0.69em;
+					text-align: right;
+					float: left;
+				}
+		
+					#content #post .left a.timestamp {
+						width: 258px;
+						height: 21px;
+						color: #ffffff;
+						text-decoration: none;
+						line-height: 1.8em;
+						background: #1D1801;
+						padding: 0 6px;
+						display: block
+					}
+					
+					a.comments {
+    				    color: #1D1801;
+    				    text-align: right;
+    				    text-decoration: none !important;
+    				    border-bottom: 1px solid #ccc;
+    				    padding: 6px  6px 6px 0;
+    				    display: block;
+				  }
+		
+					#content #post .left .notes {
+						width: 265px;
+						color: #9C9C9C;
+						padding: 6px 2px 0 2px;
+					}
+					
+						#content #post .left .notes a {
+							color: #9C9C9C;
+							text-decoration: none;
+							padding: 1px 3px;
+						}
+						
+					#content #post:hover .left .notes {
+						color: #1D1801;
+					}
+					
+						#content #post:hover .left .notes a {
+							color: #1D1801;
+							background-color: #FCFF8B;
+							filter: alpha(opacity = 95);
+							-moz-opacity: 0.95;
+							-khtml-opacity: 0.95;
+							opacity: 0.95;
+						}
+						
+						#content #post .left .notes a:active {
+							filter: alpha(opacity = 100);
+							-moz-opacity: 1.0;
+							-khtml-opacity: 1.0;
+							opacity: 1.0;
+						}
+						
+					#content #post .left .tags {
+						width: 138px;
+						float: right;
+						padding: 6px 3px 0 0;
+					}
+
+						#content #post .left .tags a.tag {
+							color: #9C9C9C;
+							text-decoration: none;
+							border-radius: 3px;
+						  -moz-border-radius: 3px;
+						  -webkit-border-radius: 3px;
+							padding: 1px 3px;
+							margin: 0 0 3px 3px;
+							float: right;
+						}
+
+						#content #post:hover .left .tags a.tag {
+							color: #1A1A1A;
+							background-color: #E0F1FF;
+							filter: alpha(opacity = 95);
+							-moz-opacity: 0.95;
+							-khtml-opacity: 0.95;
+							opacity: 0.95;
+						}
+						
+							#content #post:hover .left .tags a.tag:active {
+								background-color: #D2EAFD;
+								filter: alpha(opacity = 100);
+								-moz-opacity: 1.0;
+								-khtml-opacity: 1.0;
+								opacity: 1.0;
+							}
+						
+				#content #post .right {
+					width: 500px;
+					line-height: 1.7em;
+					float: left;
+					font-size: 0.81em;
+					padding: 0 0 0 30px;
+					text-align: justify;
+				}
+				
+				    #content #post .right img {
+				        max-width: 100%;
+				    }
+				
+					#content #post a {
+						text-decoration: underline;
+					}
+					
+					#content #post blockquote {
+						font-style: italic;
+						padding-left: 15px;
+						border-left: 2px solid #1D1801;
+					}
+				
+					#content #post .right a.title {
+						color: #1D1801;
+						font-size: 1em;
+						font-weight: bold;
+						text-decoration: none;
+					}
+					
+					/* this is for chat */
+					#content #post .right table {
+						border-collapse: collapse;
+					}
+					
+						#content #post .right table tr.line1 {
+							margin: 0;
+						}
+						
+						#content #post .right table tr.line2 {
+							margin: 0;
+							background-color: #EEEEEE;
+						}
+						
+						#content #post .right table tr td {
+							padding: auto;
+							vertical-align: top;
+						}
+						
+						#content #post .right table tr td.name {
+							text-align: right;
+							font-weight: bold;
+							padding: 2px 15px;
+						}
+						
+						#content #post .right table tr td.words {
+							width: 100%;
+							text-align: left;
+							padding: 2px;
+						}
+						/* that was for chat */
+					
+					#content #post .right .quote .mark {
+						font-size: 3.75em;
+						line-height: 0.9em;
+						float: left;
+						margin: 0 15px -20px 0;
+					}
+					
+						#content #post .right .quote .byline {
+							text-align: right;
+						}
+					
+						#content #post .right .quote .words {
+							width: 445px;
+						}
+						
+					#content #post .right a.link {
+						color: #1D1801;
+						font-size: 1em;
+						font-weight: bold;
+						text-decoration: none;
+						border-bottom: 2px solid #1D1801;
+					}
+					
+					#content #post .right .audio embed {
+						border: 1px solid #9C9C9C;
+					}
+					
+	#footer {
+		width: 800px;
+		font-family: Verdana, Arial, sans-serif;
+		font-size: 0.69em;
+		margin: auto;
+	}
+	
+		#footer #pagination {
+			width: 488px;
+			height: 21px;
+			color: #ffffff;
+			line-height: 1.8em;
+			text-align: right;
+			background: #1D1801;
+			position: relative;
+			margin: auto 0 auto 300px;
+			padding: 0 6px;
+		}
+		
+			#footer #pagination .count {
+				position: absolute;
+				left: 6px;
+			}
+	
+			#footer #pagination a {
+				color: #FFFFFF;
+				text-decoration: none;
+			}
+			
+		#footer #credit {
+			width: 500px;
+			color: #9C9C9C;
+			text-align: right;
+			margin: 30px 0 auto 300px;
+		}
+		
+			#footer #credit:hover {
+				color: #1D1801;
+			}
+		
+			#footer #credit a {
+				color: #9C9C9C;
+				text-decoration: none;
+				padding: 1px 3px;
+			}
+			
+				#footer #credit:hover a {
+					color: #1D1801;
+					background-color: #FCFF8B;
+					filter:alpha(opacity=95);
+					-moz-opacity:0.95;
+					-khtml-opacity: 0.95;
+					opacity: 0.95;
+				}
+				
+					#footer #credit:hover a:active {
+						filter:alpha(opacity=100);
+						-moz-opacity:1.0;
+						-khtml-opacity: 1.0;
+						opacity: 1.0;
+					}
+					
+    ol.notes {
+    	padding: 0px;
+    	margin: 55px 0px 25px 0;
+    	list-style-type: none;
+    }
+
+    ol.notes li.note {
+        background: #f4f4f4;
+        margin: 0 0 2px 0;
+    	padding: 10px;
+    }
+
+    ol.notes img.avatar {
+        max-width: 16px;
+    	margin-right: 8px;
+    	border: solid 1px #ccc;
+    	padding: 1px;
+    	float: left;
+    }
+
+    ol.notes span.action {
+    	float: left;
+    	padding-top: 1px;
+    	line-height: 18px;
+    }
+
+    ol.notes .clear {
+    	clear: both;
+    	height: 1px;
+    }
+
+    ol.notes blockquote {
+    	border-color: #eee;
+    	padding: 4px 10px;
+    	margin: 7px 0px 0px 25px;
+    	font-weight: normal;
+    	line-height: 18px;
+    }
+
+    ol.notes blockquote a {
+    	text-decoration: none;
+    }
+
+    ol.notes .answer_content {
+    	font-weight: normal;
+    }
+					
+	a.install {
+        width: 96px;
+        height: 20px;
+        background: url(http://static.tumblr.com/thpaaos/dHHkt0jor/install_theme.png);
+        position: absolute;
+        top: 26px;
+        right: 3px;
+        display:none;
+    }
+    
+    .fb-comments {
+        float:right;
+        margin-top:50px;
+    }
+	
+	
+	</style>
+	<style type="text/css">figure {margin: 0;}</style>
+<link rel="shortcut icon" href="http://38.media.tumblr.com/avatar_9423f5bcff3b_128.png">
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://feed.paplauskas.lt" />
+	<meta name="viewport" content="width=850" />
+<link rel="alternate" href="android-app://com.tumblr/tumblr/x-callback-url/blog?blogName=paplauskas" />
+<link rel="alternate" href="ios-app://305343404/tumblr/x-callback-url/blog?blogName=paplauskas" />
+<script src="http://assets.tumblr.com/assets/scripts/tumblelog.js?_v=6d92575a6d1cddce7fefd8b949f1b4a4"></script>
+
+<link rel="stylesheet" type="text/css" href="http://assets.tumblr.com/fonts/gibson/stylesheet.css?v=3">
+<meta name="keywords" content="thoughts,opinion,life,citylife,hitchhiker" />
+
+<!-- BEGIN TUMBLR FACEBOOK OPENGRAPH TAGS --><!-- If you'd like to specify your own Open Graph tags, define the og:url and og:title tags in your theme's HTML. --><!-- Read more: http://ogp.me/ --><meta property="fb:app_id" content="48119224995" /><meta property="og:title" content="Tadas&#039; blog" /><meta property="og:url" content="http://blog.paplauskas.lt/?og=1" /><meta property="og:description" content="Little big things" /><meta property="og:type" content="tumblr-feed:tumblelog" /><meta property="og:image" content="http://38.media.tumblr.com/avatar_9423f5bcff3b_128.png" /><meta property="al:ios:url" content="tumblr://x-callback-url/blog?blogName=paplauskas" /><meta property="al:ios:app_name" content="Tumblr" /><meta property="al:ios:app_store_id" content="305343404" /><meta property="al:android:url" content="tumblr://x-callback-url/blog?blogName=paplauskas" /><meta property="al:android:app_name" content="Tumblr" /><meta property="al:android:package" content="com.tumblr" /><!-- END TUMBLR FACEBOOK OPENGRAPH TAGS -->
+
+
+<!-- TWITTER TAGS --><meta charset="utf-8"><meta name="twitter:site" content="tumblr" /><meta name="twitter:card" content="app" /><meta name="twitter:description" content="paplauskas" /><meta name="twitter:title" content="paplauskas" /><meta name="twitter:app:name:iphone" content="Tumblr" /><meta name="twitter:app:name:ipad" content="Tumblr" /><meta name="twitter:app:name:googleplay" content="Tumblr" /><meta name="twitter:app:id:iphone" content="305343404" /><meta name="twitter:app:id:ipad" content="305343404" /><meta name="twitter:app:id:googleplay" content="com.tumblr" /><meta name="twitter:app:url:iphone" content="tumblr://x-callback-url/blog?blogName=paplauskas&amp;referrer=twitter-cards" /><meta name="twitter:app:url:ipad" content="tumblr://x-callback-url/blog?blogName=paplauskas&amp;referrer=twitter-cards" /><meta name="twitter:app:url:googleplay" content="tumblr://x-callback-url/blog?blogName=paplauskas&amp;referrer=twitter-cards" />
+
+<!-- GOOGLE CAROUSEL --><script type="application/ld+json">{"@type":"ItemList","url":"http:\/\/blog.paplauskas.lt","itemListElement":[{"@type":"ListItem","position":1,"url":"http:\/\/blog.paplauskas.lt\/post\/124397350850\/19-how-to-get-better-chroma-key-with-sony-vegas"},{"@type":"ListItem","position":2,"url":"http:\/\/blog.paplauskas.lt\/post\/124010871910\/18-some-months-in-review"},{"@type":"ListItem","position":3,"url":"http:\/\/blog.paplauskas.lt\/post\/115416837085\/17-from-scrawny-to-brawny"},{"@type":"ListItem","position":4,"url":"http:\/\/blog.paplauskas.lt\/post\/101788748470\/16-multitasking-does-not-work"},{"@type":"ListItem","position":5,"url":"http:\/\/blog.paplauskas.lt\/post\/101698367225\/15-one-sentence-movire-review-the-fault-in-our"},{"@type":"ListItem","position":6,"url":"http:\/\/blog.paplauskas.lt\/post\/98326055220\/14-one-sentence-movie-review-sin-city-a-dame"},{"@type":"ListItem","position":7,"url":"http:\/\/blog.paplauskas.lt\/post\/95721300495\/13-one-sentence-movie-review-the-grand-budapest"},{"@type":"ListItem","position":8,"url":"http:\/\/blog.paplauskas.lt\/post\/95588467520\/12-i-saw-a-hitchhiker-today"},{"@type":"ListItem","position":9,"url":"http:\/\/blog.paplauskas.lt\/post\/81582721010\/11-why-bitcoin-will-eventually-fail"},{"@type":"ListItem","position":10,"url":"http:\/\/blog.paplauskas.lt\/post\/79109603460\/10-one-sentence-movie-review-the-wolf-of-wall"}],"@context":"http:\/\/schema.org"}</script>
+</head>
+<body>
+<!-- FB COMMENTS -->
+
+  
+
+<!-- FB COMMENTS -->
+
+    <a href="http://www.tumblr.com/theme/105" class="install"></a>
+    
+	<div id="header">
+		<a class="title" href="/">
+			Tadas' blog
+		</a>
+		
+		<div class="description">
+			Little big things
+		</div>
+		
+		<div class="bar">
+		    
+                <a href="/instagram">instagram</a> | <a href="/subscribe">subscribe by email</a> | <a href="/about">about</a> | 
+            
+            
+		    <span style="text-transform:lowercase;"><a href="http://feed.paplauskas.lt">RSS</a>
+		    | <a href="/ask" style="text-transform:lowercase;">Ask</a> | 
+		    <a href="/archive">Archive</a></span>
+		</div>
+	</div>
+	
+	<div id="content">
+		
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/124397350850/19-how-to-get-better-chroma-key-with-sony-vegas" class="timestamp">
+				    Jul. 18, 2015<!-- at  12:51pm-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/stock-footage" class="tag">stock footage</a><a href="http://blog.paplauskas.lt/tagged/sony-vegas" class="tag">sony vegas</a><a href="http://blog.paplauskas.lt/tagged/filming" class="tag">filming</a><a href="http://blog.paplauskas.lt/tagged/videography" class="tag">videography</a><a href="http://blog.paplauskas.lt/tagged/chroma-key" class="tag">chroma key</a><a href="http://blog.paplauskas.lt/tagged/green-screen" class="tag">green screen</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/124397350850/19-how-to-get-better-chroma-key-with-sony-vegas">#19 how to get better chroma key with Sony Vegas</a><br />
+				<div class="space small"></div>
+				
+				<p>This week I took some stock footage of hand gestures for touchscreens in front of a green screen. I had some trouble chroma keying the footage, but after some fiddling I found a pretty good technique to get it to work. This is more of a reminder to myself and a short tutorial for fellow editors struggling with chroma keying in Sony Vegas.</p><p>The default Chroma Keyer plugin in Vegas works only in the best conditions, which is almost never. If your green screen was lit perfectly, you might get passable results, but if there&rsquo;s even a slight imperfection in the background, it fails miserably. There are better third party plugins, such as Boris FX - heard only good things, haven&rsquo;t tried it myself - but they tend to get pricey. Adobe Premiere or After Effects does a far better job at chroma keying, but I don&rsquo;t feel like switching programs just to get a proper chroma key.</p><p>The trick lies in using secondary color corrector instead of chroma keyer. Add this plugin, go straigt to the &ldquo;Custom&rdquo; tab. Click &ldquo;Select effect range&rdquo; and draw a rectangle on video preview window that would contain as much of the background as possible. For some reason the rectangle is not displayed as you are selecting it (unlike in Chroma Keyer plugin), but trust me, it&rsquo;s there. The plugin will sample the color information from your selection and use it for further processing.</p><figure data-orig-width="3840" data-orig-height="2160" class="tmblr-full"><img src="http://40.media.tumblr.com/e28af40681928ce66946ccf074d77fac/tumblr_inline_nrog82JNBi1r5okji_500.jpg" alt="image" data-orig-width="3840" data-orig-height="2160" width="500" height="281"></figure><p><i>I know, not the best green screen in the world.</i></p><p>Protip: make sure &ldquo;Best (full)&rdquo; is selected in video preview.</p><p>When you selected color range, drag &ldquo;Alpha&rdquo; slider all the way to the left. The background should become somewhat transparent.</p><figure data-orig-width="3840" data-orig-height="2160" class="tmblr-full"><img src="http://36.media.tumblr.com/90e58ba0542ecefd79b7cd064f8c8dae/tumblr_inline_nrog9qxbHi1r5okji_500.jpg" alt="image" data-orig-width="3840" data-orig-height="2160" width="500" height="281"></figure><p><i>It&rsquo;s someting.</i></p><p>Now it&rsquo;s time to adjust settings.</p><p>Protip: select &ldquo;show mask&rdquo; to better see what is happening with mask.</p><p>Deselect &ldquo;Limit saturation&rdquo;, &ldquo;Limit luminance&rdquo;, you will not need it. Make sure &ldquo;Limit hue&rdquo; is selected. Set &ldquo;Smooth&rdquo; to 0. The real trick is to get the best possible combination of &ldquo;Center&rdquo; and &ldquo;Width&rdquo;. &ldquo;Center&rdquo; represents the shade of color that is processed. Move the slider to find the value that covers most of the background. To fine-tune enter the number by hand. Once you find the best &ldquo;Center&rdquo; value, adjust &ldquo;Width&rdquo; to be as small as possible while still covering the entire background. This value represents the range of colors that is being processed, so be careful with this, or the edges of the objects might be cut off. Finally, adjust &ldquo;Smooth&rdquo; value to something pleasing and add &ldquo;Chroma blur&rdquo; (it must be applied BEFORE color correctors
+
+in the effects chain) if needed.</p><figure data-orig-width="3840" data-orig-height="2160" class="tmblr-full"><img src="http://40.media.tumblr.com/14b10f135083df6cf3ccedc870bd832e/tumblr_inline_nrogafngaM1r5okji_500.jpg" alt="image" data-orig-width="3840" data-orig-height="2160" width="500" height="281"></figure><p>Now right-click on the preview window and deselect &ldquo;Scale video to fit preview window&rdquo;. Examine the edges of objects. If they are cut off, adjust settings and get less agressive chroma key. If there&rsquo;s green spill on the edges, like in my case, there&rsquo;s one more thing we can do.<br></p><p>Add another secondary color corrector. Disable the first CC, pick the green color for second CC near the edge of the objects. Enable the first CC again. Now adjust second CC saturation value to ~0.3 or something similar and fiddle with &ldquo;Limit hue&rdquo; selectors, only this time use bigger &ldquo;Smooth&rdquo; value. In my case values are: center 162; width 30; smooth 50;&ldquo;.</p><figure data-orig-width="3840" data-orig-height="2160" class="tmblr-full"><img src="http://40.media.tumblr.com/2f3c993ee91dda8e17d7ee6744abd5a0/tumblr_inline_nrogbfC60W1r5okji_500.jpg" alt="image" data-orig-width="3840" data-orig-height="2160" width="500" height="281"></figure><p><i>Not too bad, eh?</i></p><p><a href="http://www.pond5.com/stock-footage/52271026/4k-uhd-13-touchscreen-gestures-alpha-channel-male-hand.html" target="_blank">Here&rsquo;s the end result.</a></p><p>Hope that was helpful!</p>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/124010871910/18-some-months-in-review" class="timestamp">
+				    Jul. 14, 2015<!-- at  12:40am-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/life" class="tag">life</a><a href="http://blog.paplauskas.lt/tagged/thoughts" class="tag">thoughts</a><a href="http://blog.paplauskas.lt/tagged/life-in-review" class="tag">life in review</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/124010871910/18-some-months-in-review">#18 some months in review</a><br />
+				<div class="space small"></div>
+				
+				<ul><li>Finally finished university. No big celebration, no fireworks, no nothing, but closure feels good. Feels like permission to move on to new things.<br></li><li>Finally moved in with my woman. Feels right.</li><li>Shopping is addictive as anything else. June consisted of many trips to the stores to buy all kinds of stuff for the new home. Now it&rsquo;s July and I still get the occasional cravings to buy new shit just for the sake of it.</li><li>Short vacations are the best way I know to stay mentally stable.</li><li>Side projects are always fascinating until you actually start doing them.</li><li>Filming stock footage is my favorite thing to do at the time. Six months since starting and I still enjoy doing it, even though I&rsquo;m not particulary productive or good at it. I enjoy not having to worry about narrative, viewers or anything else. No pressure, just filming, nothing else. One shot at the time. Pure videography. Feels almost like meditation.</li><li>Found a new job with danish company. Excited to start in the middle of August. Being PHP developer beats being glorified webmaster.</li><li>The woman is also looking for a new job. Even more excited for her. Gurl gon&rsquo; get it.<br></li><li>Bought a new lens for my camera. Here&rsquo;s hoping it arrives in time for the vacation in August.</li><li>Ordered a cheap fitness bracelet. I&rsquo;ve been counting my steps with Samsung Health app ever since I got Note 3 more than a year ago. Gotta level up and improve my fitness tracking to improve my fitness itself.<br></li><li>I really should start reading books before bed. Not sure if that&rsquo;s an excuse to buy Kindle or a legit ambition.</li></ul>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/115416837085/17-from-scrawny-to-brawny" class="timestamp">
+				    Apr. 3, 2015<!-- at  11:37pm-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/thoughts" class="tag">thoughts</a><a href="http://blog.paplauskas.lt/tagged/life" class="tag">life</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/115416837085/17-from-scrawny-to-brawny">#17 from scrawny to brawny</a><br />
+				<div class="space small"></div>
+				
+				<figure data-orig-width="479" data-orig-height="361" class="tmblr-full"><img src="http://31.media.tumblr.com/2f8353c92461cda13ba55253b9c890a5/tumblr_inline_nm90ixQ0cu1r5okji.gif" alt="image" data-orig-width="479" data-orig-height="361" width="479" height="361"></figure><p>During my teenage years I took up weightlifting and during the past 8 years went from 65 kilos up to 95, while my height remained the same boring 180cm. This leads me to believe that I have a pretty good idea what it&rsquo;s like to go from scrawny to brawny.</p><p><b>Positive</b></p><ul><li>If you&rsquo;ve never been in a real fight, don&rsquo;t worry - you probably won&rsquo;t ever have to, as chances of getting into one are significantly reduced once you become bigger than most of your potential opponents.</li><li>There&rsquo;s just a general confidence boost that comes with being a bigger fellow.</li><li>Being able to easily  lift your partner opens up new possibilities ir bed.</li><li>When you are drunk at a party or festival, other people have to worry about not bumping into you - not the other way around. I mean, you become a 100 kg blob of human flesh with bad coordination and 5-year-old&rsquo;s energy levels - god help those around you.</li><li>Your body is more resilient, i.e. breaking bones, dislocating something and such becomes less of a worry. Ties in nicely with the previous point.</li><li>Since, hopefully, you bust ass in the gym at least three times per week, you&rsquo;re are more aware of your physical capabilities, limits, and pain threshold.</li></ul><p><b>Negative</b></p><ul><li>If finding pants that fit you was hard before, now it&rsquo;s pretty much impossible.</li><li>Normal fit is your new slim fit.&nbsp;<br></li><li>While on that topic, most of the fancy clothes look best on skinny guys, while you&rsquo;re left with mostly shirt-and-pants combinations.</li><li>You have to suck in your belly to look good in photos.</li>
+<li>if your dance moves were bad before, now they are just plain ridiculous.</li>
+<li>You have to be really lean not to look fat.</li><li>Moving through a crowd without pushing everyone around and feeling like an asshole is very hard.<br></li>
+<li>Guess who your friends gonna call first when they need help moving.</li><li>You might look more intimidating than you are, even if you try to&nbsp;&ldquo;turn that off&rdquo;.</li><li>Food is for living, not for pleasure. You will never be able to eat a cake or a pizza completely guilt-free.</li></ul><p><b>Bonus round - mixed feelings teritory</b></p>
+<ul><li>When walking in dark alleys, other people might go to the other side of the road to avoid you, not the other way around. Yes, now you&rsquo;re THAT guy.</li>
+<li>The amount of food that you eat in a day could feed a poor family for a week.</li>
+<li>You might break something by merely sitting on it.</li></ul>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/101788748470/16-multitasking-does-not-work" class="timestamp">
+				    Nov. 4, 2014<!-- at  11:56pm-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/opinion" class="tag">opinion</a><a href="http://blog.paplauskas.lt/tagged/self-improvement" class="tag">self improvement</a><a href="http://blog.paplauskas.lt/tagged/thoughts" class="tag">thoughts</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/101788748470/16-multitasking-does-not-work">#16 Multitasking does not work</a><br />
+				<div class="space small"></div>
+				
+				<p>I have a quite short attention span (who doesn&rsquo;t), so I used to multitask a lot. It allowed me to tackle many tasks every day without much planning and&hellip;</p>
+<p>Well actually, no. The real reason why I used to love multitasking is because it allowed me to feel busy, productive and important. But there was a small problem &ndash; more often than not, at the end of the day I would not have much to show for the whole day of being busy. Took me some time to realize that multitasking wasn&rsquo;t a strategy to manage work, but rather a strategy to <em>fake</em> work.</p>
+<p><a href="http://www.psychologytoday.com/blog/brain-wise/201209/the-true-cost-multi-tasking" target="_blank">Real multitasking doesn&rsquo;t even exist</a>.&nbsp;Humans can do only one mindful thing at a time, so what we call multitasking is simply a frequent switching between tasks. This switching consumes time and energy that could be put into much better use. So yeah, I&rsquo;ve been trying to quit this habit for some time now. That means turning off notifications on everything except maybe phone calls, making time for every task separately and concentrating on it completely. This approach can be difficult to actually put to practise, but it definitely works.</p>
+<p>As for me, it also goes beyond day-to-day multitasking. For the past couple years I&rsquo;ve had many different activities on my plate. Constantly juggling between personal life, work, university and rock operas is extremely exhausting. However, the real disappointment came when I realized that I was not doing as good as I could at any of those activities. I was simply not happy with the situation.</p>
+<p><span>So this year, after completing my third rock opera, I decided to leave. My excitement for the project was gone and it would have been impossible to handle the job without it. I&rsquo;m sure the new producer will do much better than I would.</span></p>
+<p><span>Quitting is almost always stressful, but it can also be strangely liberating &ndash; almost as if you become physically lighter. I like that feeling. And my day-to-day happiness level definitely increased up to the long forgotten levels.<br></span></p>
+<p>In less than a year I will have had graduated from university. I can only imagine how liberating will that feel.</p>
+<p>At least for now it seems that the less stuff I have in my life, the more room I have for happiness. Minimalism is quite underrated, if you ask me.</p>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/101698367225/15-one-sentence-movire-review-the-fault-in-our" class="timestamp">
+				    Nov. 3, 2014<!-- at  10:57pm-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/the-fault-in-our-stars" class="tag">the fault in our stars</a><a href="http://blog.paplauskas.lt/tagged/john-green" class="tag">john green</a><a href="http://blog.paplauskas.lt/tagged/one-sentence-movie-reviews" class="tag">one sentence movie reviews</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/101698367225/15-one-sentence-movire-review-the-fault-in-our">#15 One sentence movire review: The Fault in Our Stars </a><br />
+				<div class="space small"></div>
+				
+				<p>This pretentious indie shit should&rsquo;ve been called&nbsp;<span>&ldquo;The Fault in Terrible Writing&rdquo;.</span></p>
+<p>One retarded metaphor. Seriously, take that out of your mouth,&nbsp;you&rsquo;re just embarrassing yourself.</p>
+<p><img src="http://38.media.tumblr.com/fb8861ed20538d3b5199ce6481a43073/tumblr_inline_nehe5huvsx1r5okji.jpg"></p>
+
+<p><a href="http://www.imdb.com/title/tt2582846/" target="_blank">IMDB.</a></p>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/98326055220/14-one-sentence-movie-review-sin-city-a-dame" class="timestamp">
+				    Sep. 24, 2014<!-- at  10:28pm-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/one-sentence-movie-reviews" class="tag">one sentence movie reviews</a><a href="http://blog.paplauskas.lt/tagged/sin-city" class="tag">sin city</a><a href="http://blog.paplauskas.lt/tagged/a-dame-to-kill-for" class="tag">a dame to kill for</a><a href="http://blog.paplauskas.lt/tagged/robert-rodriguez" class="tag">robert rodriguez</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/98326055220/14-one-sentence-movie-review-sin-city-a-dame">#14 One sentence movie review - Sin City: A Dame to Kill For</a><br />
+				<div class="space small"></div>
+				
+				<p>Worst case of &ldquo;style over substance&rdquo; - boring, streched out stories (three vs five in the first movie), heroes are not compelling or fun as in the first one, and while visuals are stunning, it&rsquo;s not nearly enough for almost 2-hour movie (felt double that).</p>
+<p>Two PG-13 strippers (that you are supposed to drool over).</p>
+<p><img src="http://38.media.tumblr.com/2e6a38a57f426e723aaed5290908c8a4/tumblr_inline_ncf773p0WC1r5okji.jpg"></p>
+<p><a href="http://www.imdb.com/title/tt0458481/?ref_=fn_al_tt_1" target="_blank">IMDB.</a></p>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/95721300495/13-one-sentence-movie-review-the-grand-budapest" class="timestamp">
+				    Aug. 25, 2014<!-- at  12:10pm-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/one-sentence-movie-reviews" class="tag">one sentence movie reviews</a><a href="http://blog.paplauskas.lt/tagged/wes-anderson" class="tag">wes anderson</a><a href="http://blog.paplauskas.lt/tagged/the-grand-budapest-hotel" class="tag">the grand budapest hotel</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/95721300495/13-one-sentence-movie-review-the-grand-budapest">#13 One sentence movie review: The Grand Budapest Hotel</a><br />
+				<div class="space small"></div>
+				
+				<p>I suppose it&rsquo;s one of those love-or-hate movies and personally I loved it, but at very least it universally deserves the praise for it&rsquo;s unique and sweet-as-candy visuals (I think I just&nbsp;accidentally&nbsp;summed up every Wes Anderson movie ever).</p>
+<p>Four (lobby) boys with apples.</p>
+<p><img alt="image" src="http://31.media.tumblr.com/4c7fdfc67cc86190ef55662b3c51e050/tumblr_inline_nauur58Wxx1r5okji.jpg"></p>
+
+<p><a href="http://www.imdb.com/title/tt2278388/" target="_blank">IMDB.</a></p>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/95588467520/12-i-saw-a-hitchhiker-today" class="timestamp">
+				    Aug. 24, 2014<!-- at  2:31am-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/stories" class="tag">stories</a><a href="http://blog.paplauskas.lt/tagged/hitchhiker" class="tag">hitchhiker</a><a href="http://blog.paplauskas.lt/tagged/citylife" class="tag">citylife</a><a href="http://blog.paplauskas.lt/tagged/thoughts" class="tag">thoughts</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/95588467520/12-i-saw-a-hitchhiker-today">#12 I saw a hitchhiker today</a><br />
+				<div class="space small"></div>
+				
+				<p>As&nbsp;I was driving home&nbsp;through my neighbourhood this evening,&nbsp;I saw a man in his forties&nbsp;or&nbsp;fifties standing beside the street. He was holding a&nbsp;plain plastic&nbsp;shopping bag in his left arm. I didn&rsquo;t have enough time to take a good look at the bag, but judging from the shape&nbsp;he was carrying&nbsp;a bunch of books or just some box inside that bag. He was delicately gesturing&nbsp;with his right hand for passing cars to stop&nbsp;- almost as if he was ashamed.</p>
+<p><em>Where is he going?</em></p>
+<p><em>Did he miss the bus?</em></p>
+<p><em>Why is he hitchhiking?</em></p>
+<p><em>What&rsquo;s in the bag?</em></p>
+<p><em>How long does it usually take him to find a friendly&nbsp;driver?</em></p>
+<p><em>Is he a nice guy or a mean one?</em></p>
+<p>Regarding the buses, I even checked the schedules - he could have caught the last bus going his direction, so he probably didn&rsquo;t miss one.&nbsp;</p>
+<p>I&rsquo;ve seen him before in that same spot with that same bag, always standing exactly the way I described. I saw him once during afternoon, another time in late evening.&nbsp;Ever since the first time I saw him these and many more questions started running through my head and I have no idea why it sparked such curiosity in&nbsp;me.</p>
+<p>Everyone loves a good story. We crave for narrative in everything we encounter. This human&nbsp;quality is pretty much universal in all cultures. That&rsquo;s why all of us&nbsp;love movies, books, music and&nbsp;just plain gossip - all of these&nbsp;are just different forms of storytelling.</p>
+<p>I consider&nbsp;storytelling to be&nbsp;part of our inherent desire to solve problems. Human brain is terrible at handling the unknown. That&rsquo;s the reason why we tend to have so many biases, stereotypes and even elaborate belief systems guiding us everyday. Human brain is primed to fill in the blanks in any way possible, no matter how unfounded the conclusions might be. We love knowledge, and what we don&rsquo;t know, we invent.</p>
+<p>Have you ever been sitting in the restaurant and watching people coming in and going out? Didn&rsquo;t you try to judge, at very least subconsciously, what kind of people they are? If I&nbsp;were to put a box on the table in front of you, wouldn&rsquo;t you immediately start to wonder what&rsquo;s inside?</p>
+<p>Maybe the fire wasn&rsquo;t our best discovery, maybe it was&nbsp;narrative. Animals do solve problems, but they do not tell stories. Humans do. Maybe this aspiration to tell a good story which would explain stuff around us is what got us where we are today. The best part is that if we keep doing this long enough, striving to improve the story, making it more accurate, eventually it&nbsp;becomes so good that it deserves to be called the truth.</p>
+<p>Maybe as long as we continue to do that, we will be okay.</p>
+<p>As for that man, I have many&nbsp;unfinished tales&nbsp;about him in my head. Too bad I probably will never find out which ones of those, if any,&nbsp;are&nbsp;true.</p>
+<p><em>P.S. I&rsquo;m sorry if this post is a bit too all over the place for your taste.</em></p>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/81582721010/11-why-bitcoin-will-eventually-fail" class="timestamp">
+				    Apr. 3, 2014<!-- at  4:34pm-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/bitcoin" class="tag">bitcoin</a><a href="http://blog.paplauskas.lt/tagged/cryptocurrency" class="tag">cryptocurrency</a><a href="http://blog.paplauskas.lt/tagged/economy" class="tag">economy</a><a href="http://blog.paplauskas.lt/tagged/opinion" class="tag">opinion</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/81582721010/11-why-bitcoin-will-eventually-fail">#11 Why bitcoin will eventually fail</a><br />
+				<div class="space small"></div>
+				
+				<p><img alt="image" src="http://38.media.tumblr.com/959db3f545b69bd13ed895ecd83a52bd/tumblr_inline_n3bi6s1Awf1r5okji.jpg"></p>
+
+<p>Unless you&rsquo;ve been hiding under a rock for the last couple of months, you&rsquo;ve probably at least heard the term &ldquo;Bitcoin&rdquo;. Unfortunately, the concept is much harder to grasp, so you probably don&rsquo;t really understand what that is. You are only aware that it has something to do with money and is&nbsp;<em>hot</em>&nbsp;right now.</p>
+<p>If you are new to cryptocurrency, here&rsquo;s a short video explaining the general concept.</p>
+<p><iframe frameborder="0" height="280" src="//www.youtube.com/embed/ZT26y_l-jtI" width="500"></iframe></p>
+<p>Few months ago I was looking into bitcoin. At the time, a price of one BTC was ~$220, and they were gaining media&rsquo;s attention. Of course, for no surprise, it got my attention too. I&rsquo;ve read everything that I could find on this mysterious&nbsp;<em>crypto-currency-thingy</em>, trying to decide whether it was a legit investment or just a quick fad. Finally, I decided to take the risk, but buying bitcoins turned out to be a tad problematic task. Eventually, I got lazy midway and forgot about it.</p>
+<p>Fast forward to a month later &ndash; and the price has risen up to $1100. As you can guess, that left a bad taste in my mouth.</p>
+<p><span>Since then I&rsquo;ve been following bitcoin&rsquo;s highs and lows pretty closely. While this doesn&rsquo;t make me an expert, but I have some thoughts on the topic&nbsp;that I would like to share. And my opinion on bitcoin is simple: it will fail in the next few years at most.</span></p>
+<p><span>Let me explain myself. The rush in price we saw months ago was mainly fueled by people hoping to get rich quick. In a sense, it&rsquo;s an elaborate pyramid scheme: you buy some bitcoins &gt;&gt; you promote it to everyone you can &gt;&gt; more people buy bitcoins &gt;&gt; value of bitcoins increases.</span></p>
+<p>Basically every positive opinion about bitcoin mentions its qualities that make it a superb currency, and that is true &ndash; bitcoin makes a lot of sense as currency. The problem is, almost nobody is using it as currency, and instead, they are using bitcoin as commodity. Currency is supposed to be circulating to be in a healthy state. And while technically you can use bitcoins to pay for&nbsp;<em>some</em>&nbsp;things on the internet, you are not going to do that. You will not spend it; you will hold on to them as an investment and wait until the price climbs high enough to make you some nice profit.</p>
+<p>Bitcoin economy is not sustainable as there is no real, natural spending &ndash; everyone is hoping to cash in when bitcoin goes&nbsp;<em>really big</em>. Eventually, the economy will run out of buyers. Sellers will panic and prices will crumble.</p>
+<p>As for retailers, it&rsquo;s quite hard to accept payments in bitcoin. How do you get the pricing right, when the fluctuation in price is so rapid?</p>
+<p>There&rsquo;s nothing wrong with bitcoin as a concept; it really is a work of genius. Nevertheless, it will suffer from all the hype that surrounds this innovation. Sooner or later, a better, more stable implementation of the concept will come, but for it to succeed as currency, bitcoin must fail.</p>
+<p>Of course I might be completely wrong, but for now, this is my two cents on bitcoin.</p>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+		<div id="post">
+			<div class="left">
+			    
+				<a href="http://blog.paplauskas.lt/post/79109603460/10-one-sentence-movie-review-the-wolf-of-wall" class="timestamp">
+				    Mar. 10, 2014<!-- at  1:51am-->
+				</a>
+				
+				
+  				
+				
+				
+  				 
+  				<div class="tags">
+  					<a href="http://blog.paplauskas.lt/tagged/the-wolf-of-wall-street" class="tag">the wolf of wall street</a><a href="http://blog.paplauskas.lt/tagged/leonardo-dicaprio" class="tag">leonardo dicaprio</a><a href="http://blog.paplauskas.lt/tagged/martin-scorsese" class="tag">martin scorsese</a>
+  				</div>
+  				<div class="space small"></div>
+  				
+				
+			</div>
+			<div class="right">
+		
+				
+				<a class="title" href="http://blog.paplauskas.lt/post/79109603460/10-one-sentence-movie-review-the-wolf-of-wall">#10 One sentence movie review: The Wolf of Wall Street </a><br />
+				<div class="space small"></div>
+				
+				<p>Who needs porn when we&rsquo;ve got Academy Awards&nbsp;nominees like this.</p>
+<p>Four&nbsp;$100 bills, Y'all.</p>
+<p><img alt="image" src="http://38.media.tumblr.com/2989a722d7ea6abd91389237ad7f768f/tumblr_inline_n270vanUwV1r5okji.png"></p>
+				
+		
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          		
+  			</div>
+  		</div>
+        <div class="space big"></div>
+  		<!-- FB comments -->
+  		
+        <!-- FB comment -->            
+        
+	</div>
+	<div id="footer">
+		
+		
+		
+		<div id="pagination" style="text-transform:lowercase;">
+			<div class="count">1 of 2</div>
+			
+			
+			<a href="/page/2">Next page</a>
+			
+		</div>
+		
+		
+		<div id="credit">
+			<a href="http://notquitetheme.tumblr.com">Not Quite</a> by <a href="http://www.petervidani.com" target="_blank">Peter Vidani</a><br/>Standing on <a href="http://www.tumblr.com">Tumblr</a>
+		</div>	
+	</div>
+	
+	
+		    
+
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<div id="abtl-control" data-website="1">
+    <!--main controls-->
+    <div class="abtl-menu">
+        <div class="row abtl-row menu-top">
+            <span class="pull-left">
+                <button id="abtl-add" class="btn btn-default btn-sm">+ New test</button>
+                <button id="abtl-save" class="btn btn-default btn-sm">Save</button>
+                <button id="abtl-publish" class="btn btn-primary btn-sm">Publish</button>
+            </span>
+            <span class="pull-right">
+                <button id="abtl-cancel" class="btn btn-danger btn-sm">Cancel</button>
+            </span>
+        </div>
+        <!-- tests list -->
+        <div class="row abtl-row">
+            <ul class="nav nav-tabs" id="abtl-nav-tabs">
+                <li id="abtl-test-nav-template" class="abtl-hidden abtl-tab-label">
+                    <a class="abtl-pick-test">New test</a>
+                    <input type="text" value="New test" style="display: none" class="test-title form-control" maxlength="30">
+                    <span class="abtl-delete-tab">x</span>
+                </li>
+                <li id="abtl-add-new-test"><a>+ Add new</a></li>                
+            </ul>
+        </div>
+        <div class="abtl-menu-border"></div>
+    </div>
+    <div class="abtl-container">
+        <div class=" abtl-row container-fluid tab-content" id="abtl-tests-container">
+            <div class="abtl-test-tab row tab-pane fade in abtl-hidden" id="abtl-test-template" data-id="{backend id}">
+                <div class="row abtl-tests-window">
+                    <div class="abtl-before col-xs-6 abtl-cell" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                        <div class="abtl-instructions">
+                            <p>
+                                <button class="pull-left abtl-pick-element btn btn-default btn-sm">Pick</button> <strong>Pick</strong> the element you want to optimize
+                            or just <strong>drag and drop</strong> it here.
+                            </p>
+                        </div>
+                        
+                        <textarea class="abtl-identifier" readonly></textarea>
+                        
+                        <div class="abtl-image-container">
+                             <img class="abtl-identifier-image img-responsive center-block">
+                        </div>
+                    </div>
+                    
+                    <div class="abtl-after col-xs-6 abtl-cell">
+                        <div class="abtl-instructions">
+                            <p>
+                            Your changes go <strong>here</strong>.
+                            </p>
+                        </div>
+                        <textarea class="abtl-test-text" disabled></textarea>
+                        
+                        <form action="/file-upload" class="abtl-test-image center-block" style="display:none">
+                            <span class="">
+                                <input type="file" name="inputImage" class="abtl-image-upload">
+                            </span>
+                        
+                            <div class="abtl-image-container">
+                                <img src="" class="image-upload-preview img-responsive center-block">
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+                <div class="abtl-row abtl-conversion-picker">                    
+                    
+                    <div class="abtl-default-conversion">
+                        <label class="abtl-default-conversion-checkbox"><input type="checkbox" checked> use the same element for conversion tracking</label>
+                    </div>
+                    <div class="abtl-custom-conversion" style="display: none">
+                        <button class="btn btn-default btn-sm abtl-custom-conversion-button">Pick element to track conversions.</button>
+                        <input type="hidden" class="conversion-input">
+                        <span class="picked-not-picked"></span>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".abtl-test-text").keyup(function(e) {
+        applyTests();
+    });    
+    
+    $(".abtl-default-conversion-checkbox input").change(function (e) {
+        //$(".abtl-default-conversion").toggle();
+        if ($(this).is(':checked'))
+        {
+            $(this).parent().parent().parent().find(".conversion-input").val('');
+            resetConversions();
+        }
+        $(".abtl-custom-conversion").toggle();
+        $(".abtl-tests-window").toggleClass("abtl-tests-window-smaller");        
+    });
+    
+    $('.test-title').blur(function() {
+        link = $(this).parent().find('.abtl-pick-test');
+        link.text($(this).val());
+        link.show();
+        $(this).hide();
+    });
+    
+    $(".abtl-custom-conversion-button").click(function (ev) {pickConversionElement($(this), ev);});
+    
+    $(".abtl-pick-element").click(function (ev) { pickTestElement($(this), ev); });
+
+    $("#abtl-add-new-test").click(function (ev) { addNewTest(); });
+    
+    $(".abtl-tab-label .abtl-pick-test").click(function (ev) { chooseTest($(this)); });
+    
+    $('.abtl-delete-tab').click (function (ev) { deleteTest($(this)); });
+    
+    $('.abtl-image-container').click ( function () {
+        $(this).toggleClass('abtl-image-container-expanded', 5000);
+        
+    } );
+    
+    $(".abtl-image-upload").change(function(){
+        previewImageUpload($(this));
+    });
+    
+    $('#abtl-save').click(function () {
+        saveTests();
+        
+    });
+    
+   loadTests();
+</script>
