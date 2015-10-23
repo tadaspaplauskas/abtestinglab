@@ -1,2 +1,5 @@
-/laravel/nbproject/private/
-/nbproject/private/
+/.git
+.gitignore
+/vendor
+.env
+/public/users
