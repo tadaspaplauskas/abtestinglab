@@ -84,7 +84,7 @@
     This code should be loaded in every page where you want to conduct tests.
 </p>
 <p>
-    <textarea style="width: 100%" readonly onclick="this.focus();this.select()"><script src="{{ $jsUrl }}"></script></textarea>
+    <textarea style="width: 100%" readonly onclick="this.focus();this.select()"><script src="{{ $website->jsUrl() }}"></script></textarea>
 </p>
 </div>
 

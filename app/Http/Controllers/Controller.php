@@ -11,8 +11,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
     use DispatchesJobs, ValidatesRequests;
     
     private $user;
-    const JS_FILENAME = 'tests.js';
-    const USERS_PATH = 'users/';
     
     public static function token()
     {

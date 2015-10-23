@@ -7,6 +7,10 @@ use App\Http\Controllers\WebsiteController;
 
 class Website extends Model
 {
+    const JS_FILENAME = 'tests.js';
+    const USERS_PATH = 'users/';
+    
+    
     protected $table = 'websites';
 
     protected $fillable = ['user_id', 'enabled', 'url', 'title', 'token', 'deleted_at'];
@@ -33,5 +37,33 @@ class Website extends Model
         return md5($this->id);
     }
     
+    public function jsUrl()
+    {
+        return url(self::USERS_PATH
+                . $this->user->hash() . '/' 
+                . $this->hash() . '/'
+                . self::JS_FILENAME);
+    }
 
+    public function path()
+    {
+        return public_path(self::USERS_PATH
+                . $this->user->hash() . '/' 
+                . $this->hash() . '/');
+    }
+    
+    public function jsPath()
+    {
+        return public_path(self::USERS_PATH
+                . $this->user->hash() . '/' 
+                . $this->hash() . '/'
+                . self::JS_FILENAME);
+    }
+    
+    public function url()
+    {
+        return url(self::USERS_PATH
+                . $this->user->hash() . '/' 
+                . $this->hash() . '/');
+    }
 }

@@ -65,4 +65,14 @@ class Test extends Model
         
         return $calc;
     }
+    
+    public function imagePath()
+    {
+        return $this->website->path() . 'images/' . $this->id . '.jpg';        
+    }
+    
+    public function imageUrl()
+    {
+        return asset($this->website->url() . '/images/' . $this->id . '.jpg');
+    }
 }

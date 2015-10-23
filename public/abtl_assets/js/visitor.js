@@ -41,6 +41,7 @@ function applyTestsAndConversions(data)
         for(i = 0; i < tests.length; i++)
         {
             testID = tests[i].id;
+            elementType = tests[i].element_type;
             element = tests[i].element;
             variation = tests[i].variation;
             variationWeight = tests[i].variation_weight;
@@ -58,17 +59,13 @@ function applyTestsAndConversions(data)
 
             if (variationChoice === 'b')
             {
-                if (customTrim($(this).html()) === element
-                    || customTrim($(this).attr('href')) === element
-                    || customTrim($(this).attr('src')) === element)
+                if (elementType === 'image' && customTrim($(this).attr('src')) === element)
                 {
-                    if ($(this).prop('tagName').toLowerCase() === 'img'
-                        && $(this).attr('src'))
-                    {
-                        $(this).attr('src', variation);
-                    } else {
-                        $(this).html(variation);
-                    }
+                    $(this).attr('src', variation);
+                }
+                else if (customTrim($(this).html()) === element || customTrim($(this).attr('href')) === element)
+                {                    
+                    $(this).html(variation);                    
                 }
             }
         }

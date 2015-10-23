@@ -63,7 +63,7 @@ class WebsiteController extends Controller
         else
         {
             $website = Website::create($request);
-            self::websitePath($website);
+            self::createWebsitePath($website);
             
             Session::flash('success', 'Website created.'); 
         }
@@ -77,9 +77,7 @@ class WebsiteController extends Controller
                 ->where('user_id', $this->user->id)
                 ->firstOrFail();
         
-        $jsUrl = self::jsUrl($website);
-        
-        return view('websites.show', compact('website', 'jsUrl'));
+        return view('websites.show', compact('website'));
     }
 
     public function edit($id)
@@ -150,18 +148,20 @@ class WebsiteController extends Controller
 
     /*********** HELPERS ****************/
     
-    public static function jsUrl($website)
+    public static function createWebsitePath($website)
     {
-        return url(self::USERS_PATH
-                . $website->user->hash() . '/' 
-                . $website->hash() . '/'
-                . self::JS_FILENAME);
-    }
-    
-    public static function websitePath($website)
-    {
-        return mkdir(public_path(self::USERS_PATH
+        $return = mkdir(public_path(self::USERS_PATH
                 . $website->user->hash() . '/' 
                 . $website->hash()));
+        
+        if ($return)
+        {
+            mkdir(public_path(self::USERS_PATH
+                . $website->user->hash() . '/' 
+                . $website->hash() . '/images'));
+        } else {
+            return false;
+        }
+        return true;            
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\ApiController;
+use Image;
 
 use App\Models\Test;
 use App\Models\Website;
@@ -26,6 +27,8 @@ class TestController extends ApiController
         
         $this->checkWebsiteOwner($websiteID);
         
+        $website = Website::find($websiteID);
+        
         foreach ($tests as $key => &$test)
         {
             //quick check
@@ -42,21 +45,37 @@ class TestController extends ApiController
             }
             else
             {
-                $testInDB = new Test(['website_id' => $websiteID]);
+                $testInDB = Test::create(['website_id' => $websiteID]);
             }
             $testInDB->title = $test['title'];
             $testInDB->enabled = 1;
             $testInDB->test_element = $test['from'];
             
-            if (starts_with($test['to'], 'image/'))
-            {
+            if (starts_with($test['to'], 'data:image/jpeg;base64')
+                    || starts_with($test['to'], 'data:image/png;base64'))
+            {                
+                $base64 = str_replace(['data:image/jpeg;base64,', 'data:image/png;base64,'], '', $test['to']);
+                $base64 = base64_decode($base64);
+                $img = Image::make($base64);
+                
+                $imagePath = $testInDB->imagePath();
+
+                // not for now, but probably should in the future
+                // $img->resize(self::ONE_SIZE_WIDTH, self::ONE_SIZE_HEIGHT, function ($constraint){$constraint->aspectRatio();});
+                $umask = umask(0);
+                $img->save($imagePath);
+                chmod($imagePath, 0664);
+                umask($umask);
+                
+                $testInDB->test_variation = '';
                 $testInDB->element_type = 'image';
             }
             else
             {
                 $testInDB->element_type = 'text';
+                $testInDB->test_variation = $test['to'];
             }
-            $testInDB->test_variation = $test['to'];
+            
             $testInDB->conversion_type = 'click';
             $testInDB->conversion_element = $test['conversion'];
             $testInDB->goal_type = 'conversions';//$test['goal_type'];
@@ -66,7 +85,7 @@ class TestController extends ApiController
             
             $testInDB->save();
             
-            Website::find($websiteID)->touch();
+            $website->touch();
             
             $test['id'] = $testInDB->id;
         }

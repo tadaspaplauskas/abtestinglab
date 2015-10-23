@@ -126,9 +126,7 @@ class TestController extends Controller
 
         $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
-        $path = self::jsPath($website);
-
-        $return = file_put_contents($path, view('js.manager', [
+        $return = file_put_contents($website->jsPath(), view('js.manager', [
             'website' => $website, 'tests' => $returnValue]), LOCK_EX);
         return $return;
     }
@@ -160,10 +158,17 @@ class TestController extends Controller
                 }
             }
 
+            if ($test->element_type ==='image')
+            {
+                $variation = $test->imageUrl();
+            } else {
+                $variation = $test->test_variation;
+            }
+            
             $jsTests[] = ['id' => $test->id,
-                //'title' => $test->title,
                 'element' => $test->test_element,
-                'variation' => $test->test_variation,
+                'element_type' => $test->element_type,
+                'variation' => $variation,
                 'variation_weight' => $weight];
 
             $jsConversions[] = [
@@ -174,21 +179,9 @@ class TestController extends Controller
 
         $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
-        $path = self::jsPath($website);
-
-        $return = file_put_contents($path, view('js.visitor', [
+        $return = file_put_contents($website->jsPath(), view('js.visitor', [
             'website' => $website, 'tests' => $returnValue]), LOCK_EX);
         return $return;
-    }
-
-    /************ HELPERS *********/
-
-    public static function jsPath($website)
-    {
-        return public_path(self::USERS_PATH
-                . $website->user->hash() . '/'
-                . $website->hash() . '/'
-                . self::JS_FILENAME);
     }
 
 }
