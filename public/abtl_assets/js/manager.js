@@ -177,7 +177,7 @@ function prepareTest(content, tag)
     }
     else
     {
-        alert('sorry, cannot identify element, results might be bad');
+        alert('sorry, cannot identify element, results might be inaccurate');
     }
     resetTests();
     testText.keyup();
@@ -229,16 +229,14 @@ function setOneClass(target, styleClass)
 
 
 /*********************** TEST MEAT ****************/
-function addNewTest(data)
+function addTest(data)
 {
     data = data || false;
 
     id = makeID('abtl-test');
-
     //tab itself
     newTest = $('#abtl-test-template').clone(true).removeClass('abtl-hidden').appendTo("#abtl-tests-container");
     newTest.attr('id', id);
-
     //navigation
     newTestNav = $('#abtl-test-nav-template').clone(true).removeClass('abtl-hidden').insertAfter("#abtl-add-new-test");
     newTestNav.removeAttr('id');
@@ -253,13 +251,36 @@ function addNewTest(data)
     resetTests();
     if (data !== false)
     {
-        //load values to fields
         newTest.data('id', data.id);
-        newTest.find('.abtl-identifier').val(data.test_element);
-        newTest.find('.abtl-test-text').val(data.test_variation);
-        newTest.find('.abtl-test-text').prop('disabled', false);
-        newTest.find('.abtl-identifier').val(data.test_element);
+        testText = newTest.find('.abtl-test-text');
+        testIdentifier = newTest.find('.abtl-identifier');
+        
+        testText.prop('disabled', false);
+        testText.val(data.test_variation);
         newTest.find('.conversion-input').val(data.conversion_element);
+        testIdentifier.val(data.test_element);
+        
+        //load values to fields
+        console.log(data.element_type);
+        if (data.element_type === 'image')
+        {
+            identifierImage = newTest.find(".abtl-identifier-image");
+            testImage = newTest.find(".abtl-test-image");
+
+            testText.hide();
+            testIdentifier.hide();
+
+            identifierImage.attr('src', data.test_element);
+            identifierImage.show();
+            testImage.show();
+            testImage.find('img').attr('src', data.test_variation);
+            testImage.find('input').val('');
+        }
+        else
+        {            
+            
+        }
+        
         if (data.conversion_element.length > 0)
         {
             newTest.find('.abtl-default-conversion-checkbox input').prop('checked', false);
@@ -422,7 +443,7 @@ function loadTests()
         //assign returned data to tests
         for(var i = 0; i < response.length; i++)
         {
-            addNewTest(response[i]);
+            addTest(response[i]);
         }
     });
 }
@@ -515,11 +536,10 @@ function nextOrPrev(elem)
 function makeID(pre)
 {
     i = 1;
-
     do
     {
         id = pre + '-' + i;
-        i++
+        i++;
     } while ($('#' + id).length)
 
     return id;

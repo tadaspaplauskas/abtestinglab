@@ -29,6 +29,8 @@ class TestController extends ApiController
         
         $website = Website::find($websiteID);
         
+        $testsToSave = [];
+        
         foreach ($tests as $key => &$test)
         {
             //quick check
@@ -67,7 +69,7 @@ class TestController extends ApiController
                 chmod($imagePath, 0664);
                 umask($umask);
                 
-                $testInDB->test_variation = '';
+                $testInDB->test_variation = $testInDB->imageUrl();
                 $testInDB->element_type = 'image';
             }
             else
@@ -88,7 +90,10 @@ class TestController extends ApiController
             $website->touch();
             
             $test['id'] = $testInDB->id;
+            $testsToSave[] = $testInDB->id;
         }
+        Test::where('website_id', $websiteID)->whereNotIn('id', $testsToSave)->delete();
+        
         return self::respondSuccess($tests);
     }
     

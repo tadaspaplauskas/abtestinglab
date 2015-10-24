@@ -2,9 +2,9 @@
     <!--main controls-->
     <div class="abtl-menu">
         <div class="row abtl-row menu-top">
-            <span class="pull-left">
+            <!--<span class="pull-left">
                 <button id="abtl-add" class="btn btn-default btn-sm">+ New test</button>
-                </span>
+                </span>-->
             <span class="pull-right">
                 <button id="abtl-save" class="btn btn-default btn-sm">Save</button>
                 <button id="abtl-publish" class="btn btn-primary btn-sm">Publish</button>
@@ -116,7 +116,7 @@
     
     $(".abtl-pick-element").click(function (ev) { pickTestElement($(this), ev); });
 
-    $("#abtl-add-new-test").click(function (ev) { addNewTest(); });
+    $("#abtl-add-new-test").click(function (ev) { addTest(); });
     
     $(".abtl-tab-label .abtl-pick-test").click(function (ev) { chooseTest($(this)); });
     
