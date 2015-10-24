@@ -158,12 +158,7 @@ class TestController extends Controller
                 }
             }
 
-            if ($test->element_type ==='image')
-            {
-                $variation = $test->imageUrl();
-            } else {
-                $variation = $test->test_variation;
-            }
+            $variation = $test->test_variation;
             
             $jsTests[] = ['id' => $test->id,
                 'element' => $test->test_element,
