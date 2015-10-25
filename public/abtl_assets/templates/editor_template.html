@@ -19,14 +19,14 @@
                     <input type="text" value="New test" style="display: none" class="test-title form-control" maxlength="30">
                     <span class="abtl-delete-tab">x</span>
                 </li>
-                <li id="abtl-add-new-test"><a>+ Add new</a></li>                
+                <li id="abtl-add-new-test"><a>+ Add new</a></li>
             </ul>
         </div>
         <div class="abtl-menu-border"></div>
     </div>
     <div class="abtl-container">
         <div class=" abtl-row container-fluid tab-content" id="abtl-tests-container">
-            <div class="abtl-test-tab row tab-pane fade in abtl-hidden" id="abtl-test-template" data-id="{backend id}">
+            <div class="abtl-test-tab row tab-pane abtl-hidden" id="abtl-test-template" data-id="{backend id}">
                 <div class="row abtl-tests-window">
                     <div class="abtl-before col-xs-6 abtl-cell" ondrop="drop(event, this)" ondragover="allowDrop(event)">
                         <div class="abtl-instructions">
@@ -35,14 +35,14 @@
                             or just <strong>drag and drop</strong> it here.
                             </p>
                         </div>
-                        
+
                         <textarea class="abtl-identifier" readonly></textarea>
-                        
+
                         <div class="abtl-image-container">
                              <img class="abtl-identifier-image img-responsive center-block">
                         </div>
                     </div>
-                    
+
                     <div class="abtl-after col-xs-6 abtl-cell">
                         <div class="abtl-instructions">
                             <p>
@@ -50,21 +50,21 @@
                             </p>
                         </div>
                         <textarea class="abtl-test-text" disabled></textarea>
-                        
+
                         <form action="/file-upload" class="abtl-test-image center-block" style="display:none">
                             <span class="">
                                 <input type="file" name="inputImage" class="abtl-image-upload">
                             </span>
-                        
+
                             <div class="abtl-image-container">
                                 <img src="" class="image-upload-preview img-responsive center-block">
                             </div>
                         </form>
-                        
+
                     </div>
                 </div>
-                <div class="abtl-row abtl-conversion-picker">                    
-                    
+                <div class="abtl-row abtl-conversion-picker">
+
                     <div class="abtl-default-conversion">
                         <label class="abtl-default-conversion-checkbox"><input type="checkbox" checked> use the same element for conversion tracking</label>
                     </div>
@@ -74,32 +74,35 @@
                         <span class="picked-not-picked"></span>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
     //help
     $('#abtl-save').prop('title', 'Save changes to website and continue editing');
     $('#abtl-publish').prop('title', 'Save and publish changes to website');
     $('#abtl-exit').prop('title', 'Exit editor now');
-    
-    $(".abtl-test-text").keyup(function(e) {
+
+    $('.abtl-test-text').keyup(function(e) {
         applyTests();
-    });    
-    
-    $(".abtl-default-conversion-checkbox input").change(function (e) {
+    });
+
+    $('.abtl-default-conversion-checkbox input').change(function (e) {
         //$(".abtl-default-conversion").toggle();
         if ($(this).is(':checked'))
         {
-            $(this).parent().parent().parent().find(".conversion-input").val('');
+            $(this).parent().parent().parent().find('.conversion-input').val('');
             resetConversions();
+
+            $(this).parent().parent().parent().find('.abtl-custom-conversion').hide();
+            $('.abtl-test-tab.active .abtl-tests-window').removeClass('abtl-tests-window-smaller');
         }
-        $(".abtl-custom-conversion").toggle();
-        $(".abtl-tests-window").toggleClass("abtl-tests-window-smaller");        
+        $(this).parent().parent().parent().find('.abtl-custom-conversion').show();
+        $('.abtl-test-tab.active .abtl-tests-window').addClass("abtl-tests-window-smaller");
     });
-    
+
     $('.test-title').blur(function() {
         link = $(this).parent().find('.abtl-pick-test');
         link.text($(this).val());
@@ -108,36 +111,36 @@
     });
      $('.test-title').keypress(function(e){
         if(e.which === 13){
-            $('.test-title').blur();
+            $(this).blur();
         }
     });
-    
+
     $(".abtl-custom-conversion-button").click(function (ev) {pickConversionElement($(this), ev);});
-    
+
     $(".abtl-pick-element").click(function (ev) { pickTestElement($(this), ev); });
 
     $("#abtl-add-new-test").click(function (ev) { addTest(); });
-    
+
     $(".abtl-tab-label .abtl-pick-test").click(function (ev) { chooseTest($(this)); });
-    
+
     $('.abtl-delete-tab').click (function (ev) { deleteTest($(this)); });
-    
+
     $('.abtl-image-container').click ( function () {
         $(this).toggleClass('abtl-image-container-expanded', 5000);
-        
+
     } );
-    
+
     $(".abtl-image-upload").change(function(){
         previewImageUpload($(this));
     });
-    
+
     $('#abtl-save').click(function () {
-        saveTests();        
+        saveTests();
     });
-    
+
     $('#abtl-publish').click(function () {
-        publishTests();        
+        publishTests();
     });
-    
+
    loadTests();
 </script>

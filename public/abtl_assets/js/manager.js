@@ -261,7 +261,6 @@ function addTest(data)
         testIdentifier.val(data.test_element);
         
         //load values to fields
-        console.log(data.element_type);
         if (data.element_type === 'image')
         {
             identifierImage = newTest.find(".abtl-identifier-image");
@@ -451,7 +450,8 @@ function loadTests()
 function saveTests()
 {
     data = [];
-    $('#abtl-nav-tabs .abtl-tab-label[data-tab^="abtl-test-"]').not('#abtl-test-template').each(function (){
+    $('#abtl-nav-tabs .abtl-tab-label[data-tab^="abtl-test-"]')
+            .not('#abtl-test-template').each(function (){
         tab = $('#' + $(this).data('tab'));
         data.push({
             id: tab.data('id'),
@@ -462,7 +462,6 @@ function saveTests()
             conversion: tab.find('.conversion-input').val()
         });
     });
-
     //sending to backend
     apiCall('/api/save', data, function(response) {
         //assign returned id's to tabs
