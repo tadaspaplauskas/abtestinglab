@@ -4,7 +4,7 @@ try {
     localStoreSupport = false;
 }
 //only for testing
-localStoreSupport = false;
+//localStoreSupport = false;
 
 function setLocal(name, data)
 {
@@ -77,4 +77,12 @@ function loadJS(href)
         .appendTo('head')
         .attr({type : 'text/javascript'})
         .attr('src', href);
+}
+
+function parentConversion(elem)
+{
+    if (elem.parents('a[href!=""]').length > 0)
+        return true;
+    else
+        return false;
 }

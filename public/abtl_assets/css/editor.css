@@ -47,8 +47,12 @@
 }*/
 .abtl-menu {
     background-color: beige;
-    padding: 0.3em 1em 0em 3em;
+    padding:0.5em 0em 0em 0em;
     /*border-bottom: 1px solid #ddd;*/
+}
+
+.abtl-menu-bar {
+    margin: auto !important;
 }
 
 .abtl-container {
@@ -114,7 +118,7 @@
 }
 
 .abtl-test-tab {
-    /*height: 17em;*/
+    width: 100%;
 }
 
 
@@ -274,7 +278,7 @@
     width: 30em;
     height: 6em;
     text-align: center;
-    border: 1px solid beige;
+    /*border: 1px solid beige;*/
 }
 
 .abtl-test-image img{

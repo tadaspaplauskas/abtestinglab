@@ -81,8 +81,16 @@ function pickTestElement(btn, ev)
 
     selection.on('click', function (ev) {
         ev.preventDefault();
+        
+        var html = $(ev.target).html();
+        var tag = $(ev.target).prop('tagName').toLowerCase();
+        var src = $(ev.target).attr('src');
+        var parentConv = parentConversion($(ev.target));
 
-        prepareTest(customTrim($(ev.target).html()));
+        if (src !== undefined)
+            prepareTest(src, tag, parentConv);
+        else
+            prepareTest(html, tag, parentConv);
 
         toggleCursor(selection, 'grab');
         btn.text('Picked. Again?');
@@ -126,11 +134,13 @@ function drag(ev) {
     //ev.dataTransfer.setData("className", ev.target.className);
     //ev.dataTransfer.setData("id", ev.target.id);
     //ev.dataTransfer.setData("content", customTrim($(ev.target).text()));
-    ev.dataTransfer.setData("html", $(ev.target).html());
+    ev.dataTransfer.setData('html', $(ev.target).html());
     //ev.dataTransfer.setData("name", ev.target.name);
-    ev.dataTransfer.setData("tag", ev.target.tagName);
+    ev.dataTransfer.setData('tag', ev.target.tagName);
+    ev.dataTransfer.setData('parent_conversion', parentConversion($(ev.target)));
+
     if (ev.target.src)
-        ev.dataTransfer.setData("src", ev.target.src);
+        ev.dataTransfer.setData('src', ev.target.src);
 }
 
 function drop(ev, handle) {
@@ -138,18 +148,21 @@ function drop(ev, handle) {
     //var id = ev.dataTransfer.getData("id");
     //var className = ev.dataTransfer.getData("className");
     //var content = ev.dataTransfer.getData("content");
-    var html = customTrim(ev.dataTransfer.getData("html"));
-    var tag = customTrim(ev.dataTransfer.getData("tag"));
-    var src = ev.dataTransfer.getData("src");
-
+    var html = customTrim(ev.dataTransfer.getData('html'));
+    var tag = customTrim(ev.dataTransfer.getData('tag'));
+    var src = ev.dataTransfer.getData('src');
+    var parentConversion = ev.dataTransfer.getData('parent_conversion');
+    
     if (src.length)
-        prepareTest(src, tag);
+        prepareTest(src, tag, parentConversion);
     else
-        prepareTest(html, tag);
+        prepareTest(html, tag, parentConversion);
 }
 
-function prepareTest(content, tag)
+function prepareTest(content, tag, parentConversion)
 {
+    parentConversion = parentConversion || false;
+    
     identifier = $('.tab-content .active .abtl-before').find(".abtl-identifier");
     testText = $('.tab-content .active .abtl-after').find(".abtl-test-text");
 
@@ -177,7 +190,8 @@ function prepareTest(content, tag)
     }
     else
     {
-        alert('sorry, cannot identify element, results might be inaccurate');
+        alert('Sorry, cannot identify element.');
+        return false;
     }
     resetTests();
     testText.keyup();
@@ -186,8 +200,8 @@ function prepareTest(content, tag)
     //is element a link? if not, prepare to select conversion
     conversionCheckbox = $('.tab-content .active .abtl-default-conversion-checkbox input');
 
-    //conditionals to take care of businesss
-    if (tag.toLowerCase() === 'a')
+    //if link - check conversion checkbox by default
+    if (tag.toLowerCase() === 'a' || parentConversion === 'true')
     {
         conversionCheckbox.prop('checked', true);
         conversionCheckbox.change();

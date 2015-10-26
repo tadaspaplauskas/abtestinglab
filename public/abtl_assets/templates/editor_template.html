@@ -1,32 +1,28 @@
 <div id="abtl-control" data-website="1">
     <!--main controls-->
     <div class="abtl-menu">
-        <div class="row abtl-row menu-top">
-            <!--<span class="pull-left">
-                <button id="abtl-add" class="btn btn-default btn-sm">+ New test</button>
-                </span>-->
-            <span class="pull-right">
+        <div class="row abtl-row abtl-menu-bar">
+            <div class="col-md-10">
+                <ul class="nav nav-tabs" id="abtl-nav-tabs">                
+                    <li id="abtl-test-nav-template" class="abtl-hidden abtl-tab-label">
+                        <a class="abtl-pick-test">New test</a>
+                        <input type="text" value="New test" style="display: none" class="test-title form-control" maxlength="30">
+                        <span class="abtl-delete-tab">x</span>
+                    </li>
+                    <li id="abtl-add-new-test"><a>+ Add new</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 text-right">
                 <button id="abtl-save" class="btn btn-default btn-sm">Save</button>
                 <button id="abtl-publish" class="btn btn-primary btn-sm">Publish</button>
                 <button id="abtl-exit" class="btn btn-danger btn-sm">Exit</button>
-            </span>
-        </div>
-        <!-- tests list -->
-        <div class="row abtl-row">
-            <ul class="nav nav-tabs" id="abtl-nav-tabs">
-                <li id="abtl-test-nav-template" class="abtl-hidden abtl-tab-label">
-                    <a class="abtl-pick-test">New test</a>
-                    <input type="text" value="New test" style="display: none" class="test-title form-control" maxlength="30">
-                    <span class="abtl-delete-tab">x</span>
-                </li>
-                <li id="abtl-add-new-test"><a>+ Add new</a></li>
-            </ul>
-        </div>
+            </div>
+        </div>       
         <div class="abtl-menu-border"></div>
     </div>
     <div class="abtl-container">
         <div class=" abtl-row container-fluid tab-content" id="abtl-tests-container">
-            <div class="abtl-test-tab row tab-pane abtl-hidden" id="abtl-test-template" data-id="{backend id}">
+            <div class="abtl-test-tab tab-pane abtl-hidden" id="abtl-test-template" data-id="{backend id}">
                 <div class="row abtl-tests-window">
                     <div class="abtl-before col-xs-6 abtl-cell" ondrop="drop(event, this)" ondragover="allowDrop(event)">
                         <div class="abtl-instructions">
@@ -63,7 +59,7 @@
 
                     </div>
                 </div>
-                <div class="abtl-row abtl-conversion-picker">
+                <div class="abtl-conversion-picker">
 
                     <div class="abtl-default-conversion">
                         <label class="abtl-default-conversion-checkbox"><input type="checkbox" checked> use the same element for conversion tracking</label>
@@ -90,7 +86,6 @@
     });
 
     $('.abtl-default-conversion-checkbox input').change(function (e) {
-        //$(".abtl-default-conversion").toggle();
         if ($(this).is(':checked'))
         {
             $(this).parent().parent().parent().find('.conversion-input').val('');
@@ -98,9 +93,11 @@
 
             $(this).parent().parent().parent().find('.abtl-custom-conversion').hide();
             $('.abtl-test-tab.active .abtl-tests-window').removeClass('abtl-tests-window-smaller');
+        } else
+        {
+            $(this).parent().parent().parent().find('.abtl-custom-conversion').show();
+            $('.abtl-test-tab.active .abtl-tests-window').addClass("abtl-tests-window-smaller");
         }
-        $(this).parent().parent().parent().find('.abtl-custom-conversion').show();
-        $('.abtl-test-tab.active .abtl-tests-window').addClass("abtl-tests-window-smaller");
     });
 
     $('.test-title').blur(function() {
