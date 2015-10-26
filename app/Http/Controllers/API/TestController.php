@@ -22,7 +22,11 @@ class TestController extends ApiController
 
     public function storeTests(Request $request)
     {
-        $tests = $request->get('data');        
+        if ($request->has('data'))
+            $tests = $request->get('data');
+        else
+            $tests = [];
+        
         $websiteID = $request->get('website_id');        
         
         $this->checkWebsiteOwner($websiteID);

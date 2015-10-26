@@ -462,6 +462,8 @@ function saveTests()
             conversion: tab.find('.conversion-input').val()
         });
     });
+    //reverse array so that newer tests are in the front
+    data.reverse();
     //sending to backend
     apiCall('/api/save', data, function(response) {
         //assign returned id's to tabs
