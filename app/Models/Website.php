@@ -17,7 +17,12 @@ class Website extends Model
     
     public function tests()
     {
-        return $this->hasMany('App\Models\Test')->orderBy('created_at', 'desc');
+        return $this->hasMany('App\Models\Test')->where('archived', 0)->orderBy('created_at', 'desc');
+    }
+    
+    public function archivedTests()
+    {
+        return $this->hasMany('App\Models\Test')->where('archived', 1)->orderBy('created_at', 'desc');
     }
     
     public function user()            

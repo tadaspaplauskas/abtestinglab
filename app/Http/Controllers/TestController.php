@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use Session;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Website;
@@ -20,30 +21,71 @@ class TestController extends Controller
         $this->user = Auth::user();
     }
 
-    public function disable($id)
-    {
-        $test = Test::find($id);
-
-        if ($test->website->user_id === $this->user->id)
-        {
-            $test->enabled = 0;
-            $test->save();
-        }
-        return redirect()->back();
-    }
-
-    public function enable($id)
+    public function changePublicStatus($id)
     {
        $test = Test::find($id);
 
         if ($test->website->user_id === $this->user->id)
         {
-            $test->enabled = 1;
+            if ($test->enabled == 0)
+            {
+                $test->enabled = 1;
+            }
+            else if ($test->enabled == 1)
+            {
+                $test->enabled = 0;
+            }
+            $test->save();
+        }
+        return redirect()->back();
+    }
+    
+    public function changeArchiveStatus($id)
+    {
+       $test = Test::find($id);
+
+        if ($test->website->user_id === $this->user->id)
+        {
+            if ($test->archived == 0)
+            {
+                $test->archived = 1;
+                $test->enabled = 0;
+            }
+            else if ($test->archived == 1)
+            {
+                $test->archived = 0;
+            }
             $test->save();
         }
         return redirect()->back();
     }
 
+    public function delete($id)
+    {
+        $website = Test::find($id);
+
+        if (isset($website->id))
+        {
+            return view('tests.delete', ['test' => $website]);
+        }
+        else
+        {
+            return redirect('website/index');
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        $test = Test::find($request->get('test_id'));
+        $websiteID = $test->website->id;
+
+        if ($test->website->user_id === $this->user->id)
+            $test->delete();
+
+        Session::flash('success', 'Test deleted.'); 
+        return redirect('website/show/' . $websiteID);
+    }
+    
     public function publish($websiteID)
     {
 

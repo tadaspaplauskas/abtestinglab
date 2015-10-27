@@ -79,6 +79,15 @@ class WebsiteController extends Controller
         
         return view('websites.show', compact('website'));
     }
+    
+    public function showArchived($id)
+    {
+        $website = Website::where('id', $id)
+                ->where('user_id', $this->user->id)
+                ->firstOrFail();
+        
+        return view('websites.show_archived', compact('website'));
+    }
 
     public function edit($id)
     {

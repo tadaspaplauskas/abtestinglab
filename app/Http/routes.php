@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function ()
     {
         Route::get('index', 'WebsiteController@index');
         Route::get('show/{id}', 'WebsiteController@show');
+        Route::get('show/archived/{id}', 'WebsiteController@showArchived');
         Route::get('create', 'WebsiteController@create');
         Route::post('store', 'WebsiteController@store');        
         Route::get('edit/{id}', 'WebsiteController@edit');    
@@ -40,10 +41,13 @@ Route::group(['middleware' => 'auth'], function ()
     
     Route::group(['prefix' => 'tests'], function ()
     {
-        Route::get('disable/{id}', 'TestController@disable');
-        Route::get('enable/{id}', 'TestController@enable');
+        Route::get('disable/{id}', 'TestController@changePublicStatus');
+        Route::get('enable/{id}', 'TestController@changePublicStatus');
         Route::get('publish/{id}', 'TestController@publish');
-        Route::get('manager/{id}', 'TestController@manager');
+        Route::get('manager/{id}', 'TestController@manager');        
+        Route::get('archive/{id}', 'TestController@changeArchiveStatus');
+        Route::get('delete/{id}', 'TestController@delete');
+        Route::post('destroy', 'TestController@destroy');
     });
 });
 

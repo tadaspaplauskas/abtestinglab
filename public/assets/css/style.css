@@ -320,3 +320,7 @@ footer {
 .test-disabled {
     background-color: antiquewhite;
 }
+
+.table .glyphicon {
+    margin: 0.75em;
+}

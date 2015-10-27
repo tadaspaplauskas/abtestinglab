@@ -29,16 +29,16 @@
 </div>
 
 <table class="table">
-    <td class="text-center">Test</td>
-    <td class="text-right">Original conv.</td>
-    <td class="text-right">Variation conv.</td>
-    <td class="text-right">Improvement</td>
-    <td class="text-right">Adaptive</td>
-    <td class="text-right">Goal</td>
-    <td class="text-right">Active</td>
-    <td class="text-right">Updated</td>
-        
-    </th>
+    <tr>
+        <th class="text-center">Test</th>
+        <th class="text-right">Original conv.</th>
+        <th class="text-right">Variation conv.</th>
+        <th class="text-right">Improvement</th>
+        <th class="text-right">Adaptive</th>
+        <th class="text-right">Goal</th>
+        <th class="text-right">Updated</th>
+        <th class="text-right">Actions</th>        
+    </tr>
 @foreach ($website->tests as $test)
     @if ($test->enabled)
         <tr class="test-enabled">
@@ -46,7 +46,12 @@
         <tr class="test-disabled">
     @endif
         <td class="strong">
-            {{ $test->title }}
+        @if ($test->enabled)
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        @else
+            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+        @endif
+        {{ $test->title }}
         </td>
         <td class="text-right">
             {{ $test->originalConv() }}
@@ -64,18 +69,31 @@
             {{ $test->goal }} {{ $test->goal_type }}
         </td>
         <td class="text-right">
-            @if ($test->enabled)
-                <a href="{{ url('test/disable', ['id' => $test->id]) }}" class="btn btn-default">Disable</a>
-            @else
-                <a href="{{ url('test/enable', ['id' => $test->id]) }}" class="btn btn-default">Enable</a>
-            @endif
-        </td>
-        <td class="text-right">
             {{ $test->updated_at or $test->created_at }}
+        </td>
+        <!--actions go here-->        
+        <td class="text-right">
+            <div class="btn-group">
+            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Choose <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                @if ($test->enabled)
+                <li><a href="{{ url('tests/disable', ['id' => $test->id]) }}">Disable</a></li>
+                @else
+                    <li><a href="{{ url('tests/enable', ['id' => $test->id]) }}">Enable</a></li>
+                @endif
+                  <li class="divider"></li>
+                  <li><a href="{{ url('tests/archive', ['id' => $test->id]) }}">Archive</a></li>
+                  <li><a href="{{ url('tests/delete', ['id' => $test->id]) }}">Delete</a></li>
+            </ul>
+            </div>
         </td>
     </tr>
 @endforeach
 </table>
+<hr>
+<p>
+    <a href="{{ url('website/show/archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>
+</p>
 <hr>
 <div>
 <h2>JS code</h2>
