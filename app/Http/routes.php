@@ -1,9 +1,6 @@
 <?php
-//use Input;
-
 
 Route::get('about', 'PagesController@about');
-
 
 Route::group(['prefix' => 'api', ], function () {
     
@@ -22,32 +19,32 @@ Route::group(['prefix' => 'api', ], function () {
 //Route::group(['prefix' => 'user'], function () {
 Route::group(['middleware' => 'auth'], function ()
 {
-    Route::get('dashboard', 'UserController@index');
+    Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'DashboardController@index']);
     
     Route::group(['prefix' => 'website'], function ()
     {
-        Route::get('index', 'WebsiteController@index');
-        Route::get('show/{id}', 'WebsiteController@show');
-        Route::get('show/archived/{id}', 'WebsiteController@showArchived');
-        Route::get('create', 'WebsiteController@create');
-        Route::post('store', 'WebsiteController@store');        
-        Route::get('edit/{id}', 'WebsiteController@edit');    
-        Route::post('update', 'WebsiteController@update');
-        Route::get('delete/{id}', 'WebsiteController@delete');
-        Route::post('destroy', 'WebsiteController@destroy');
-        Route::get('enable/{id}', 'WebsiteController@enable');
-        Route::get('disable/{id}', 'WebsiteController@disable');
+        Route::get('index', ['as' => 'website.index', 'uses' => 'WebsiteController@index']);
+        Route::get('show/{id}', ['as' => 'website.show', 'uses' => 'WebsiteController@show']);
+        Route::get('show/archived/{id}', ['as' => 'website.archived', 'uses' => 'WebsiteController@showArchived']);
+        Route::get('create', ['as' => 'website.create', 'uses' => 'WebsiteController@create']);
+        Route::post('store', ['as' => 'website.store', 'uses' => 'WebsiteController@store']);        
+        Route::get('edit/{id}', ['as' => 'website.edit', 'uses' => 'WebsiteController@edit']);    
+        Route::post('update', ['as' => 'website.update', 'uses' => 'WebsiteController@update']);
+        Route::get('delete/{id}', ['as' => 'website.delete', 'uses' => 'WebsiteController@delete']);
+        Route::post('destroy', ['as' => 'website.destroy', 'uses' => 'WebsiteController@destroy']);
+        Route::get('enable/{id}', ['as' => 'website.enable', 'uses' => 'WebsiteController@enable']);
+        Route::get('disable/{id}', ['as' => 'website.disable', 'uses' => 'WebsiteController@disable']);
     });
     
     Route::group(['prefix' => 'tests'], function ()
     {
-        Route::get('disable/{id}', 'TestController@changePublicStatus');
-        Route::get('enable/{id}', 'TestController@changePublicStatus');
-        Route::get('publish/{id}', 'TestController@publish');
-        Route::get('manager/{id}', 'TestController@manager');        
-        Route::get('archive/{id}', 'TestController@changeArchiveStatus');
-        Route::get('delete/{id}', 'TestController@delete');
-        Route::post('destroy', 'TestController@destroy');
+        Route::get('disable/{id}', ['as' => 'tests.disable', 'uses' => 'TestController@changePublicStatus']);
+        Route::get('enable/{id}', ['as' => 'tests.enable', 'uses' => 'TestController@changePublicStatus']);
+        Route::get('publish/{id}', ['as' => 'tests.publish', 'uses' => 'TestController@publish']);
+        Route::get('manager/{id}', ['as' => 'tests.manager', 'uses' => 'TestController@manager']);        
+        Route::get('archive/{id}', ['as' => 'tests.archive', 'uses' => 'TestController@changeArchiveStatus']);
+        Route::get('delete/{id}', ['as' => 'tests.delete', 'uses' => 'TestController@delete']);
+        Route::post('destroy', ['as' => 'tests.destroy', 'uses' => 'TestController@destroy']);
     });
 });
 

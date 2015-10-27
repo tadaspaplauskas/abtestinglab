@@ -324,3 +324,7 @@ footer {
 .table .glyphicon {
     margin: 0.75em;
 }
+
+.breadcrumb {
+    margin-bottom: 5px;
+}

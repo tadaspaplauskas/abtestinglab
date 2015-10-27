@@ -2,13 +2,15 @@
 
 @section('title', $website->title)
 
+@section('breadcrumbs', Breadcrumbs::render('website', $website))
+
 @section('content')
 
 <div class="row actions-menu">
 <div class="col-md-6 text-left">
-    <a href="{{ url('tests/manager', ['id' => $website->id]) }}" class="btn btn-primary">Manage tests</a>
+    <a href="{{ route('tests.manager', ['id' => $website->id]) }}" class="btn btn-primary">Manage tests</a>
     @if ($website->unpublishedChanges() || true)
-        <a href="{{ url('tests/publish', ['id' => $website->id]) }}" class="btn btn-default">Publish test changes</a>
+        <a href="{{ route('tests.publish', ['id' => $website->id]) }}" class="btn btn-default">Publish test changes</a>
     @else
         <a class="btn btn-default disabled">Publish changes</a>
     @endif
@@ -19,15 +21,19 @@
 </div>
 <div class="col-md-6 text-right">
     @if($website->enabled)
-        <a href="{{ url('website/disable', ['id' => $website->id]) }}" class="btn btn-default">Disable website</a>
+        <a href="{{ route('website.disable', ['id' => $website->id]) }}" class="btn btn-default">Disable website</a>
     @else
-        <a href="{{ url('website/enable', ['id' => $website->id]) }}" class="btn btn-default">Enable website</a>
+        <a href="{{ route('website.enable', ['id' => $website->id]) }}" class="btn btn-default">Enable website</a>
     @endif
-    <a href="{{ url('website/edit', ['id' => $website->id]) }}" class="btn btn-default">Edit website</a>
-    <a href="{{ url('website/delete', ['id' => $website->id]) }}" class="btn btn-danger">Delete website</a>
+    <a href="{{ route('website.edit', ['id' => $website->id]) }}" class="btn btn-default">Edit website</a>
+    <a href="{{ route('website.delete', ['id' => $website->id]) }}" class="btn btn-danger">Delete website</a>
 </div>
 </div>
 
+
+@if ($website->tests->isEmpty())
+    <p>Create your first test now!</p>
+@else
 <table class="table">
     <tr>
         <th class="text-center">Test</th>
@@ -77,19 +83,20 @@
             <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Choose <span class="caret"></span></button>
             <ul class="dropdown-menu">
                 @if ($test->enabled)
-                <li><a href="{{ url('tests/disable', ['id' => $test->id]) }}">Disable</a></li>
+                <li><a href="{{ route('tests.disable', ['id' => $test->id]) }}">Disable</a></li>
                 @else
-                    <li><a href="{{ url('tests/enable', ['id' => $test->id]) }}">Enable</a></li>
+                    <li><a href="{{ route('tests./enable', ['id' => $test->id]) }}">Enable</a></li>
                 @endif
                   <li class="divider"></li>
-                  <li><a href="{{ url('tests/archive', ['id' => $test->id]) }}">Archive</a></li>
-                  <li><a href="{{ url('tests/delete', ['id' => $test->id]) }}">Delete</a></li>
+                  <li><a href="{{ route('tests.archive', ['id' => $test->id]) }}">Archive</a></li>
+                  <li><a href="{{ route('tests.delete', ['id' => $test->id]) }}">Delete</a></li>
             </ul>
             </div>
         </td>
     </tr>
 @endforeach
 </table>
+@endif
 <hr>
 <p>
     <a href="{{ url('website/show/archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>

@@ -2,6 +2,8 @@
 
 @section('title', 'Delete ' . $website->title)
 
+@section('breadcrumbs', Breadcrumbs::render('website', $website))
+
 @section('content')
 
 <form role="form" method="POST" action="{{ url('website/destroy') }}">

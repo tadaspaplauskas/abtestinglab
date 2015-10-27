@@ -2,6 +2,8 @@
 
 @section('title', 'Your websites')
 
+@section('breadcrumbs', Breadcrumbs::render('websites'))
+
 @section('content')
 
 <p>

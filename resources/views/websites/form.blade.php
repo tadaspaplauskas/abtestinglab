@@ -2,9 +2,13 @@
 
 @if (isset($website))
     @section('title', 'Edit ' . $website->title)
+    @section('breadcrumbs', Breadcrumbs::render('website', $website))
 @else
     @section('title', 'Add a new website')
+    @section('breadcrumbs', Breadcrumbs::render('website'))
 @endif
+
+
 
 @section('content')
 
@@ -18,7 +22,7 @@
     </div>
 @endif
 
-<form role="form" method="POST" action="{{ url('website/store') }}">
+<form role="form" method="POST" action="{{ route('website.store') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="website_id" value="{{ $website->id or '' }}">
     

@@ -10,7 +10,8 @@
         "laravel/socialite": "^2.0",
         "doctrine/dbal": "^2.4.2",
         "tedivm/jshrink": "~1.0",
-        "intervention/image": "^2.3"
+        "intervention/image": "^2.3",
+        "davejamesmiller/laravel-breadcrumbs": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

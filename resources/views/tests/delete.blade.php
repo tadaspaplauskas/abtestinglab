@@ -2,6 +2,8 @@
 
 @section('title', 'Delete ' . $test->title)
 
+@section('breadcrumbs', Breadcrumbs::render('test', $test))
+
 @section('content')
 
 <form role="form" method="POST" action="{{ url('tests/destroy') }}">

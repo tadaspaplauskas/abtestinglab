@@ -111,6 +111,7 @@
     <!-- MENU SECTION END-->
     <div class="content-wrapper">
         <div class="container">
+            @yield('breadcrumbs')          
             <div class="row">
                 <div class="col-md-12">
                     <h4 class="page-head-line">@yield('title')</h4>
