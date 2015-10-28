@@ -4,7 +4,7 @@ $(document).ready(function() {
 
     if (token === null)
     {
-        window.location = 'http://abtestinglab.dev/website/show/1';
+        window.location = websiteUrl;
     }
     else
     {

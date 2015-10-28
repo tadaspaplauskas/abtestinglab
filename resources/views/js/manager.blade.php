@@ -4,12 +4,21 @@ require(public_path('abtl_assets/js/master.js'));
 ?>
 
 websiteID = {{ $website->id }};
+websiteUrl = '{{ url(route('website.show', ['id' => $website->id])) }}';
 
 //entry point for token
-if(window.location.hash.substring(0, 7) ==='#token=')
+if(window.location.hash.substring(0, 7) === '#token=')
 {
-    setLocal('token', window.location.hash.replace('#token=', ''));
-    window.location = window.location.href.replace(window.location.hash, '');
+    if(window.FileReader)
+    {
+        setLocal('token', window.location.hash.replace('#token=', ''));
+        window.location = window.location.href.replace(window.location.hash, '');
+    }
+    else
+    {
+        alert('Your browser is too old to edit tests.');
+        window.location = websiteUrl;
+    }
 }
 //in all other cases
 else

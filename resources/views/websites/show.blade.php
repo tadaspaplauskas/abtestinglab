@@ -85,7 +85,7 @@
                 @if ($test->enabled)
                 <li><a href="{{ route('tests.disable', ['id' => $test->id]) }}">Disable</a></li>
                 @else
-                    <li><a href="{{ route('tests./enable', ['id' => $test->id]) }}">Enable</a></li>
+                    <li><a href="{{ route('tests.enable', ['id' => $test->id]) }}">Enable</a></li>
                 @endif
                   <li class="divider"></li>
                   <li><a href="{{ route('tests.archive', ['id' => $test->id]) }}">Archive</a></li>

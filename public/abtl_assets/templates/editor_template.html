@@ -100,6 +100,7 @@
         }
     });
 
+    //save renamed test
     $('.test-title').blur(function() {
         link = $(this).parent().find('.abtl-pick-test');
         link.text($(this).val());
@@ -116,7 +117,13 @@
 
     $(".abtl-pick-element").click(function (ev) { pickTestElement($(this), ev); });
 
-    $("#abtl-add-new-test").click(function (ev) { addTest(); });
+    $("#abtl-add-new-test").click(function (ev) { 
+        addTest();
+        //show title input, encourage user to rename test
+        $(".abtl-tab-label.active .abtl-pick-test").click();
+        $(".abtl-tab-label.active .test-title").focus();
+        $(".abtl-tab-label.active .test-title").select();
+    });
 
     $(".abtl-tab-label .abtl-pick-test").click(function (ev) { chooseTest($(this)); });
 
