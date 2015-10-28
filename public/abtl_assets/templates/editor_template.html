@@ -3,7 +3,7 @@
     <div class="abtl-menu">
         <div class="row abtl-row abtl-menu-bar">
             <div class="col-md-10">
-                <ul class="nav nav-tabs" id="abtl-nav-tabs">                
+                <ul class="nav nav-tabs" id="abtl-nav-tabs">
                     <li id="abtl-test-nav-template" class="abtl-hidden abtl-tab-label">
                         <a class="abtl-pick-test">New test</a>
                         <input type="text" value="New test" style="display: none" class="test-title form-control" maxlength="30">
@@ -17,7 +17,7 @@
                 <button id="abtl-publish" class="btn btn-primary btn-sm">Publish</button>
                 <button id="abtl-exit" class="btn btn-danger btn-sm">Exit</button>
             </div>
-        </div>       
+        </div>
         <div class="abtl-menu-border"></div>
     </div>
     <div class="abtl-container">
@@ -48,13 +48,36 @@
                         <textarea class="abtl-test-text" disabled></textarea>
 
                         <form action="/file-upload" class="abtl-test-image center-block" style="display:none">
-                            <span class="">
-                                <input type="file" name="inputImage" class="abtl-image-upload">
-                            </span>
-
-                            <div class="abtl-image-container">
+                        <div class="row">
+                            <div class="col-xs-8 text-right">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <select class="upload-or-url form-control">
+                                            <option value="url">Image url</option>
+                                            <option value="upload">Upload image</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <input type="text" name="inputUrl" class="abtl-image-url form-control" placeholder="http://">
+                                        <input type="file" name="inputImage" class="abtl-image-upload">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <select class="initial-or-new-size form-control">
+                                            <option value="initial">Initial size</option>
+                                            <option value="new">New size</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        W <input type="number" value="123" class="imageWidth form-control"> H <input type="number" value="123" class="imageHeight form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 abtl-image-container">
                                 <img src="" class="image-upload-preview img-responsive center-block">
                             </div>
+                        </div>
                         </form>
 
                     </div>
@@ -80,6 +103,55 @@
     $('#abtl-save').prop('title', 'Save changes to website and continue editing');
     $('#abtl-publish').prop('title', 'Save and publish changes to website');
     $('#abtl-exit').prop('title', 'Exit editor now');
+
+    //image url changes
+    $('.abtl-image-url').change(function(e){
+        $(this).parent().parent().parent().parent().parent().find('.image-upload-preview').attr('src', $(this).val());
+    });
+    
+    //initial or new size
+    $('.initial-or-new-size').change(function(e) {
+        var width = $(this).parent().parent().find('.imageWidth');
+        var height = $(this).parent().parent().find('.imageHeight');
+        if ($(this).val() === 'new')
+        {
+            $(this).data('orig_height', height.val());
+            $(this).data('orig_width', width.val());
+            
+            //not set, gotta read from image preview
+            if (!$(this).data('new_height'))
+            {
+                var imagePreview = $(this).parent().parent().parent().parent().parent().find('.image-upload-preview');
+                $(this).data('new_height', imagePreview.prop('naturalHeight'));
+                $(this).data('new_width', imagePreview.prop('naturalWidth'));
+            }
+            height.val($(this).data('new_height'));
+            width.val($(this).data('new_width'));
+        }
+        else
+        {
+            $(this).data('new_height', height.val());
+            $(this).data('new_width', width.val());
+            
+            height.val($(this).data('orig_height'));
+            width.val($(this).data('orig_width'));
+        }
+    
+    });
+    //upload or url
+    $('.upload-or-url').change(function (e) {
+        if ($(this).val() === 'url')
+        {
+            $(this).parent().parent().find('.abtl-image-url').show();
+            $(this).parent().parent().find('.abtl-image-upload').hide();
+        } else
+        {
+            $(this).parent().parent().find('.abtl-image-url').hide();
+            $(this).parent().parent().find('.abtl-image-upload').show();
+        }
+    });
+    //initial
+    $('.upload-or-url').change();
 
     $('.abtl-test-text').keyup(function(e) {
         applyTests();
@@ -117,7 +189,7 @@
 
     $(".abtl-pick-element").click(function (ev) { pickTestElement($(this), ev); });
 
-    $("#abtl-add-new-test").click(function (ev) { 
+    $("#abtl-add-new-test").click(function (ev) {
         addTest();
         //show title input, encourage user to rename test
         $(".abtl-tab-label.active .abtl-pick-test").click();

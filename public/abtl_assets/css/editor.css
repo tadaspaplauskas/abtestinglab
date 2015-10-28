@@ -243,7 +243,7 @@
 }*/
 
 .abtl-identifier-image {
-    max-height: 5em;
+    max-height: 8em;
     max-width: 20em;
 }
 
@@ -270,24 +270,24 @@
     max-width: 80vh !important;
 }
 
-.abtl-test-image input {
+/*.abtl-test-image input {
     width: 14em;
-}
+}*/
 
 .abtl-test-image {
-    width: 50em;
-    height: 6em;
+    max-width: 40em;
+    /*height: 6em;*/
     text-align: center;
     /*border: 1px solid beige;*/
 }
 
 .abtl-test-image img{
-    max-height: 5em;
-    max-width: 20em;
+    max-height: 8em;
+    max-width: 15em;
 }
 
 .abtl-test-image div, .abtl-test-image span {
-    display: inline-block;
+    /*display: inline-block;*/
     padding: 0.5em;
     vertical-align: top;
 }
@@ -295,4 +295,14 @@
 .abtl-tab-label input {
     width: 10em;
     
+}
+
+.imageWidth, .imageHeight {
+    width: 6em !important;
+    display: inline !important;
+}
+
+.abtl-default-conversion-checkbox {
+    position: relative;
+    z-index: 99;
 }

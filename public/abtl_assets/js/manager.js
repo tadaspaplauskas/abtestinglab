@@ -140,7 +140,11 @@ function drag(ev) {
     ev.dataTransfer.setData('parent_conversion', parentConversion($(ev.target)));
 
     if (ev.target.src)
+    {
         ev.dataTransfer.setData('src', ev.target.src);
+        ev.dataTransfer.setData('width', ev.target.clientWidth);
+        ev.dataTransfer.setData('height', ev.target.clientHeight);
+    }
 }
 
 function drop(ev, handle) {
@@ -151,17 +155,21 @@ function drop(ev, handle) {
     var html = customTrim(ev.dataTransfer.getData('html'));
     var tag = customTrim(ev.dataTransfer.getData('tag'));
     var src = ev.dataTransfer.getData('src');
+    var width = ev.dataTransfer.getData('width');
+    var height = ev.dataTransfer.getData('height');
     var parentConversion = ev.dataTransfer.getData('parent_conversion');
     
     if (src.length)
-        prepareTest(src, tag, parentConversion);
+        prepareTest(src, tag, parentConversion, width, height);
     else
         prepareTest(html, tag, parentConversion);
 }
 
-function prepareTest(content, tag, parentConversion)
+function prepareTest(content, tag, parentConversion, width, height)
 {
     parentConversion = parentConversion || false;
+    width = width || null;
+    height = height || null;
     
     identifier = $('.tab-content .active .abtl-before').find(".abtl-identifier");
     testText = $('.tab-content .active .abtl-after').find(".abtl-test-text");
@@ -176,7 +184,6 @@ function prepareTest(content, tag, parentConversion)
             return false;
         }
     }
-
     if (content.length > 0)
     {
         if (content === testText.val())
@@ -224,6 +231,8 @@ function prepareTest(content, tag, parentConversion)
         testImage.show();
         testImage.find('img').attr('src', '');
         testImage.find('input').val('');
+        testImage.find('.imageWidth').val(width);
+        testImage.find('.imageHeight').val(height);
    }
     else
     {
@@ -574,7 +583,7 @@ function allElements()
 
 
 function previewImageUpload (elem) {
-    preview = elem.parent().parent().find('.image-upload-preview');
+    preview = elem.parent().parent().parent().parent().find('.image-upload-preview');
     file = elem.parent().find('input[type=file]').prop('files')[0];
     reader = new FileReader();
 
