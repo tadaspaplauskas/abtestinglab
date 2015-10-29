@@ -27,14 +27,15 @@
                     <div class="abtl-before col-xs-6 abtl-cell" ondrop="drop(event, this)" ondragover="allowDrop(event)">
                         <div class="abtl-instructions">
                             <p>
-                                <button class="pull-left abtl-pick-element btn btn-default btn-sm">Pick</button> <strong>Pick</strong> the element you want to optimize
+                            <button class="pull-left abtl-pick-element btn btn-default btn-sm">Pick</button>
+                            <strong>Pick</strong> the element you want to optimize
                             or just <strong>drag and drop</strong> it here.
                             </p>
                         </div>
 
-                        <textarea class="abtl-identifier" readonly></textarea>
+                        <textarea class="abtl-identifier form-control" readonly></textarea>
 
-                        <div class="abtl-image-container">
+                        <div class="abtl-container">
                              <img class="abtl-identifier-image img-responsive center-block">
                         </div>
                     </div>
@@ -43,43 +44,51 @@
                         <div class="abtl-instructions">
                             <p>
                             Your changes go <strong>here</strong>.
+                            <button class="btn btn-default btn-sm abtl-cutom-style-button pull-right">Style</button>
                             </p>
                         </div>
-                        <textarea class="abtl-test-text" disabled></textarea>
-
-                        <form action="/file-upload" class="abtl-test-image center-block" style="display:none">
                         <div class="row">
-                            <div class="col-xs-8 text-right">
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <select class="upload-or-url form-control">
-                                            <option value="url">Image url</option>
-                                            <option value="upload">Upload image</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <input type="text" name="inputUrl" class="abtl-image-url form-control" placeholder="http://">
-                                        <input type="file" name="inputImage" class="abtl-image-upload">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <select class="initial-or-new-size form-control">
-                                            <option value="initial">Initial size</option>
-                                            <option value="new">New size</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-7">
-                                        W <input type="number" value="123" class="imageWidth form-control"> H <input type="number" value="123" class="imageHeight form-control">
+                            <div class="col-xs-12">
+                                <textarea class="abtl-test-text form-control" disabled></textarea>
+                                
+                                <!-- style container -->
+                                <div class="custom-style-container" style="display: none">
+                                    <div class="container-form">
+                                        <div>
+                                            <label>Classes</label>
+                                            <input type="text" class="custom-style-classes form-control" placeholder="Class list" >
+                                        </div>                                    
+                                        <div>
+                                            <label>Custom style rules</label>
+                                            <textarea class="custom-style-css form-control" placeholder="Custom css style rules"></textarea>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-default btn-lg custom-style-close-button">Close</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-4 abtl-image-container">
-                                <img src="" class="image-upload-preview img-responsive center-block">
+                                
+                                <div class="row abtl-test-image center-block" style="display:none">
+                                    <div class="col-xs-8 image-properties">
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <select class="upload-or-url form-control">
+                                                    <option value="url">Image url</option>
+                                                    <option value="upload">Upload image</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-7">
+                                                <input type="text" name="inputUrl" class="abtl-image-url form-control" placeholder="http://">
+                                                <input type="file" name="inputImage" class="abtl-image-upload">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4 abtl-image-container">
+                                        <img src="" class="image-upload-preview img-responsive center-block">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        </form>
-
                     </div>
                 </div>
                 <div class="abtl-conversion-picker">
@@ -104,8 +113,52 @@
     $('#abtl-publish').prop('title', 'Save and publish changes to website');
     $('#abtl-exit').prop('title', 'Exit editor now');
 
+
+    /*************** TEMPLATE FUNCTIONALITY ****************/
+    
+    //custom style open
+    $('.abtl-cutom-style-button').click(function (e){
+        var container = $(this).parent().parent().parent().find('.custom-style-container');
+        container.show();
+        container.addClass('abtl-container-expanded');
+        
+        var classes = container.find('.custom-style-classes');
+        var style = container.find('.custom-style-css');
+        var element = getCurrentElement();
+        
+        if (classes.val().length === 0)
+        {
+            classes.val(prepareClassNames(element.data('class')));
+        }
+        if (style.val().length === 0)
+        {
+            style.val(prepareCSS(element.data('style')));
+        }
+    });
+    //custom style close
+    $('.custom-style-close-button').click(function (e){
+        var container = $(this).parent().parent().parent();        
+        container.removeClass('abtl-container-expanded');
+        container.hide();
+        
+        var classes = container.find('.custom-style-classes');
+        var style = container.find('.custom-style-css');
+        var element = getCurrentElement();
+        
+        if (classes.val() === prepareClassNames(element.data('class')))
+        {
+            classes.val('');
+        }
+        if (style.val() === prepareCSS(element.data('style')))
+        {
+            style.val('');
+        }
+        applyActiveTest();
+    });
+    
     //image url changes
     $('.abtl-image-url').change(function(e){
+        toField().val($(this).val());
         $(this).parent().parent().parent().parent().parent().find('.image-upload-preview').attr('src', $(this).val());
     });
     
@@ -115,8 +168,8 @@
         var height = $(this).parent().parent().find('.imageHeight');
         if ($(this).val() === 'new')
         {
-            $(this).data('orig_height', height.val());
-            $(this).data('orig_width', width.val());
+            $(this).data('initial_height', height.val());
+            $(this).data('initial_width', width.val());
             
             //not set, gotta read from image preview
             if (!$(this).data('new_height'))
@@ -133,8 +186,8 @@
             $(this).data('new_height', height.val());
             $(this).data('new_width', width.val());
             
-            height.val($(this).data('orig_height'));
-            width.val($(this).data('orig_width'));
+            height.val($(this).data('initial_height'));
+            width.val($(this).data('initial_width'));
         }
     
     });
@@ -154,7 +207,7 @@
     $('.upload-or-url').change();
 
     $('.abtl-test-text').keyup(function(e) {
-        applyTests();
+        applyActiveTest();
     });
 
     $('.abtl-default-conversion-checkbox input').change(function (e) {
@@ -202,7 +255,7 @@
     $('.abtl-delete-tab').click (function (ev) { deleteTest($(this)); });
 
     $('.abtl-image-container').click ( function () {
-        $(this).toggleClass('abtl-image-container-expanded', 5000);
+        $(this).toggleClass('abtl-container-expanded');
 
     } );
 

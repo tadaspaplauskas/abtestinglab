@@ -252,7 +252,7 @@
     /*width: 30em;*/
     margin: auto;
 }
-.abtl-image-container-expanded {
+.abtl-container-expanded {
     text-align: center !important;
     position: fixed !important;
     z-index: 100 !important;
@@ -265,7 +265,7 @@
     margin: 0 !important;
 }
 
-.abtl-image-container-expanded img {
+.abtl-container-expanded img {
     max-height: 80vh !important;
     max-width: 80vh !important;
 }
@@ -275,7 +275,7 @@
 }*/
 
 .abtl-test-image {
-    max-width: 40em;
+    /*max-width: 40em;*/
     /*height: 6em;*/
     text-align: center;
     /*border: 1px solid beige;*/
@@ -305,4 +305,28 @@
 .abtl-default-conversion-checkbox {
     position: relative;
     z-index: 99;
+}
+
+.image-properties {
+    margin-top: -1em;
+}
+
+.custom-style-container {
+    padding: 0em 10em 0em 10em;
+    color: #fff;
+    font-size: 120%;
+}
+
+.custom-style-container label, .custom-style-container button {
+    margin-top: 1em;
+}
+
+.custom-style-container .container-form {
+    margin: auto;
+    width: 50%;
+    height: 70%;
+}
+
+.custom-style-css {
+    height: 20em !important;
 }

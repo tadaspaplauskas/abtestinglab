@@ -26,7 +26,9 @@ class Test extends Model
         /* conversions, views, */
         'goal',
         'start',
-        'end'];
+        'end',
+        'attributes',
+        ];
 
     public function website()
     {

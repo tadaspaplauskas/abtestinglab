@@ -233,6 +233,8 @@ function prepareTest(content, tag, parentConversion, width, height)
         testImage.find('input').val('');
         testImage.find('.imageWidth').val(width);
         testImage.find('.imageHeight').val(height);
+        testImage.find('.upload-or-url').change();
+        testImage.find('.initial-or-new-size').change();
    }
     else
     {
@@ -298,20 +300,23 @@ function addTest(data)
             testImage.find('img').attr('src', data.test_variation);
             testImage.find('input').val('');
         }
-        else
-        {            
-            
-        }
         
         if (data.conversion_element.length > 0)
         {
             newTest.find('.abtl-default-conversion-checkbox input').prop('checked', false);
             newTest.find('.abtl-default-conversion-checkbox input').change();
         }
+        
+        if (data.attributes.length > 0)
+        {
+            var newStyle = JSON.parse(data.attributes);
+            newTest.find('.custom-style-classes').val(newStyle.class);
+            newTest.find('.custom-style-css').val(newStyle.style);
+        }
+        
         newTestNav.find('.abtl-pick-test').text(data.title);
 
-        applyTests();
-        markChosenElements();
+        applyActiveTest();
     }
 }
 
@@ -339,8 +344,7 @@ function chooseTest(elem)
     $('#' + elemID).addClass('active');
 
     resetTests();
-    markChosenElements();
-    applyTests();
+    applyActiveTest();
 }
 
 function deleteTest(elem)
@@ -359,12 +363,14 @@ function deleteTest(elem)
         //remove label
         elem.parent().remove();
         resetTests();
-        applyTests();
+        applyActiveTest();
     }
 }
 
-function applyTests()
+function applyActiveTest()
 {
+    var testStyle = activeTestStyle();
+    
     iterateThroughElements(fromField().val(), function (el) {
         if (el.prop('tagName').toLowerCase() === 'img' && el.attr('src'))
         {
@@ -374,7 +380,18 @@ function applyTests()
         {
             el.html(toField().val());
         }
-    });
+        
+        if (testStyle.class.length > 0)
+            el.attr('class', testStyle.class);
+        else
+            el.attr('class', el.data('class'));
+        
+        if (testStyle.style.length > 0)
+            el.attr('style', testStyle.style);
+        else
+            el.attr('style', el.data('style'));
+    });    
+    markChosenElements();
 }
 
 function markChosenElements()
@@ -391,7 +408,8 @@ function markChosenElements()
 function iterateThroughElements(field, fn)
 {
     field = customTrim(field);
-
+    returnElem = null;
+    
     if (field.length > 0)
     {
         allElements().not("#abtl-placeholder").each(function()
@@ -399,9 +417,18 @@ function iterateThroughElements(field, fn)
             //check
             if ($(this).data('original_value') === field || $(this).attr('href') === field)
             {
-                fn($(this));
+                if (fn)
+                {
+                    fn($(this));
+                }
+                else
+                {
+                    returnElem = $(this);
+                    return;
+                }
             }
         });
+        return returnElem;        
     }
 }
 
@@ -420,6 +447,8 @@ function resetTests()
         }
 
         $(this).removeClass('abtl-picked-test-border abtl-picked-conversion-border');
+        $(this).attr('class', $(this).data('class'));
+        $(this).attr('style', $(this).data('style'));
     });
 
     //reset preview image
@@ -449,8 +478,8 @@ function assignOriginalValues()
             {
                 $(this).data('original_value', customTrim($(this).html()));
             }
-
-            //$(this).data('original_html', $(this).html());
+            $(this).data('class', prepareClassNames($(this).attr('class')));
+            $(this).data('style', prepareCSS($(this).attr('style')));
         }
     });
 }
@@ -472,17 +501,21 @@ function loadTests()
 
 function saveTests()
 {
-    data = [];
+    var data = [];
     $('#abtl-nav-tabs .abtl-tab-label[data-tab^="abtl-test-"]')
             .not('#abtl-test-template').each(function (){
-        tab = $('#' + $(this).data('tab'));
+        var tab = $('#' + $(this).data('tab'));
+        var size = tab.find('.initial-or-new-size');
         data.push({
             id: tab.data('id'),
             tab: $(this).data('tab'),
             title: $(this).find('.abtl-pick-test').text(),
             from: tab.find('.abtl-identifier').val(),
             to: tab.find('.abtl-test-text').val(),
-            conversion: tab.find('.conversion-input').val()
+            conversion: tab.find('.conversion-input').val(),
+            image_url: (tab.find('.abtl-image-url').val().length > 0 ? true : false),
+            attributes: {class: tab.find('.custom-style-classes').val(),
+                        style: tab.find('.custom-style-css').val()}
         });
     });
     //reverse array so that newer tests are in the front
@@ -590,7 +623,7 @@ function previewImageUpload (elem) {
     reader.onloadend = function () {
         preview.attr('src', reader.result);
         toField().val(reader.result);
-        applyTests();
+        applyActiveTest();
     }
 
     if (file) {
@@ -630,4 +663,36 @@ function confirmation(text)
 {
     text = text || 'Are you sure? This cannot be undone';
     return confirm(text);
+}
+
+function getCurrentElement()
+{
+    return iterateThroughElements(fromField().val());
+}
+
+function prepareClassNames(str)
+{
+    if (str !== undefined)
+        return str.replace("abtl-picked-test-border", "").trim();
+    else
+        return '';
+}
+
+function prepareCSS(str)
+{
+    if (str !== undefined)
+        return str.replace("; ", ";\n")
+            .replace(";", ";\n")
+            .replace("\n\n", "\n")
+            .replace('"', '\\"')
+            .replace("'", "\'");
+    else
+        return '';
+}
+
+function activeTestStyle()
+{
+    var current = $('#abtl-tests-container .active');
+    return {class: current.find('.custom-style-classes').val(),
+        style: current.find('.custom-style-css').val()};            
 }
