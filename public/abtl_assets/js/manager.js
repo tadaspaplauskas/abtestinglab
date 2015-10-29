@@ -26,6 +26,14 @@ $(document).ready(function() {
 
         toggleCursor($('body'), 'grab');
     }
+    $('[draggable=true]').mouseover(function (ev) {
+        ev.stopPropagation();
+        $(this).addClass('abtl-hover');
+    });
+    $('[draggable=true]').mouseout(function (ev) {
+        ev.stopPropagation();
+        $(this).removeClass('abtl-hover');
+    });
 });
 
 //picking a custom conversion element
@@ -112,16 +120,22 @@ function toggleCursor(selection, cursor)
 
 
 /****************** DRAGGING AND DROPPING ****************/
+
 function toggleDragging(on, selection) {
     selection = selection || allElements().not("#abtl-placeholder");
 
+    //make everything NOT draggable
+    /*$('body').find('*').not("#abtl-placeholder").each(function() {
+        $(this).attr("draggable", "false");
+    });*/
+    
+    //make specific things draggable
     selection.each(function() {
         if (on) {
-            $(this).attr("draggable", "true");
-            $(this).attr("ondragstart", "drag(event)");
+            $(this).prop("draggable", "true");
+            $(this).prop("ondragstart", "drag(event)");
         } else {
-            $(this).attr("ondragstart", "");
-            $(this).attr("draggable", "false");
+            $(this).prop("draggable", "false");
         }
     });
 }
@@ -611,7 +625,9 @@ function customTrim(str) {
 function allElements()
 {
     elementsToDrag = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
-    return $("body").find(elementsToDrag);
+    return $("body").find(elementsToDrag);/*.filter(function() {
+        return (!$(this).val() && !$(this).text() && !$(this).attr('src'));
+    });*/
 }
 
 
