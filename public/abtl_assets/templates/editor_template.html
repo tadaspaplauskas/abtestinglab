@@ -35,7 +35,7 @@
 
                         <textarea class="abtl-identifier form-control" readonly></textarea>
 
-                        <div class="abtl-container">
+                        <div class="abtl-image-container">
                              <img class="abtl-identifier-image img-responsive center-block">
                         </div>
                     </div>
@@ -112,9 +112,16 @@
     $('#abtl-save').prop('title', 'Save changes to website and continue editing');
     $('#abtl-publish').prop('title', 'Save and publish changes to website');
     $('#abtl-exit').prop('title', 'Exit editor now');
-
+    $('#abtl-exit').click(function() { window.location = abtlBackUrl; });
 
     /*************** TEMPLATE FUNCTIONALITY ****************/
+    
+    $('.abtl-identifier').change(function(){
+        if ($(this).val().length > 0)
+            $(this).parent().find('.abtl-pick-element').text('Picked. Again?');
+        else
+            $(this).parent().find('.abtl-pick-element').text('Pick.');
+    });
     
     //custom style open
     $('.abtl-cutom-style-button').click(function (e){
@@ -146,7 +153,7 @@
         var element = getCurrentElement();
         
         if (classes.val() === prepareClassNames(element.data('class')))
-        {
+        {            
             classes.val('');
         }
         if (style.val() === prepareCSS(element.data('style')))
@@ -232,8 +239,9 @@
         link.show();
         $(this).hide();
     });
-     $('.test-title').keypress(function(e){
-        if(e.which === 13){
+    $('.test-title').keypress(function(e){
+        if(e.which === 13)
+        {
             $(this).blur();
         }
     });

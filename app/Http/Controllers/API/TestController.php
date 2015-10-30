@@ -21,7 +21,7 @@ class TestController extends ApiController
             $tests = $request->get('data');
         else
             $tests = [];
-
+        
         $websiteID = $request->get('website_id');
 
         $this->checkWebsiteOwner($websiteID);
@@ -75,7 +75,6 @@ class TestController extends ApiController
                     $testInDB->element_type = 'image';
                     $testInDB->attributes = json_encode($test['dimensions']);
                 }
-
                 //if no base64, but still an image
                 else if ($test['image_url'] == true)
                 {

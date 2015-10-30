@@ -99,10 +99,6 @@
     font-weight: bold;
 }
 
-.ui-draggable {
-    cursor: crosshair;
-}
-
 .abtl-instructions {
     text-align:center;
     margin-top: 0.5em;
@@ -181,24 +177,24 @@
     border: 1px dotted #08c;
 }
 
-.abtl-cursor-crosshair {
+.abtl-cursor-crosshair [draggable=true] {
     cursor: crosshair !important;
 }
 
-.abtl-cursor-grab {
+.abtl-cursor-grab [draggable=true] {
     cursor: url(http://abtestinglab.dev/assets/cursors/openhand.cur) 8 8, move !important;
 }
 
 .abtl-hover {
-    background-color: rgb(255,0,0,0.1) !important;
-}
-
-.abtl-cursor-grabbing {
-    cursor: url(http://abtestinglab.dev/assets/cursors/closedhand.cur) 8 8, move !important;
-}
-
-[draggable=false] {
     cursor: not-allowed;
+}
+
+.abtl-hover-not-allowed {
+    cursor: not-allowed;
+}
+
+.abtl-cursor-grabbing [draggable=true] {
+    cursor: url(http://abtestinglab.dev/assets/cursors/closedhand.cur) 8 8, move !important;
 }
 
 .menu-top {

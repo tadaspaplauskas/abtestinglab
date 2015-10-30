@@ -4,7 +4,8 @@ require(public_path('abtl_assets/js/master.js'));
 ?>
 
 websiteID = {{ $website->id }};
-websiteUrl = '{{ url(route('website.show', ['id' => $website->id])) }}';
+abtlBackUrl = '{{ url(route('website.show', ['id' => $website->id])) }}';
+abtlUrl = '{{ url() }}';
 
 //entry point for token
 if(window.location.hash.substring(0, 7) === '#token=')
@@ -17,7 +18,7 @@ if(window.location.hash.substring(0, 7) === '#token=')
     else
     {
         alert('Your browser is too old to edit tests.');
-        window.location = websiteUrl;
+        window.location = abtlBackUrl;
     }
 }
 //in all other cases

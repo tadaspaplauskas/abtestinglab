@@ -4,17 +4,17 @@ $(document).ready(function() {
 
     if (token === null)
     {
-        window.location = websiteUrl;
+        window.location = abtlBackUrl;
     }
     else
     {
         assignOriginalValues();
 
-        loadCSS('http://abtestinglab.dev/abtl_assets/css/editor.css');
-        loadCSS('http://abtestinglab.dev/abtl_assets/css/bootstrap/css/bootstrap.min.css');
+        loadCSS(abtlUrl + '/abtl_assets/css/editor.css');
+        loadCSS(abtlUrl + '/abtl_assets/css/bootstrap/css/bootstrap.min.css');
 
-        $('body').append('<div id="abtl-placeholder">&nbsp;</div>');
-        $('#abtl-placeholder').load('http://abtestinglab.dev/abtl_assets/templates/editor_template.html');
+        $('body').append('<div id="abtl-placeholder" style="display:none">&nbsp;</div>');
+        $('#abtl-placeholder').load(abtlUrl + '/abtl_assets/templates/editor_template.html');
 
         //dragging functionality
         toggleDragging(true);
@@ -26,14 +26,21 @@ $(document).ready(function() {
 
         toggleCursor($('body'), 'grab');
     }
-    $('[draggable=true]').mouseover(function (ev) {
+    //only hover action for those elements that cannot be selected
+    $('[draggable=false]').mouseover(function (ev) {
         ev.stopPropagation();
-        $(this).addClass('abtl-hover');
-    });
-    $('[draggable=true]').mouseout(function (ev) {
+        $(this).addClass('abtl-hover-not-allowed');
+    }).mouseout(function (ev) {
         ev.stopPropagation();
-        $(this).removeClass('abtl-hover');
+        $(this).removeClass('abtl-hover-not-allowed');
     });
+    
+    //UI help to user
+    /*$('[draggable=true]').mousedown(function (ev) {
+        toggleCursor($('body'), 'grabbing');
+    }).mouseup(function (ev) {
+        $(this).mouseout();
+    }).mouseout(function () { toggleCursor($('body'), 'grab'); });*/
 });
 
 //picking a custom conversion element
@@ -78,33 +85,39 @@ function pickConversionElement(btn, ev)
 //picking a custom conversion element
 function pickTestElement(btn, ev)
 {
-    currentObject = btn.parent().parent();
-
-    btn.text("Click anywhere on the website");
-    btn.prop('disabled', true);
     ev.stopPropagation();
-
-    selection = $("body");
-    toggleCursor(selection, 'crosshair');
-
-    selection.on('click', function (ev) {
-        ev.preventDefault();
-        
-        var html = $(ev.target).html();
-        var tag = $(ev.target).prop('tagName').toLowerCase();
-        var src = $(ev.target).attr('src');
-        var parentConv = parentConversion($(ev.target));
-
-        if (src !== undefined)
-            prepareTest(src, tag, parentConv);
-        else
-            prepareTest(html, tag, parentConv);
-
-        toggleCursor(selection, 'grab');
-        btn.text('Picked. Again?');
-        btn.prop('disabled', false);
+    selection = $('body');
+    if (btn.text() === 'Click on any element or here to cancel')
+    {
         selection.off('click');
-    });
+        toggleCursor(selection, 'grab');
+        btn.text('Pick');
+    }
+    else
+    {
+        btn.text('Click on any element or here to cancel');
+        currentObject = btn.parent().parent();
+        
+        toggleCursor(selection, 'crosshair');
+
+        selection.on('click', function (ev) {
+            ev.preventDefault();
+
+            var html = $(ev.target).html();
+            var tag = $(ev.target).prop('tagName').toLowerCase();
+            var src = $(ev.target).attr('src');
+            var parentConv = parentConversion($(ev.target));
+
+            if (src !== undefined)
+                fillTest(src, tag, parentConv);
+            else
+                fillTest(html, tag, parentConv);
+
+            toggleCursor(selection, 'grab');
+            btn.prop('disabled', false);
+            selection.off('click');
+        });
+    }
 }
 
 function toggleCursor(selection, cursor)
@@ -123,21 +136,23 @@ function toggleCursor(selection, cursor)
 
 function toggleDragging(on, selection) {
     selection = selection || allElements().not("#abtl-placeholder");
-
-    //make everything NOT draggable
-    /*$('body').find('*').not("#abtl-placeholder").each(function() {
-        $(this).attr("draggable", "false");
-    });*/
     
     //make specific things draggable
     selection.each(function() {
         if (on) {
-            $(this).prop("draggable", "true");
-            $(this).prop("ondragstart", "drag(event)");
+            $(this).attr("draggable", "true");
+            $(this).attr("ondragstart", "drag(event)");
         } else {
-            $(this).prop("draggable", "false");
+            $(this).attr("draggable", "false");
         }
     });
+    //make everything NOT draggable, unless you are gonna do it anw
+    if (on)
+    {
+        $('body').find('*').not(selection).each(function() {
+            $(this).attr("draggable", "false");
+        });
+    }
 }
 
 function allowDrop(ev) {
@@ -145,6 +160,7 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
+    
     //ev.dataTransfer.setData("className", ev.target.className);
     //ev.dataTransfer.setData("id", ev.target.id);
     //ev.dataTransfer.setData("content", customTrim($(ev.target).text()));
@@ -174,22 +190,25 @@ function drop(ev, handle) {
     var parentConversion = ev.dataTransfer.getData('parent_conversion');
     
     if (src.length)
-        prepareTest(src, tag, parentConversion, width, height);
+        fillTest(src, tag, parentConversion, width, height);
     else
-        prepareTest(html, tag, parentConversion);
+        fillTest(html, tag, parentConversion);
 }
 
-function prepareTest(content, tag, parentConversion, width, height)
+function fillTest(content, tag, parentConversion, width, height)
 {
     parentConversion = parentConversion || false;
     width = width || null;
     height = height || null;
     
-    identifier = $('.tab-content .active .abtl-before').find(".abtl-identifier");
-    testText = $('.tab-content .active .abtl-after').find(".abtl-test-text");
+    var before = $('.tab-content .active .abtl-before');
+    var after = $('.tab-content .active .abtl-after');
+    
+    var identifier = before.find(".abtl-identifier");
+    var testText = after.find(".abtl-test-text");
 
-    identifierImage = $('.tab-content .active .abtl-before').find(".abtl-identifier-image");
-    testImage = $('.tab-content .active .abtl-after').find(".abtl-test-image");
+    var identifierImage = before.find(".abtl-identifier-image");
+    var testImage = after.find(".abtl-test-image");
 
     if (testText.val().length > 0)
     {
@@ -205,8 +224,8 @@ function prepareTest(content, tag, parentConversion, width, height)
             alert('This element is selected');
             return false;
         }
-        identifier.val(content);
-        testText.val(content);
+        identifier.val(customTrim(content));
+        testText.val(customTrim(content));
         testText.removeProp('disabled');
     }
     else
@@ -249,7 +268,7 @@ function prepareTest(content, tag, parentConversion, width, height)
         testImage.find('.imageHeight').val(height);
         testImage.find('.upload-or-url').change();
         testImage.find('.initial-or-new-size').change();
-   }
+    }
     else
     {
         identifier.show();
@@ -258,6 +277,7 @@ function prepareTest(content, tag, parentConversion, width, height)
         identifierImage.hide();
         testImage.hide();
     }
+    $('.abtl-identifier').change();
 }
 
 function setOneClass(target, styleClass)
@@ -330,6 +350,7 @@ function addTest(data)
         
         newTestNav.find('.abtl-pick-test').text(data.title);
 
+        $('.abtl-identifier').change();
         applyActiveTest();
     }
 }
@@ -504,12 +525,14 @@ function assignOriginalValues()
 function loadTests()
 {
     //load tests from API
-    apiCall('/api/load', null, function(response) {
+    apiCall('load', null, function(response) {
         //assign returned data to tests
         for(var i = 0; i < response.length; i++)
         {
             addTest(response[i]);
         }
+        //only show when loaded
+        $('#abtl-placeholder').show();
     });
 }
 
@@ -527,7 +550,7 @@ function saveTests()
             from: tab.find('.abtl-identifier').val(),
             to: tab.find('.abtl-test-text').val(),
             conversion: tab.find('.conversion-input').val(),
-            image_url: (tab.find('.abtl-image-url').val().length > 0 ? true : false),
+            image_url: (tab.find('.abtl-test-image').css('display') === 'none' ? 0 : 1),
             attributes: {class: tab.find('.custom-style-classes').val(),
                         style: tab.find('.custom-style-css').val()}
         });
@@ -535,7 +558,7 @@ function saveTests()
     //reverse array so that newer tests are in the front
     data.reverse();
     //sending to backend
-    apiCall('/api/save', data, function(response) {
+    apiCall('save', data, function(response) {
         //assign returned id's to tabs
         for(var i = 0; i < response.length; i++)
         {
@@ -550,7 +573,7 @@ function saveTests()
 function publishTests()
 {
     saveTests();
-    window.location = 'http://abtestinglab.dev/tests/publish/' + websiteID;
+    window.location = abtlUrl + '/tests/publish/' + websiteID;
 }
 
 /*************************** UTILITIES AND HELPERS *******************/
@@ -558,7 +581,7 @@ function publishTests()
 function apiCall(target, data, doneFn)
 {
     $.ajax({
-        url: target,
+        url: abtlUrl + '/api/' + target,
         cache: false,
         headers: {
             'token': token,
@@ -584,7 +607,7 @@ function apiCall(target, data, doneFn)
         if (response.status === 400 || response.status === 401)
         {
             alert('Authentication failed, please open manager again');
-            window.location = 'http://abtestinglab.dev/website/show/' + websiteID;
+            window.location = abtlUrl + '/website/show/' + websiteID;
         }
         else
             alert('Request failed, please try again in a minute or two');
@@ -625,9 +648,9 @@ function customTrim(str) {
 function allElements()
 {
     elementsToDrag = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
-    return $("body").find(elementsToDrag);/*.filter(function() {
-        return (!$(this).val() && !$(this).text() && !$(this).attr('src'));
-    });*/
+    return $("body").find(elementsToDrag).filter(function() {
+        return (directText($(this)).length > 0 || $(this).val() || $(this).attr('src'));
+    });
 }
 
 
@@ -711,4 +734,15 @@ function activeTestStyle()
     var current = $('#abtl-tests-container .active');
     return {class: current.find('.custom-style-classes').val(),
         style: current.find('.custom-style-css').val()};            
+}
+
+function directText(elem)
+{
+    str = '';
+    elem.contents().each(function() {
+        if (this.nodeType === 3) {
+            str += $(this).text();
+        }
+    });
+    return str.trim();
 }
