@@ -57,26 +57,26 @@ function pickConversionElement(btn, ev)
 
     //cancel out previous two lines or control because not() doesnt work
 
-    selection = $("body");
+    selection = $('body');
     toggleCursor(selection, 'crosshair');
 
     selection.on('click', function (ev) {
         ev.preventDefault();
+        var target = $(ev.target);
+        
+        if (!target.attr('href') && target.prop('tagName') !== 'INPUT' 
+                && target.prop('tagName') !== 'BUTTON'
+                && !target.parents('a, button').length)
+        {
+            console.log(target.parents('a, button').length);
+            if (!confirm('This element doesnt appear to be optimal for click tracking. Are you sure you want to use it?'))
+            return false;
+        }
+        currentObject.find('.conversion-input').val($(ev.target).attr('href'));
 
-        /*var conversion = {id : ev.target.id,
-                        class : ev.target.className,
-                        tag : ev.target.className,
-                        html : customTrim($(ev.target).html())};
-        currentObject.find('.conversion-input').val(JSON.stringify(conversion));*/
-
-        if ($(ev.target).attr('href'))
-            currentObject.find('.conversion-input').val($(ev.target).attr('href'));
-        else
-            currentObject.find('.conversion-input').val($(ev.target).text());
-
-        setOneClass(ev.target, 'abtl-picked-conversion-border');
+        setOneClass(target, 'abtl-picked-conversion-border');
         toggleCursor(selection, 'grab');
-        btn.text('Conversion picked. Again?');
+        btn.text('Conversion defined. Again?');
         btn.prop('disabled', false);
         selection.off('click');
     });
@@ -283,7 +283,7 @@ function fillTest(content, tag, parentConversion, width, height)
 function setOneClass(target, styleClass)
 {
     $('.' + styleClass).removeClass(styleClass);
-    $(target).addClass(styleClass);
+    target.addClass(styleClass);
 }
 
 
@@ -639,7 +639,8 @@ function makeID(pre)
     return id;
 }
 
-function customTrim(str) {
+function customTrim(str)
+{
     str = str.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ");
     str = str.replace(' draggable="true" ondragstart="drag(event)"', '');
     return str;
@@ -647,12 +648,19 @@ function customTrim(str) {
 
 function allElements()
 {
-    elementsToDrag = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
+    var elementsToDrag = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
     return $("body").find(elementsToDrag).filter(function() {
         return (directText($(this)).length > 0 || $(this).val() || $(this).attr('src'));
     });
 }
 
+/*function allConversionElements()
+{
+    var elementsToDrag = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
+    return $("body").find(elementsToDrag).filter(function() {
+        return ($(this).click !== undefined || $(this).attr('href') || $(this).prop('tagName') === 'INPUT' || $(this).prop('tagName') === 'BUTTON');
+    });
+}*/
 
 function previewImageUpload (elem) {
     preview = elem.parent().parent().parent().parent().find('.image-upload-preview');

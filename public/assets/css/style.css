@@ -74,8 +74,9 @@ header {
 }
 
 .navbar-brand {
-    width: 250px;
+    width: 300px;
     padding-top: 30px;
+    color: #fff !important;
 }
 
 /* USER SETTINGS DIV */
@@ -171,6 +172,7 @@ header {
 
 .navbar {
     margin-bottom: 0px;
+    height: 130px;
 }
 /* =============================================================
    FOOTER SECTION STYLES

@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="row actions-menu">
-<div class="col-md-6 text-left">
+<div class="col-md-7 text-left">
     <a href="{{ route('tests.manager', ['id' => $website->id]) }}" class="btn btn-primary">Manage tests</a>
     @if ($website->unpublishedChanges() || true)
         <a href="{{ route('tests.publish', ['id' => $website->id]) }}" class="btn btn-default">Publish test changes</a>
@@ -16,10 +16,10 @@
     @endif
     
     @if ($website->published_at > 0)
-        Last published: {{ $website->published_at }}
+        <small>Last published: {{ $website->published_at }}</small>
     @endif
 </div>
-<div class="col-md-6 text-right">
+<div class="col-md-5 text-right">
     @if($website->enabled)
         <a href="{{ route('website.disable', ['id' => $website->id]) }}" class="btn btn-default">Disable website</a>
     @else
