@@ -14,7 +14,7 @@ $(document).ready(function() {
         loadCSS(abtlUrl + '/abtl_assets/css/bootstrap/css/bootstrap.min.css');
 
         $('body').append('<div id="abtl-placeholder" style="display:none">&nbsp;</div>');
-        $('#abtl-placeholder').load(abtlUrl + '/abtl_assets/templates/editor_template.html');
+        $('#abtl-placeholder').load(abtlUrl + '/abtl_assets/templates/editor_template.html', null, templateBindings);
 
         //dragging functionality
         toggleDragging(true);
@@ -34,13 +34,6 @@ $(document).ready(function() {
         ev.stopPropagation();
         $(this).removeClass('abtl-hover-not-allowed');
     });
-    
-    //UI help to user
-    /*$('[draggable=true]').mousedown(function (ev) {
-        toggleCursor($('body'), 'grabbing');
-    }).mouseup(function (ev) {
-        $(this).mouseout();
-    }).mouseout(function () { toggleCursor($('body'), 'grab'); });*/
 });
 
 //picking a custom conversion element
@@ -63,8 +56,8 @@ function pickConversionElement(btn, ev)
     selection.on('click', function (ev) {
         ev.preventDefault();
         var target = $(ev.target);
-        
-        if (!target.attr('href') && target.prop('tagName') !== 'INPUT' 
+
+        if (!target.attr('href') && target.prop('tagName') !== 'INPUT'
                 && target.prop('tagName') !== 'BUTTON'
                 && !target.parents('a, button').length)
         {
@@ -72,7 +65,7 @@ function pickConversionElement(btn, ev)
             if (!confirm('This element doesnt appear to be optimal for click tracking. Are you sure you want to use it?'))
             return false;
         }
-        currentObject.find('.conversion-input').val($(ev.target).attr('href'));
+        currentObject.find('.abtl-click-conversion-input').val($(ev.target).attr('href'));
 
         setOneClass(target, 'abtl-picked-conversion-border');
         toggleCursor(selection, 'grab');
@@ -97,7 +90,7 @@ function pickTestElement(btn, ev)
     {
         btn.text('Click on any element or here to cancel');
         currentObject = btn.parent().parent();
-        
+
         toggleCursor(selection, 'crosshair');
 
         selection.on('click', function (ev) {
@@ -122,13 +115,9 @@ function pickTestElement(btn, ev)
 
 function toggleCursor(selection, cursor)
 {
-    //selection = selection.find('*');
-
     cursors = 'abtl-cursor-grab abtl-cursor-grabbing abtl-cursor-crosshair';
-
     selection.removeClass(cursors);
     selection.addClass('abtl-cursor-' + cursor);
-    //$("#abtl-placeholder").find("*").removeClass(cursors);
 }
 
 
@@ -136,7 +125,7 @@ function toggleCursor(selection, cursor)
 
 function toggleDragging(on, selection) {
     selection = selection || allElements().not("#abtl-placeholder");
-    
+
     //make specific things draggable
     selection.each(function() {
         if (on) {
@@ -160,12 +149,7 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
-    
-    //ev.dataTransfer.setData("className", ev.target.className);
-    //ev.dataTransfer.setData("id", ev.target.id);
-    //ev.dataTransfer.setData("content", customTrim($(ev.target).text()));
     ev.dataTransfer.setData('html', $(ev.target).html());
-    //ev.dataTransfer.setData("name", ev.target.name);
     ev.dataTransfer.setData('tag', ev.target.tagName);
     ev.dataTransfer.setData('parent_conversion', parentConversion($(ev.target)));
 
@@ -179,16 +163,13 @@ function drag(ev) {
 
 function drop(ev, handle) {
     ev.preventDefault();
-    //var id = ev.dataTransfer.getData("id");
-    //var className = ev.dataTransfer.getData("className");
-    //var content = ev.dataTransfer.getData("content");
     var html = customTrim(ev.dataTransfer.getData('html'));
     var tag = customTrim(ev.dataTransfer.getData('tag'));
     var src = ev.dataTransfer.getData('src');
     var width = ev.dataTransfer.getData('width');
     var height = ev.dataTransfer.getData('height');
     var parentConversion = ev.dataTransfer.getData('parent_conversion');
-    
+
     if (src.length)
         fillTest(src, tag, parentConversion, width, height);
     else
@@ -200,10 +181,10 @@ function fillTest(content, tag, parentConversion, width, height)
     parentConversion = parentConversion || false;
     width = width || null;
     height = height || null;
-    
+
     var before = $('.tab-content .active .abtl-before');
     var after = $('.tab-content .active .abtl-after');
-    
+
     var identifier = before.find(".abtl-identifier");
     var testText = after.find(".abtl-test-text");
 
@@ -267,7 +248,6 @@ function fillTest(content, tag, parentConversion, width, height)
         testImage.find('.imageWidth').val(width);
         testImage.find('.imageHeight').val(height);
         testImage.find('.upload-or-url').change();
-        testImage.find('.initial-or-new-size').change();
     }
     else
     {
@@ -285,7 +265,6 @@ function setOneClass(target, styleClass)
     $('.' + styleClass).removeClass(styleClass);
     target.addClass(styleClass);
 }
-
 
 /*********************** TEST MEAT ****************/
 function addTest(data)
@@ -313,13 +292,13 @@ function addTest(data)
         newTest.data('id', data.id);
         testText = newTest.find('.abtl-test-text');
         testIdentifier = newTest.find('.abtl-identifier');
-        
+
         testText.prop('disabled', false);
         testText.val(data.test_variation);
-        newTest.find('.conversion-input').val(data.conversion_element);
+        newTest.find('.abtl-click-conversion-input').val(data.conversion_element);
         testIdentifier.val(data.test_element);
-        
-        //load values to fields
+
+        //LOAD VALUES TO FIELDS
         if (data.element_type === 'image')
         {
             identifierImage = newTest.find(".abtl-identifier-image");
@@ -334,20 +313,40 @@ function addTest(data)
             testImage.find('img').attr('src', data.test_variation);
             testImage.find('input').val('');
         }
-        
-        if (data.conversion_element.length > 0)
-        {
-            newTest.find('.abtl-default-conversion-checkbox input').prop('checked', false);
-            newTest.find('.abtl-default-conversion-checkbox input').change();
-        }
-        
+
+        //STYLE RULES
         if (data.attributes.length > 0)
         {
             var newStyle = JSON.parse(data.attributes);
             newTest.find('.custom-style-classes').val(newStyle.class);
             newTest.find('.custom-style-css').val(newStyle.style);
         }
-        
+
+        //CONVERSION
+        if (data.conversion_element.length > 0)
+        {
+            if (data.conversion_type === 'click')
+            {
+                newTest.find('.abtl-default-conversion-checkbox input').prop('checked', false);
+                newTest.find('.abtl-default-conversion-checkbox input').change();
+            }
+            else if (data.conversion_type === 'time')
+            {
+                newTest.find('.abtl-conversion-type').val('time');
+            }
+            newTest.find('.abtl-time-conversion-input').val(data.conversion_element);
+        }
+        //by default use the same element if no conv data is specified
+        else
+        {
+            newTest.find('.abtl-default-conversion-checkbox input').prop('checked', true);
+            newTest.find('.abtl-default-conversion-checkbox input').change();
+        }
+        newTest.find('.abtl-conversion-type').change();
+
+        //SET GOAL
+        newTest.find('.abtl-conversion-goal').val(data.goal);
+
         newTestNav.find('.abtl-pick-test').text(data.title);
 
         $('.abtl-identifier').change();
@@ -362,8 +361,8 @@ function chooseTest(elem)
     //active already, rename
     if (liItem.hasClass('active'))
     {
-            liItem.find('.test-title').show();
-            liItem.find('.abtl-pick-test').hide();
+        liItem.find('.test-title').show();
+        liItem.find('.abtl-pick-test').hide();
     }
     //activate
     else
@@ -405,7 +404,7 @@ function deleteTest(elem)
 function applyActiveTest()
 {
     var testStyle = activeTestStyle();
-    
+
     iterateThroughElements(fromField().val(), function (el) {
         if (el.prop('tagName').toLowerCase() === 'img' && el.attr('src'))
         {
@@ -415,17 +414,17 @@ function applyActiveTest()
         {
             el.html(toField().val());
         }
-        
+
         if (testStyle.class.length > 0)
             el.attr('class', testStyle.class);
         else
             el.attr('class', el.data('class'));
-        
+
         if (testStyle.style.length > 0)
             el.attr('style', testStyle.style);
         else
             el.attr('style', el.data('style'));
-    });    
+    });
     markChosenElements();
 }
 
@@ -444,7 +443,7 @@ function iterateThroughElements(field, fn)
 {
     field = customTrim(field);
     returnElem = null;
-    
+
     if (field.length > 0)
     {
         allElements().not("#abtl-placeholder").each(function()
@@ -463,7 +462,7 @@ function iterateThroughElements(field, fn)
                 }
             }
         });
-        return returnElem;        
+        return returnElem;
     }
 }
 
@@ -485,9 +484,6 @@ function resetTests()
         $(this).attr('class', $(this).data('class'));
         $(this).attr('style', $(this).data('style'));
     });
-
-    //reset preview image
-
 }
 
 function resetConversions()
@@ -539,35 +535,53 @@ function loadTests()
 function saveTests()
 {
     var data = [];
+    var success = true;
     $('#abtl-nav-tabs .abtl-tab-label[data-tab^="abtl-test-"]')
             .not('#abtl-test-template').each(function (){
         var tab = $('#' + $(this).data('tab'));
-        var size = tab.find('.initial-or-new-size');
-        data.push({
+        
+        //check if required info is provided: element, variation, conversion, goal
+        if (tab.find('.abtl-conversion-goal').val() < 100 //is goal set?
+                || (tab.find('.abtl-conversion-type').val() === 'click' && !tab.find('.abtl-default-conversion-checkbox input').prop('checked') && tab.find('.abtl-click-conversion-input').val().length === 0) //is click conv set?
+            || (tab.find('.abtl-conversion-type').val() === 'time' && tab.find('.abtl-time-conversion-input').val().length === 0)) //or time goal?
+        {
+            alert('Test "' + $(this).find('.abtl-pick-test').text() + '" is not completed; you should select the tested element and then define the variation, conversion event.');
+            success = false;
+            return false;
+        }
+            data.push({
             id: tab.data('id'),
             tab: $(this).data('tab'),
             title: $(this).find('.abtl-pick-test').text(),
             from: tab.find('.abtl-identifier').val(),
             to: tab.find('.abtl-test-text').val(),
-            conversion: tab.find('.conversion-input').val(),
+            conversion: {
+                type: tab.find('.abtl-conversion-type').val(),
+                conversion: (tab.find('.abtl-conversion-type').val() === 'click' ? tab.find('.abtl-click-conversion-input').val() : tab.find('.abtl-time-conversion-input').val())
+            },
+            goal: tab.find('.abtl-conversion-goal').val(),
             image_url: (tab.find('.abtl-test-image').css('display') === 'none' ? 0 : 1),
             attributes: {class: tab.find('.custom-style-classes').val(),
                         style: tab.find('.custom-style-css').val()}
         });
     });
-    //reverse array so that newer tests are in the front
-    data.reverse();
-    //sending to backend
-    apiCall('save', data, function(response) {
-        //assign returned id's to tabs
-        for(var i = 0; i < response.length; i++)
-        {
-            resp = response[i];
-            tab = $('#' + resp.tab);
-            tab.data('id', resp.id);
-        }
-        alert('Saved successfully');
-    });
+    
+    if (success)
+    {
+        //reverse array so that newer tests are in the front
+        data.reverse();
+        //sending to backend
+        apiCall('save', data, function(response) {
+            //assign returned id's to tabs
+            for(var i = 0; i < response.length; i++)
+            {
+                resp = response[i];
+                tab = $('#' + resp.tab);
+                tab.data('id', resp.id);
+            }
+            alert('Saved successfully');
+        });
+    }
 }
 
 function publishTests()
@@ -575,6 +589,170 @@ function publishTests()
     saveTests();
     window.location = abtlUrl + '/tests/publish/' + websiteID;
 }
+
+//TEMPLATE MEAT HERE
+function templateBindings()
+{
+    //help
+    $('#abtl-save').prop('title', 'Save changes to website and continue editing');
+    $('#abtl-publish').prop('title', 'Save and publish changes to website');
+    $('#abtl-exit').prop('title', 'Exit editor now');
+    $('#abtl-exit').click(function() { window.location = abtlBackUrl; });
+
+    /*************** TEMPLATE FUNCTIONALITY ****************/    
+    $('.abtl-conversion-type').change(function() {
+        var click = $(this).parent().parent().find('.abtl-click-conversion');
+        var time = $(this).parent().parent().find('.abtl-time-conversion');
+        
+        if ($(this).val() === 'click')
+        {
+            click.show();
+            time.hide();
+            
+        }
+        else if ($(this).val() === 'time')
+        {
+            click.hide();
+            time.show();
+        }        
+    });
+    
+    $('.abtl-identifier').change(function(){
+        if ($(this).val().length > 0)
+            $(this).parent().find('.abtl-pick-element').text('Picked. Again?');
+        else
+            $(this).parent().find('.abtl-pick-element').text('Pick.');
+    });
+    
+    //custom style open
+    $('.abtl-cutom-style-button').click(function (e){
+        var container = $(this).parent().parent().parent().find('.custom-style-container');
+        container.show();
+        container.addClass('abtl-container-expanded');
+        
+        var classes = container.find('.custom-style-classes');
+        var style = container.find('.custom-style-css');
+        var element = getCurrentElement();
+        
+        if (classes.val().length === 0)
+        {
+            classes.val(prepareClassNames(element.data('class')));
+        }
+        if (style.val().length === 0)
+        {
+            style.val(prepareCSS(element.data('style')));
+        }
+    });
+    //custom style close
+    $('.custom-style-close-button').click(function (e){
+        var container = $(this).parent().parent().parent();        
+        container.removeClass('abtl-container-expanded');
+        container.hide();
+        
+        var classes = container.find('.custom-style-classes');
+        var style = container.find('.custom-style-css');
+        var element = getCurrentElement();
+        
+        if (classes.val() === prepareClassNames(element.data('class')))
+        {            
+            classes.val('');
+        }
+        if (style.val() === prepareCSS(element.data('style')))
+        {
+            style.val('');
+        }
+        applyActiveTest();
+    });
+    
+    //image url changes
+    $('.abtl-image-url').change(function(e){
+        toField().val($(this).val());
+        $(this).parent().parent().parent().parent().parent().find('.image-upload-preview').attr('src', $(this).val());
+    });
+
+    //upload or url
+    $('.upload-or-url').change(function (e) {
+        if ($(this).val() === 'url')
+        {
+            $(this).parent().parent().find('.abtl-image-url').show();
+            $(this).parent().parent().find('.abtl-image-upload').hide();
+        } else
+        {
+            $(this).parent().parent().find('.abtl-image-url').hide();
+            $(this).parent().parent().find('.abtl-image-upload').show();
+        }
+    });
+    //initial
+    $('.upload-or-url').change();
+
+    $('.abtl-test-text').keyup(function(e) {
+        applyActiveTest();
+    });
+
+    $('.abtl-default-conversion-checkbox input').change(function (e) {
+        if ($(this).is(':checked'))
+        {
+            $(this).parent().parent().parent().find('.abtl-click-conversion-input').val('');
+            resetConversions();
+
+            $(this).parent().parent().parent().find('.abtl-custom-conversion').hide();
+            $('.abtl-test-tab.active .abtl-tests-window').removeClass('abtl-tests-window-smaller');
+        } else
+        {
+            $(this).parent().parent().parent().find('.abtl-custom-conversion').show();
+        }
+    });
+
+    //save renamed test
+    $('.test-title').blur(function() {
+        link = $(this).parent().find('.abtl-pick-test');
+        link.text($(this).val());
+        link.show();
+        $(this).hide();
+    });
+    $('.test-title').keypress(function(e){
+        if(e.which === 13)
+        {
+            $(this).blur();
+        }
+    });
+
+    $(".abtl-custom-conversion-button").click(function (ev) {pickConversionElement($(this), ev);});
+
+    $(".abtl-pick-element").click(function (ev) { pickTestElement($(this), ev); });
+
+    $("#abtl-add-new-test").click(function (ev) {
+        addTest();
+        //show title input, encourage user to rename test
+        $(".abtl-tab-label.active .abtl-pick-test").click();
+        $(".abtl-tab-label.active .test-title").focus();
+        $(".abtl-tab-label.active .test-title").select();
+    });
+
+    $(".abtl-tab-label .abtl-pick-test").click(function (ev) { chooseTest($(this)); });
+
+    $('.abtl-delete-tab').click (function (ev) { deleteTest($(this)); });
+
+    $('.abtl-image-container').click ( function () {
+        $(this).toggleClass('abtl-container-expanded');
+
+    } );
+
+    $(".abtl-image-upload").change(function(){
+        previewImageUpload($(this));
+    });
+
+    $('#abtl-save').click(function () {
+        saveTests();
+    });
+
+    $('#abtl-publish').click(function () {
+        publishTests();
+    });
+
+   loadTests();
+}
+
 
 /*************************** UTILITIES AND HELPERS *******************/
 
@@ -596,7 +774,7 @@ function apiCall(target, data, doneFn)
             website_id: websiteID
         }
     })
-    .done(function(response, status, request) { 
+    .done(function(response, status, request) {
         //refresh token
         setLocal('token', request.getResponseHeader('token'));
         token = request.getResponseHeader('token');
@@ -654,14 +832,6 @@ function allElements()
     });
 }
 
-/*function allConversionElements()
-{
-    var elementsToDrag = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
-    return $("body").find(elementsToDrag).filter(function() {
-        return ($(this).click !== undefined || $(this).attr('href') || $(this).prop('tagName') === 'INPUT' || $(this).prop('tagName') === 'BUTTON');
-    });
-}*/
-
 function previewImageUpload (elem) {
     preview = elem.parent().parent().parent().parent().find('.image-upload-preview');
     file = elem.parent().find('input[type=file]').prop('files')[0];
@@ -703,7 +873,7 @@ function fromField()
 
 function conversionField()
 {
-    return $("#abtl-tests-container .active .conversion-input");
+    return $("#abtl-tests-container .active .abtl-click-conversion-input");
 }
 
 function confirmation(text)
@@ -741,7 +911,7 @@ function activeTestStyle()
 {
     var current = $('#abtl-tests-container .active');
     return {class: current.find('.custom-style-classes').val(),
-        style: current.find('.custom-style-css').val()};            
+        style: current.find('.custom-style-css').val()};
 }
 
 function directText(elem)

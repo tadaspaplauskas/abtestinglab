@@ -1,7 +1,7 @@
 #abtl-placeholder {
     /*min-height:20em;*/
     /*height: 35vh;*/
-    height: 20em;
+    height: 22em;
 }
 
 #abtl-control {
@@ -9,8 +9,8 @@
     bottom:0px;
     width:100%;
     /*min-height:20em;*/
-    height: 20em;
-    border-top: 2px solid #ddd;    
+    height: 22em;
+    border-top: 2px solid #ddd;
     font-size: 1em;
     white-space: nowrap;
     overflow-x: hidden;
@@ -43,7 +43,7 @@
     margin: 0;
     padding-top: 0.4em;
     padding-left: 0.4em;
-    
+
 }*/
 .abtl-menu {
     background-color: beige;
@@ -116,8 +116,8 @@
 }
 
 
-.abtl-tests-window {    
-    height: 12em;
+.abtl-tests-window {
+    height: 13em;
     margin: auto;
 }
 
@@ -126,9 +126,11 @@
 }
 
 .abtl-conversion-picker {
-    text-align: center;
+    /*text-align: center;*/
     padding-bottom: 1em;
     margin: auto;
+    border-top: 1px solid #ddd;
+    padding-top: 0.75em;
 }
 
 .abtl-before {
@@ -139,7 +141,7 @@
     width: 100%;
     overflow:hidden;
     text-align: center;
-    
+
     //min-height: 0.5em;
 }
 
@@ -158,7 +160,7 @@
 }
 
 .abtl-cell textarea {
-    height: 60%;    
+    height: 60%;
     resize: none;
     overflow-y: scroll;
 }
@@ -202,12 +204,12 @@
 }
 
 .abtl-menu-border {
-    width: 150%;    
+    width: 150%;
     margin-left: -20%;
     height: 1px;
     margin-top: -1px;
     background-color: #ddd;
-    
+
 }
 
 #abtl-control .nav-tabs {
@@ -224,7 +226,7 @@
 
 .abtl-delete-tab{
     position: absolute;
-    top: 0; 
+    top: 0;
     right: 0.5em;
     cursor: pointer;
     font-weight: bold;
@@ -296,7 +298,7 @@
 
 .abtl-tab-label input {
     width: 10em;
-    
+
 }
 
 .imageWidth, .imageHeight {
@@ -331,4 +333,13 @@
 
 .custom-style-css {
     height: 20em !important;
+}
+
+.abtl-input-short {
+    width: 8em !important;
+    display: inline !important;
+}
+
+.abtl-default-conversion-checkbox {
+    font-weight: normal;
 }

@@ -71,8 +71,8 @@
                                 <div class="row abtl-test-image center-block" style="display:none">
                                     <div class="col-xs-8 image-properties">
                                         <div class="row">
-                                            <div class="col-xs-5">
-                                                <select class="upload-or-url form-control">
+                                            <div class="col-xs-5 text-right">
+                                                <select class="upload-or-url form-control abtl-input-short">
                                                     <option value="url">Image url</option>
                                                     <option value="upload">Upload image</option>
                                                 </select>
@@ -91,193 +91,45 @@
                         </div>
                     </div>
                 </div>
-                <div class="abtl-conversion-picker">
-
-                    <div class="abtl-default-conversion">
-                        <label class="abtl-default-conversion-checkbox"><input type="checkbox" checked> use the same element for conversion tracking</label>
+                <!----------------- CONVERSION PARAMS -------->
+                <div class="abtl-conversion-picker row">
+                    <div class="col-md-1 text-left">
+                        <strong>Conversion</strong>
                     </div>
-                    <div class="abtl-custom-conversion" style="display: none">
-                        <button class="btn btn-default btn-sm abtl-custom-conversion-button">Pick element to track conversions.</button>
-                        <input type="hidden" class="conversion-input">
-                        <span class="picked-not-picked"></span>
+                    <div class="col-md-2 text-center">
+                        Type: <select class="abtl-conversion-type form-control abtl-input-short">
+                            <option value="click" title="Clicks on the conversion element">Clicks</option>
+                            <option value="time" title="Time spent on the website">Time</option>
+                        </select>
                     </div>
+                    
+                    <div class="col-md-3 text-center">                        
+                        <div class="abtl-click-conversion">
+                            <div class="abtl-default-conversion">
+                            <label class="abtl-default-conversion-checkbox">
+                                <input type="checkbox" checked>
+                                use the same element for conversion tracking</label>
+                            </div>
+                            <div class="abtl-custom-conversion" style="display: none">
+                                <button class="btn btn-default btn-sm abtl-custom-conversion-button">Pick element to track conversions.</button>
+                                <input type="hidden" class="abtl-click-conversion-input">
+                                <span class="picked-not-picked"></span>
+                            </div>
+                        </div>
+                        <div class="abtl-time-conversion" style="display: none">
+                            <input type="number" class="form-control abtl-time-conversion-input abtl-input-short text-right" title="Time spent on the website" val="15"> seconds
+                        </div>
+                    </div>
+                    <!-- define goal -->
+                    <div class="col-md-2 text-left">
+                        <strong>When to stop the test?</strong>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        After <input type="number" value="1000" class="form-control abtl-input-short abtl-conversion-goal text-right"> total visitors are reached
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    //help
-    $('#abtl-save').prop('title', 'Save changes to website and continue editing');
-    $('#abtl-publish').prop('title', 'Save and publish changes to website');
-    $('#abtl-exit').prop('title', 'Exit editor now');
-    $('#abtl-exit').click(function() { window.location = abtlBackUrl; });
-
-    /*************** TEMPLATE FUNCTIONALITY ****************/
-    
-    $('.abtl-identifier').change(function(){
-        if ($(this).val().length > 0)
-            $(this).parent().find('.abtl-pick-element').text('Picked. Again?');
-        else
-            $(this).parent().find('.abtl-pick-element').text('Pick.');
-    });
-    
-    //custom style open
-    $('.abtl-cutom-style-button').click(function (e){
-        var container = $(this).parent().parent().parent().find('.custom-style-container');
-        container.show();
-        container.addClass('abtl-container-expanded');
-        
-        var classes = container.find('.custom-style-classes');
-        var style = container.find('.custom-style-css');
-        var element = getCurrentElement();
-        
-        if (classes.val().length === 0)
-        {
-            classes.val(prepareClassNames(element.data('class')));
-        }
-        if (style.val().length === 0)
-        {
-            style.val(prepareCSS(element.data('style')));
-        }
-    });
-    //custom style close
-    $('.custom-style-close-button').click(function (e){
-        var container = $(this).parent().parent().parent();        
-        container.removeClass('abtl-container-expanded');
-        container.hide();
-        
-        var classes = container.find('.custom-style-classes');
-        var style = container.find('.custom-style-css');
-        var element = getCurrentElement();
-        
-        if (classes.val() === prepareClassNames(element.data('class')))
-        {            
-            classes.val('');
-        }
-        if (style.val() === prepareCSS(element.data('style')))
-        {
-            style.val('');
-        }
-        applyActiveTest();
-    });
-    
-    //image url changes
-    $('.abtl-image-url').change(function(e){
-        toField().val($(this).val());
-        $(this).parent().parent().parent().parent().parent().find('.image-upload-preview').attr('src', $(this).val());
-    });
-    
-    //initial or new size
-    $('.initial-or-new-size').change(function(e) {
-        var width = $(this).parent().parent().find('.imageWidth');
-        var height = $(this).parent().parent().find('.imageHeight');
-        if ($(this).val() === 'new')
-        {
-            $(this).data('initial_height', height.val());
-            $(this).data('initial_width', width.val());
-            
-            //not set, gotta read from image preview
-            if (!$(this).data('new_height'))
-            {
-                var imagePreview = $(this).parent().parent().parent().parent().parent().find('.image-upload-preview');
-                $(this).data('new_height', imagePreview.prop('naturalHeight'));
-                $(this).data('new_width', imagePreview.prop('naturalWidth'));
-            }
-            height.val($(this).data('new_height'));
-            width.val($(this).data('new_width'));
-        }
-        else
-        {
-            $(this).data('new_height', height.val());
-            $(this).data('new_width', width.val());
-            
-            height.val($(this).data('initial_height'));
-            width.val($(this).data('initial_width'));
-        }
-    
-    });
-    //upload or url
-    $('.upload-or-url').change(function (e) {
-        if ($(this).val() === 'url')
-        {
-            $(this).parent().parent().find('.abtl-image-url').show();
-            $(this).parent().parent().find('.abtl-image-upload').hide();
-        } else
-        {
-            $(this).parent().parent().find('.abtl-image-url').hide();
-            $(this).parent().parent().find('.abtl-image-upload').show();
-        }
-    });
-    //initial
-    $('.upload-or-url').change();
-
-    $('.abtl-test-text').keyup(function(e) {
-        applyActiveTest();
-    });
-
-    $('.abtl-default-conversion-checkbox input').change(function (e) {
-        if ($(this).is(':checked'))
-        {
-            $(this).parent().parent().parent().find('.conversion-input').val('');
-            resetConversions();
-
-            $(this).parent().parent().parent().find('.abtl-custom-conversion').hide();
-            $('.abtl-test-tab.active .abtl-tests-window').removeClass('abtl-tests-window-smaller');
-        } else
-        {
-            $(this).parent().parent().parent().find('.abtl-custom-conversion').show();
-            $('.abtl-test-tab.active .abtl-tests-window').addClass("abtl-tests-window-smaller");
-        }
-    });
-
-    //save renamed test
-    $('.test-title').blur(function() {
-        link = $(this).parent().find('.abtl-pick-test');
-        link.text($(this).val());
-        link.show();
-        $(this).hide();
-    });
-    $('.test-title').keypress(function(e){
-        if(e.which === 13)
-        {
-            $(this).blur();
-        }
-    });
-
-    $(".abtl-custom-conversion-button").click(function (ev) {pickConversionElement($(this), ev);});
-
-    $(".abtl-pick-element").click(function (ev) { pickTestElement($(this), ev); });
-
-    $("#abtl-add-new-test").click(function (ev) {
-        addTest();
-        //show title input, encourage user to rename test
-        $(".abtl-tab-label.active .abtl-pick-test").click();
-        $(".abtl-tab-label.active .test-title").focus();
-        $(".abtl-tab-label.active .test-title").select();
-    });
-
-    $(".abtl-tab-label .abtl-pick-test").click(function (ev) { chooseTest($(this)); });
-
-    $('.abtl-delete-tab').click (function (ev) { deleteTest($(this)); });
-
-    $('.abtl-image-container').click ( function () {
-        $(this).toggleClass('abtl-container-expanded');
-
-    } );
-
-    $(".abtl-image-upload").change(function(){
-        previewImageUpload($(this));
-    });
-
-    $('#abtl-save').click(function () {
-        saveTests();
-    });
-
-    $('#abtl-publish').click(function () {
-        publishTests();
-    });
-
-   loadTests();
-</script>
