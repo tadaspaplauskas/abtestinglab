@@ -8,10 +8,10 @@ Route::group(['prefix' => 'api', ], function () {
     Route::group(['middleware' => 'verifyAPIToken'], function () {
         Route::post('save', 'API\TestController@storeTests');    
         Route::post('load', 'API\TestController@loadTests');
-        Route::any('save_conversion', 'API\ConversionController@saveConversion');
     });
     
     //public
+    Route::any('save_conversion', 'API\ConversionController@saveConversion');
     Route::any('new_visitor', 'API\VisitorController@newVisitor');
 
 });

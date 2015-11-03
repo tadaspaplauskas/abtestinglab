@@ -75,7 +75,6 @@ class TestController extends ApiController
 
                         $testInDB->test_variation = $testInDB->imageUrl();
                         $testInDB->element_type = 'image';
-                        $testInDB->attributes = json_encode($test['dimensions']);
                     }
                     //if no base64, but still an image
                     else if ($test['image_url'] == true)
@@ -89,7 +88,15 @@ class TestController extends ApiController
                         $testInDB->test_variation = $test['to'];
                     }
                 }
-                $testInDB->attributes = json_encode($test['attributes']);
+                //style attributes
+                $attr = [];
+                if (!empty($test['attributes']['class']))                    
+                    $attr['class'] = $test['attributes']['class'];
+                if (!empty($test['attributes']['style']))                    
+                    $attr['style'] = $test['attributes']['style'];
+                
+                if (!empty($attr))
+                    $testInDB->attributes = json_encode($attr);
 
                 //CONVERSION HANDLING
                 if ($test['conversion']['type'] === 'time')

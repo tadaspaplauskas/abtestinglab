@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', $website->title)
+@section('title', $website->title . ' - test list')
 
 @section('breadcrumbs', Breadcrumbs::render('website', $website))
 
@@ -109,7 +109,7 @@
     This code should be loaded in every page where you want to conduct tests.
 </p>
 <p>
-    <textarea style="width: 100%" readonly onclick="this.focus();this.select()"><script src="{{ $website->jsUrl() }}"></script></textarea>
+    <input type="text" style="width: 100%" readonly onclick="this.focus();this.select()" value='<script src="{{ $website->jsUrl() }}"></script>'>
 </p>
 </div>
 

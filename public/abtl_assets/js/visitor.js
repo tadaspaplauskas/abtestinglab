@@ -2,7 +2,6 @@ testsVariationsStorage = 'abtl_t_v';
 visitorStorage = 'abtl_vstr';
 
 $(document).ready(function() {
-    websiteID = 1; //add ID here
     applyTestsAndConversions(abtlData);
 });
 
@@ -13,30 +12,46 @@ function applyTestsAndConversions(data)
     {
         testVariations = {};
     }
-    
+
     tests = data.tests;
     conversions = data.conversions;
 
+    //looking for time conversions to apply
+    for(i = 0; i < conversions.length; i++)
+    {
+        testID = conversions[i].test_id;
+        element = conversions[i].element;
+        type = conversions[i].conversion_type;
+        if (type === 'time')
+        {
+            setTimeout(function() {
+                saveConversion(testID);
+            }, element * 1000);
+        }
+    }
+
     allElements().each(function()
     {
-        //looking for conversions to apply. Has to happen before tests
+        //looking for click conversions to apply. Has to happen before tests
         for(i = 0; i < conversions.length; i++)
         {
             testID = conversions[i].test_id;
             element = conversions[i].element;
-            
-            if (customTrim($(this).html()) === element
-                || customTrim($(this).attr('href')) === element
-                || customTrim($(this).attr('src')) === element)
-            {
-                $(this).data('test_id', testID);
-                $(this).mousedown(function(ev){
-                    saveConversion($(this));
-                    ev.preventDefault();
-                });
+            type = conversions[i].conversion_type;
+            if (type === 'click')
+            {   if (customTrim($(this).html()) === element
+                    || customTrim($(this).attr('href')) === element
+                    || customTrim($(this).attr('src')) === element)
+                {
+                    $(this).data('test_id', testID);
+                    $(this).mousedown(function(ev){
+                        saveConversion(testID);
+                        ev.preventDefault();
+                    });
+                }
             }
         }
-        
+
         //looking for tests to apply
         for(i = 0; i < tests.length; i++)
         {
@@ -45,6 +60,7 @@ function applyTestsAndConversions(data)
             element = tests[i].element;
             variation = tests[i].variation;
             variationWeight = tests[i].variation_weight;
+            attributes = tests[i].attributes || null;
 
             //choosing a or b
             if (testVariations[testID] !== undefined)
@@ -59,13 +75,23 @@ function applyTestsAndConversions(data)
 
             if (variationChoice === 'b')
             {
+                var found = false;
                 if (elementType === 'image' && customTrim($(this).attr('src')) === element)
                 {
                     $(this).attr('src', variation);
+                    found = true;
                 }
                 else if (customTrim($(this).html()) === element || customTrim($(this).attr('href')) === element)
-                {                    
-                    $(this).html(variation);                    
+                {
+                    $(this).html(variation);
+                    found = true;
+                }
+                if(found)
+                {
+                    if (attributes.style !== undefined)
+                        $(this).attr('style', attributes.style);
+                    if (attributes.class !== undefined)
+                        $(this).attr('class', attributes.class);
                 }
             }
         }
@@ -75,15 +101,13 @@ function applyTestsAndConversions(data)
     newVisitor();
 }
 
-
-function saveConversion(elem)
+function saveConversion(testID)
 {
-    testID = elem.data('test_id');
     visitor = getLocal(visitorStorage);
-    variation = getLocal(testsVariationsStorage)
-    
+    variation = getLocal(testsVariationsStorage);
+
     if (visitor !== null && visitor !== undefined
-            && variation !==null && variation != undefined)
+            && variation !==null && variation !== undefined)
     {
         variation = variation[testID];
         visitor = visitor['visitor'];

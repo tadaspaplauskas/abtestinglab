@@ -206,10 +206,12 @@ class TestController extends Controller
                 'element' => $test->test_element,
                 'element_type' => $test->element_type,
                 'variation' => $variation,
+                'attributes' => json_decode($test->attributes),
                 'variation_weight' => $weight];
 
             $jsConversions[] = [
                 'test_id' => $test->id,
+                'conversion_type' => $test->conversion_type,
                 'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
                 ];
         }
