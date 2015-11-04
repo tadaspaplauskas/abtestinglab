@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Website;
 use App\Models\Test;
-use MatthiasMullie\Minify;
 
 
 class TestController extends Controller
@@ -40,7 +39,7 @@ class TestController extends Controller
         }
         return redirect()->back();
     }
-
+    
     public function changeArchiveStatus($id)
     {
        $test = Test::find($id);
@@ -83,10 +82,10 @@ class TestController extends Controller
         if ($test->website->user_id === $this->user->id)
             $test->delete();
 
-        Session::flash('success', 'Test deleted.');
+        Session::flash('success', 'Test deleted.'); 
         return redirect('website/show/' . $websiteID);
     }
-
+    
     public function publish($websiteID)
     {
 
@@ -169,14 +168,9 @@ class TestController extends Controller
 
         $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
-        $jsPath = $website->jsPath();
-        $return = file_put_contents($jsPath, view('js.manager', [
+        $return = file_put_contents($website->jsPath(), view('js.manager', [
             'website' => $website, 'tests' => $returnValue]), LOCK_EX);
-        
-        if ($return)
-            return $this->minifyJS($jsPath);
-        else
-            return false;
+        return $return;
     }
 
     public function generateTestsJS($website)
@@ -207,7 +201,7 @@ class TestController extends Controller
             }
 
             $variation = $test->test_variation;
-
+            
             $jsTests[] = ['id' => $test->id,
                 'element' => $test->test_element,
                 'element_type' => $test->element_type,
@@ -224,31 +218,9 @@ class TestController extends Controller
 
         $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
-        $jsPath = $website->jsPath();
-        $return = file_put_contents($jsPath, view('js.visitor', [
+        $return = file_put_contents($website->jsPath(), view('js.visitor', [
             'website' => $website, 'tests' => $returnValue]), LOCK_EX);
-        
-        if ($return)
-            return $this->minifyJS($jsPath);
-        else
-            return false;
-    }
-    
-    public function minifyJS($jsPath)
-    {
-        //minify first
-        $minifier = new Minify\JS($jsPath);
-        $return = $minifier->minify($jsPath);
-        //gzip if success
-        if ($return)
-        {
-            $return = $minifier->gzip($jsPath . '.gz', 9);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return $return;
     }
 
 }

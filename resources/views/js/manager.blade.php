@@ -1,7 +1,7 @@
 <?php
-$publicUrl = url('abtl_assets/js/');
 require(public_path('abtl_assets/js/jquery.min.js'));
 require(public_path('abtl_assets/js/master_functions.js'));
+require(public_path('abtl_assets/js/manager_functions.js'));
 ?>
 
 websiteID = {{ $website->id }};
@@ -31,9 +31,7 @@ else
         //request manager
         if (token !== null)
         {
-        
-            loadJS('{{ $publicUrl }}/manager_functions.js');
-            loadJS('{{ $publicUrl }}/manager.js');
+            loadJS('http://abtestinglab.dev/abtl_assets/js/manager.js');
 
         }
         else
