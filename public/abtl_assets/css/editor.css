@@ -187,11 +187,7 @@
     cursor: url(http://abtestinglab.dev/assets/cursors/openhand.cur) 8 8, move !important;
 }
 
-.abtl-hover {
-    cursor: not-allowed;
-}
-
-.abtl-hover-not-allowed {
+[draggable=false] {
     cursor: not-allowed;
 }
 

@@ -1,6 +1,7 @@
 <?php
 require(public_path('abtl_assets/js/jquery.min.js'));
-require(public_path('abtl_assets/js/master.js'));
+require(public_path('abtl_assets/js/master_functions.js'));
+require(public_path('abtl_assets/js/manager_functions.js'));
 ?>
 
 websiteID = {{ $website->id }};

@@ -59,8 +59,21 @@ function customTrim(str) {
 
 function allElements()
 {
-    elementsToDrag = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
-    return $("body").find(elementsToDrag);
+    var tags = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
+    return $("body").find(tags).filter(function() {
+        return (directText($(this)).length > 0 || $(this).val() || $(this).attr('src'));
+    });
+}
+
+function directText(elem)
+{
+    str = '';
+    elem.contents().each(function() {
+        if (this.nodeType === 3) {
+            str += $(this).text();
+        }
+    });
+    return str.trim();
 }
 
 function loadCSS(href)

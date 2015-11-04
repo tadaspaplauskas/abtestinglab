@@ -1,6 +1,6 @@
 $(document).ready(function() {
     //read manager token if its set
-    token = getLocal('token');
+    var token = getLocal('token');
 
     if (token === null)
     {
@@ -8,50 +8,57 @@ $(document).ready(function() {
     }
     else
     {
+        /*************** PREPARING MANAGER **************/
+        //assign original values to DOM objects
         assignOriginalValues();
-
+        //taking care of stylesheets
         loadCSS(abtlUrl + '/abtl_assets/css/editor.css');
         loadCSS(abtlUrl + '/abtl_assets/css/bootstrap/css/bootstrap.min.css');
 
+        //loading template
         $('body').append('<div id="abtl-placeholder" style="display:none">&nbsp;</div>');
         $('#abtl-placeholder').load(abtlUrl + '/abtl_assets/templates/editor_template.html', null, templateBindings);
-
-        //dragging functionality
-        toggleDragging(true);
-        toggleDragging(false, $('#abtl-placeholder').find('*'));
-
         $('#abtl-placeholder').on('click', function (ev) {
             ev.stopPropagation();
         });
-
-        toggleCursor($('body'), 'grab');
+        //dragging functionality
+        toggleDragging(true);
+        //cursor functionality
+        toggleCursor('grab');
     }
-    //only hover action for those elements that cannot be selected
-    $('[draggable=false]').mouseover(function (ev) {
-        ev.stopPropagation();
-        $(this).addClass('abtl-hover-not-allowed');
-    }).mouseout(function (ev) {
-        ev.stopPropagation();
-        $(this).removeClass('abtl-hover-not-allowed');
-    });
 });
 
+function assignOriginalValues()
+{
+    allElements().not("#abtl-placeholder").each(function()
+    {
+        //set original value if not assigned
+        if (!$(this).data('original_value'))
+        {
+            if ($(this).prop('tagName') === 'IMG')
+            {
+                $(this).data('original_value', customTrim($(this).attr('src')));
+            }
+            else
+            {
+                $(this).data('original_value', customTrim($(this).html()));
+            }
+            $(this).data('class', prepareClassNames($(this).attr('class')));
+            $(this).data('style', prepareCSS($(this).attr('style')));
+        }
+    });
+}
 //picking a custom conversion element
 function pickConversionElement(btn, ev)
 {
-    currentObject = btn.parent();
-    btn.prop('disabled', true);
-
-    message = currentObject.find('.picked-not-picked');
-
-    btn.text('Click anywhere on the website');
-
     ev.stopPropagation();
-
-    //cancel out previous two lines or control because not() doesnt work
-
+    var currentObject = btn.parent();
+    btn.prop('disabled', true);
+    var message = currentObject.find('.picked-not-picked');
+    btn.text('Click anywhere on the website');
+    
     selection = $('body');
-    toggleCursor(selection, 'crosshair');
+    toggleCursor('crosshair');
 
     selection.on('click', function (ev) {
         ev.preventDefault();
@@ -68,7 +75,7 @@ function pickConversionElement(btn, ev)
         currentObject.find('.abtl-click-conversion-input').val($(ev.target).attr('href'));
 
         setOneClass(target, 'abtl-picked-conversion-border');
-        toggleCursor(selection, 'grab');
+        toggleCursor('grab');
         btn.text('Conversion defined. Again?');
         btn.prop('disabled', false);
         selection.off('click');
@@ -79,43 +86,46 @@ function pickConversionElement(btn, ev)
 function pickTestElement(btn, ev)
 {
     ev.stopPropagation();
-    selection = $('body');
+    var selection = $('body');
     if (btn.text() === 'Click on any element or here to cancel')
     {
         selection.off('click');
-        toggleCursor(selection, 'grab');
+        toggleCursor('grab');
         btn.text('Pick');
     }
     else
     {
         btn.text('Click on any element or here to cancel');
-        currentObject = btn.parent().parent();
+        currentObject = btn.up(2);
 
-        toggleCursor(selection, 'crosshair');
+        toggleCursor('crosshair');
 
         selection.on('click', function (ev) {
             ev.preventDefault();
+            if ($(ev.target).prop('draggable') === true)
+                {
+                var html = $(ev.target).html();
+                var tag = $(ev.target).prop('tagName');
+                var src = $(ev.target).attr('src');
+                var parentConv = parentConversion($(ev.target));
 
-            var html = $(ev.target).html();
-            var tag = $(ev.target).prop('tagName').toLowerCase();
-            var src = $(ev.target).attr('src');
-            var parentConv = parentConversion($(ev.target));
+                if (src !== undefined)
+                    fillTest(src, tag, parentConv);
+                else
+                    fillTest(html, tag, parentConv);
 
-            if (src !== undefined)
-                fillTest(src, tag, parentConv);
-            else
-                fillTest(html, tag, parentConv);
-
-            toggleCursor(selection, 'grab');
-            btn.prop('disabled', false);
-            selection.off('click');
+                toggleCursor('grab');
+                btn.prop('disabled', false);
+                selection.off('click');
+            }
         });
     }
 }
 
-function toggleCursor(selection, cursor)
+function toggleCursor(cursor)
 {
-    cursors = 'abtl-cursor-grab abtl-cursor-grabbing abtl-cursor-crosshair';
+    var selection = $('body');
+    var cursors = 'abtl-cursor-grab abtl-cursor-grabbing abtl-cursor-crosshair';
     selection.removeClass(cursors);
     selection.addClass('abtl-cursor-' + cursor);
 }
@@ -123,8 +133,8 @@ function toggleCursor(selection, cursor)
 
 /****************** DRAGGING AND DROPPING ****************/
 
-function toggleDragging(on, selection) {
-    selection = selection || allElements().not("#abtl-placeholder");
+function toggleDragging(on) {
+    var selection = allElements().not("#abtl-placeholder");
 
     //make specific things draggable
     selection.each(function() {
@@ -161,7 +171,7 @@ function drag(ev) {
     }
 }
 
-function drop(ev, handle) {
+function drop(ev) {
     ev.preventDefault();
     var html = customTrim(ev.dataTransfer.getData('html'));
     var tag = customTrim(ev.dataTransfer.getData('tag'));
@@ -185,7 +195,7 @@ function fillTest(content, tag, parentConversion, width, height)
     var before = $('.tab-content .active .abtl-before');
     var after = $('.tab-content .active .abtl-after');
 
-    var identifier = before.find(".abtl-identifier");
+    var identifier = before.find(".abtl-identifier-text");
     var testText = after.find(".abtl-test-text");
 
     var identifierImage = before.find(".abtl-identifier-image");
@@ -214,15 +224,11 @@ function fillTest(content, tag, parentConversion, width, height)
         alert('Sorry, cannot identify element.');
         return false;
     }
-    resetTests();
-    testText.keyup();
-    markChosenElements();
-
     //is element a link? if not, prepare to select conversion
-    conversionCheckbox = $('.tab-content .active .abtl-default-conversion-checkbox input');
+    var conversionCheckbox = $('.tab-content .active .abtl-default-conversion-checkbox input');
 
     //if link - check conversion checkbox by default
-    if (tag.toLowerCase() === 'a' || parentConversion === 'true')
+    if (tag === 'A' || parentConversion === 'true')
     {
         conversionCheckbox.prop('checked', true);
         conversionCheckbox.change();
@@ -235,7 +241,7 @@ function fillTest(content, tag, parentConversion, width, height)
         conversionCheckbox.prop('disabled', true);
     }
 
-    if (tag.toLowerCase() === 'img')
+    if (tag === 'IMG')
     {
         identifier.hide();
         testText.hide();
@@ -245,8 +251,6 @@ function fillTest(content, tag, parentConversion, width, height)
         testImage.show();
         testImage.find('img').attr('src', '');
         testImage.find('input').val('');
-        testImage.find('.imageWidth').val(width);
-        testImage.find('.imageHeight').val(height);
         testImage.find('.upload-or-url').change();
     }
     else
@@ -257,7 +261,11 @@ function fillTest(content, tag, parentConversion, width, height)
         identifierImage.hide();
         testImage.hide();
     }
-    $('.abtl-identifier').change();
+    JQuery.changeIdentifierText();
+    
+    resetTests();
+    testText.keyup();
+    markChosenElements();
 }
 
 function setOneClass(target, styleClass)
@@ -291,12 +299,12 @@ function addTest(data)
     {
         newTest.data('id', data.id);
         testText = newTest.find('.abtl-test-text');
-        testIdentifier = newTest.find('.abtl-identifier');
+        testIdentifierText = newTest.find('.abtl-identifier-text');
 
         testText.prop('disabled', false);
         testText.val(data.test_variation);
         newTest.find('.abtl-click-conversion-input').val(data.conversion_element);
-        testIdentifier.val(data.test_element);
+        testIdentifierText.val(data.test_element);
 
         //LOAD VALUES TO FIELDS
         if (data.element_type === 'image')
@@ -305,7 +313,7 @@ function addTest(data)
             testImage = newTest.find(".abtl-test-image");
 
             testText.hide();
-            testIdentifier.hide();
+            testIdentifierText.hide();
 
             identifierImage.attr('src', data.test_element);
             identifierImage.show();
@@ -349,7 +357,7 @@ function addTest(data)
 
         newTestNav.find('.abtl-pick-test').text(data.title);
 
-        $('.abtl-identifier').change();
+        changeIdentifierText();
         applyActiveTest();
     }
 }
@@ -384,13 +392,13 @@ function chooseTest(elem)
 function deleteTest(elem)
 {
     if (confirmation())
-        {
-        elemID = elem.parent().attr('data-tab');
+    {
+        var elemID = elem.parent().attr('data-tab');
 
         //activate closest tab
-        nextOrPrev($('#' + elemID)).addClass('active');
+        $('#' + elemID).nextOrPrev().addClass('active');
         //activate closest label
-        nextOrPrev(elem.parent()).addClass('active');
+        elem.parent().nextOrPrev().addClass('active');
 
         //remove tab
         $('#' + elemID).remove();
@@ -406,7 +414,7 @@ function applyActiveTest()
     var testStyle = activeTestStyle();
 
     iterateThroughElements(fromField().val(), function (el) {
-        if (el.prop('tagName').toLowerCase() === 'img' && el.attr('src'))
+        if (el.prop('tagName') === 'IMG' && el.attr('src'))
         {
             el.attr('src', toField().val());
         }
@@ -471,7 +479,7 @@ function resetTests()
     //reset content
     $('.abtl-picked-test-border, .abtl-picked-conversion-border').each(function() {
 
-        if ($(this).prop('tagName').toLowerCase() === 'img' && $(this).attr('src'))
+        if ($(this).prop('tagName') === 'IMG' && $(this).attr('src'))
         {
             $(this).attr('src', $(this).data('original_value'));
         }
@@ -493,29 +501,6 @@ function resetConversions()
         $(this).removeClass('abtl-picked-conversion-border');
     });
 }
-
-function assignOriginalValues()
-{
-    allElements().not("#abtl-placeholder").each(function()
-    {
-        //set original value if not assigned
-        if (!$(this).data('original_value'))
-        {
-            if ($(this).prop('tagName').toLowerCase() === 'img')
-            {
-                $(this).data('original_value', customTrim($(this).attr('src')));
-            }
-            else
-            {
-                $(this).data('original_value', customTrim($(this).html()));
-            }
-            $(this).data('class', prepareClassNames($(this).attr('class')));
-            $(this).data('style', prepareCSS($(this).attr('style')));
-        }
-    });
-}
-
-
 /*************************** LOADING, SAVING DATA ******************************/
 
 function loadTests()
@@ -553,7 +538,7 @@ function saveTests()
             id: tab.data('id'),
             tab: $(this).data('tab'),
             title: $(this).find('.abtl-pick-test').text(),
-            from: tab.find('.abtl-identifier').val(),
+            from: tab.find('.abtl-identifier-text').val(),
             to: tab.find('.abtl-test-text').val(),
             conversion: {
                 type: tab.find('.abtl-conversion-type').val(),
@@ -601,88 +586,31 @@ function templateBindings()
 
     /*************** TEMPLATE FUNCTIONALITY ****************/    
     $('.abtl-conversion-type').change(function() {
-        var click = $(this).parent().parent().find('.abtl-click-conversion');
-        var time = $(this).parent().parent().find('.abtl-time-conversion');
-        
-        if ($(this).val() === 'click')
-        {
-            click.show();
-            time.hide();
-            
-        }
-        else if ($(this).val() === 'time')
-        {
-            click.hide();
-            time.show();
-        }        
-    });
-    
-    $('.abtl-identifier').change(function(){
-        if ($(this).val().length > 0)
-            $(this).parent().find('.abtl-pick-element').text('Picked. Again?');
-        else
-            $(this).parent().find('.abtl-pick-element').text('Pick.');
+        $(this).changeConversionType();
+    });    
+    $('.abtl-identifier-text').change(function(){
+        $(this).changeIdentifierText();
     });
     
     //custom style open
     $('.abtl-cutom-style-button').click(function (e){
-        var container = $(this).parent().parent().parent().find('.custom-style-container');
-        container.show();
-        container.addClass('abtl-container-expanded');
-        
-        var classes = container.find('.custom-style-classes');
-        var style = container.find('.custom-style-css');
-        var element = getCurrentElement();
-        
-        if (classes.val().length === 0)
-        {
-            classes.val(prepareClassNames(element.data('class')));
-        }
-        if (style.val().length === 0)
-        {
-            style.val(prepareCSS(element.data('style')));
-        }
+        $(this).openCustomStyle();
     });
     //custom style close
     $('.custom-style-close-button').click(function (e){
-        var container = $(this).parent().parent().parent();        
-        container.removeClass('abtl-container-expanded');
-        container.hide();
-        
-        var classes = container.find('.custom-style-classes');
-        var style = container.find('.custom-style-css');
-        var element = getCurrentElement();
-        
-        if (classes.val() === prepareClassNames(element.data('class')))
-        {            
-            classes.val('');
-        }
-        if (style.val() === prepareCSS(element.data('style')))
-        {
-            style.val('');
-        }
-        applyActiveTest();
+        $(this).closeCustomStyle();
     });
     
     //image url changes
     $('.abtl-image-url').change(function(e){
-        toField().val($(this).val());
-        $(this).parent().parent().parent().parent().parent().find('.image-upload-preview').attr('src', $(this).val());
+        $(this).changeImageUrl();
     });
 
     //upload or url
     $('.upload-or-url').change(function (e) {
-        if ($(this).val() === 'url')
-        {
-            $(this).parent().parent().find('.abtl-image-url').show();
-            $(this).parent().parent().find('.abtl-image-upload').hide();
-        } else
-        {
-            $(this).parent().parent().find('.abtl-image-url').hide();
-            $(this).parent().parent().find('.abtl-image-upload').show();
-        }
+        $(this).changeImageSource();
     });
-    //initial
+    //initial after loading
     $('.upload-or-url').change();
 
     $('.abtl-test-text').keyup(function(e) {
@@ -690,26 +618,14 @@ function templateBindings()
     });
 
     $('.abtl-default-conversion-checkbox input').change(function (e) {
-        if ($(this).is(':checked'))
-        {
-            $(this).parent().parent().parent().find('.abtl-click-conversion-input').val('');
-            resetConversions();
-
-            $(this).parent().parent().parent().find('.abtl-custom-conversion').hide();
-            $('.abtl-test-tab.active .abtl-tests-window').removeClass('abtl-tests-window-smaller');
-        } else
-        {
-            $(this).parent().parent().parent().find('.abtl-custom-conversion').show();
-        }
+        $(this).changeDefaultConversationCheckbox();
     });
 
     //save renamed test
     $('.test-title').blur(function() {
-        link = $(this).parent().find('.abtl-pick-test');
-        link.text($(this).val());
-        link.show();
-        $(this).hide();
+        $(this).changeTitle();
     });
+    //save title on enter key
     $('.test-title').keypress(function(e){
         if(e.which === 13)
         {
@@ -717,21 +633,25 @@ function templateBindings()
         }
     });
 
-    $(".abtl-custom-conversion-button").click(function (ev) {pickConversionElement($(this), ev);});
-
-    $(".abtl-pick-element").click(function (ev) { pickTestElement($(this), ev); });
-
-    $("#abtl-add-new-test").click(function (ev) {
-        addTest();
-        //show title input, encourage user to rename test
-        $(".abtl-tab-label.active .abtl-pick-test").click();
-        $(".abtl-tab-label.active .test-title").focus();
-        $(".abtl-tab-label.active .test-title").select();
+    $(".abtl-custom-conversion-button").click(function (ev) {
+        pickConversionElement($(this), ev);
     });
 
-    $(".abtl-tab-label .abtl-pick-test").click(function (ev) { chooseTest($(this)); });
+    $(".abtl-pick-element").click(function (ev) { 
+        pickTestElement($(this), ev);
+    });
 
-    $('.abtl-delete-tab').click (function (ev) { deleteTest($(this)); });
+    $("#abtl-add-new-test").click(function (ev) {
+        requestNewTest();
+    });
+
+    $(".abtl-tab-label .abtl-pick-test").click(function (ev) { 
+        chooseTest($(this)); 
+    });
+
+    $('.abtl-delete-tab').click (function (ev) { 
+        deleteTest($(this));
+    });
 
     $('.abtl-image-container').click ( function () {
         $(this).toggleClass('abtl-container-expanded');
@@ -739,7 +659,7 @@ function templateBindings()
     } );
 
     $(".abtl-image-upload").change(function(){
-        previewImageUpload($(this));
+        $(this).previewImageUpload();
     });
 
     $('#abtl-save').click(function () {
@@ -751,176 +671,4 @@ function templateBindings()
     });
 
    loadTests();
-}
-
-
-/*************************** UTILITIES AND HELPERS *******************/
-
-function apiCall(target, data, doneFn)
-{
-    $.ajax({
-        url: abtlUrl + '/api/' + target,
-        cache: false,
-        headers: {
-            'token': token,
-            'website-id': websiteID
-        },
-        method: 'POST',
-        website_id: websiteID,
-        async: true,
-        dataType: 'json',
-        data: {
-            data: data,
-            website_id: websiteID
-        }
-    })
-    .done(function(response, status, request) {
-        //refresh token
-        setLocal('token', request.getResponseHeader('token'));
-        token = request.getResponseHeader('token');
-        //do whats needed with response
-        doneFn(response);
-    })
-    .fail(function(response) {
-        if (response.status === 400 || response.status === 401)
-        {
-            alert('Authentication failed, please open manager again');
-            window.location = abtlUrl + '/website/show/' + websiteID;
-        }
-        else
-            alert('Request failed, please try again in a minute or two');
-    });
-}
-
-function nextOrPrev(elem)
-{
-    next = elem.next();
-    if (!next.length)
-    {
-        return elem.prev();
-    }
-    else
-    {
-        return next;
-    }
-}
-
-function makeID(pre)
-{
-    i = 1;
-    do
-    {
-        id = pre + '-' + i;
-        i++;
-    } while ($('#' + id).length)
-
-    return id;
-}
-
-function customTrim(str)
-{
-    str = str.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ");
-    str = str.replace(' draggable="true" ondragstart="drag(event)"', '');
-    return str;
-}
-
-function allElements()
-{
-    var elementsToDrag = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
-    return $("body").find(elementsToDrag).filter(function() {
-        return (directText($(this)).length > 0 || $(this).val() || $(this).attr('src'));
-    });
-}
-
-function previewImageUpload (elem) {
-    preview = elem.parent().parent().parent().parent().find('.image-upload-preview');
-    file = elem.parent().find('input[type=file]').prop('files')[0];
-    reader = new FileReader();
-
-    reader.onloadend = function () {
-        preview.attr('src', reader.result);
-        toField().val(reader.result);
-        applyActiveTest();
-    }
-
-    if (file) {
-        reader.readAsDataURL(file);
-    } else {
-        preview.attr('src', '');
-    }
-}
-
-function isImageTest()
-{
-    if ($('.tab-content .active .abtl-before .abtl-identifier-image').is(':visible')) {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-function toField()
-{
-    return $("#abtl-tests-container .active .abtl-test-text");
-}
-
-function fromField()
-{
-    return $("#abtl-tests-container .active .abtl-identifier");
-}
-
-function conversionField()
-{
-    return $("#abtl-tests-container .active .abtl-click-conversion-input");
-}
-
-function confirmation(text)
-{
-    text = text || 'Are you sure? This cannot be undone';
-    return confirm(text);
-}
-
-function getCurrentElement()
-{
-    return iterateThroughElements(fromField().val());
-}
-
-function prepareClassNames(str)
-{
-    if (str !== undefined)
-        return str.replace("abtl-picked-test-border", "").trim();
-    else
-        return '';
-}
-
-function prepareCSS(str)
-{
-    if (str !== undefined)
-        return str.replace("; ", ";\n")
-            .replace(";", ";\n")
-            .replace("\n\n", "\n")
-            .replace('"', '\\"')
-            .replace("'", "\'");
-    else
-        return '';
-}
-
-function activeTestStyle()
-{
-    var current = $('#abtl-tests-container .active');
-    return {class: current.find('.custom-style-classes').val(),
-        style: current.find('.custom-style-css').val()};
-}
-
-function directText(elem)
-{
-    str = '';
-    elem.contents().each(function() {
-        if (this.nodeType === 3) {
-            str += $(this).text();
-        }
-    });
-    return str.trim();
 }
