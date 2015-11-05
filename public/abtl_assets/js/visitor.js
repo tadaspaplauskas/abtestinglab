@@ -2,26 +2,29 @@ testsVariationsStorage = 'abtl_t_v';
 visitorStorage = 'abtl_vstr';
 
 $(document).ready(function() {
-    applyTestsAndConversions(abtlData);
+    //do not track the manager
+    if (getLocal('abtl_do_not_track') !== 1)
+        applyTestsAndConversions(abtlData);
 });
 
 function applyTestsAndConversions(data)
 {
-    testVariations = getLocal(testsVariationsStorage);
+    var testVariations = getLocal(testsVariationsStorage);
     if (testVariations === null)
     {
-        testVariations = {};
+        var testVariations = {};
     }
+    var newTestVariations = {};
 
-    tests = data.tests;
-    conversions = data.conversions;
+    var tests = data.tests;
+    var conversions = data.conversions;
 
     //looking for time conversions to apply
     for(i = 0; i < conversions.length; i++)
     {
-        testID = conversions[i].test_id;
-        element = conversions[i].element;
-        type = conversions[i].conversion_type;
+        var testID = conversions[i].test_id;
+        var element = conversions[i].element;
+        var type = conversions[i].conversion_type;
         if (type === 'time')
         {
             setTimeout(function() {
@@ -35,9 +38,9 @@ function applyTestsAndConversions(data)
         //looking for click conversions to apply. Has to happen before tests
         for(i = 0; i < conversions.length; i++)
         {
-            testID = conversions[i].test_id;
-            element = conversions[i].element;
-            type = conversions[i].conversion_type;
+            var testID = conversions[i].test_id;
+            var element = conversions[i].element;
+            var type = conversions[i].conversion_type;
             if (type === 'click')
             {   if (customTrim($(this).html()) === element
                     || customTrim($(this).attr('href')) === element
@@ -55,12 +58,12 @@ function applyTestsAndConversions(data)
         //looking for tests to apply
         for(i = 0; i < tests.length; i++)
         {
-            testID = tests[i].id;
-            elementType = tests[i].element_type;
-            element = tests[i].element;
-            variation = tests[i].variation;
-            variationWeight = tests[i].variation_weight;
-            attributes = tests[i].attributes || null;
+            var testID = tests[i].id;
+            var elementType = tests[i].element_type;
+            var element = tests[i].element;
+            var variation = tests[i].variation;
+            var variationWeight = tests[i].variation_weight;
+            var attributes = tests[i].attributes || null;
 
             //choosing a or b
             if (testVariations[testID] !== undefined)
@@ -72,6 +75,8 @@ function applyTestsAndConversions(data)
                 variationChoice = randomChoice(variationWeight);
                 testVariations[testID] = variationChoice;
             }
+            //to omit removed tests from saving
+            newTestVariations[testID] = testVariations[testID];
 
             if (variationChoice === 'b')
             {
@@ -86,7 +91,7 @@ function applyTestsAndConversions(data)
                     $(this).html(variation);
                     found = true;
                 }
-                if(found)
+                if(found && attributes)
                 {
                     if (attributes.style !== undefined)
                         $(this).attr('style', attributes.style);
@@ -96,23 +101,43 @@ function applyTestsAndConversions(data)
             }
         }
     });
+    //log new reach for new tests
+    if (getLocal(testsVariationsStorage) !== newTestVariations)
+        logVisit(newTestVariations);
     //saving variations for future use
     setLocal(testsVariationsStorage, testVariations);
     newVisitor();
 }
 
+function logVisit(tests)
+{
+    var visitor = getLocal(visitorStorage);
+
+    if (visitor !== null && visitor !== undefined
+            && tests !==null && tests !== undefined)
+    {
+        //sending to backend
+        conversionData = { visitor_id: visitor['visitor'], tests: tests };
+        $.ajax({
+            url:"/api/log_visit",
+            method: 'POST',
+            async: true,
+            data: conversionData});
+    }
+    
+}
+
 function saveConversion(testID)
 {
-    visitor = getLocal(visitorStorage);
-    variation = getLocal(testsVariationsStorage);
+    var visitor = getLocal(visitorStorage);
+    var variation = getLocal(testsVariationsStorage);
 
     if (visitor !== null && visitor !== undefined
             && variation !==null && variation !== undefined)
     {
         variation = variation[testID];
-        visitor = visitor['visitor'];
         //sending to backend
-        conversionData = { test_id: testID, variation: variation, visitor_id: visitor };
+        conversionData = { test_id: testID, variation: variation, visitor_id: visitor['visitor'] };
         $.ajax({
             url:"/api/save_conversion",
             method: 'POST',
@@ -123,7 +148,7 @@ function saveConversion(testID)
 
 function newVisitor()
 {
-    visitor = getLocal(visitorStorage);
+    var visitor = getLocal(visitorStorage);
     if (visitor === null || visitor === undefined)
     {
         $.ajax({
@@ -141,7 +166,7 @@ function newVisitor()
 function randomChoice(variationWeight)
 {
     //random number 1-100
-    random = Math.floor(Math.random() * 100);
+    var random = Math.floor(Math.random() * 100);
 
     if (random < variationWeight)
     {

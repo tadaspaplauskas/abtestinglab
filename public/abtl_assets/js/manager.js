@@ -8,6 +8,8 @@ $(document).ready(function() {
     }
     else
     {
+        //do not track the manager
+        setLocal('abtl_do_not_track', '1');
         /*************** PREPARING MANAGER **************/
         //assign original values to DOM objects
         assignOriginalValues();
@@ -261,7 +263,7 @@ function fillTest(content, tag, parentConversion, width, height)
         identifierImage.hide();
         testImage.hide();
     }
-    JQuery.changeIdentifierText();
+    changeIdentifierText();
     
     resetTests();
     testText.keyup();
@@ -585,46 +587,30 @@ function templateBindings()
     $('#abtl-exit').click(function() { window.location = abtlBackUrl; });
 
     /*************** TEMPLATE FUNCTIONALITY ****************/    
-    $('.abtl-conversion-type').change(function() {
-        $(this).changeConversionType();
-    });    
+    $('.abtl-conversion-type').change($(this).changeConversionType);    
     $('.abtl-identifier-text').change(function(){
-        $(this).changeIdentifierText();
+        changeIdentifierText();
     });
     
     //custom style open
-    $('.abtl-cutom-style-button').click(function (e){
-        $(this).openCustomStyle();
-    });
+    $('.abtl-cutom-style-button').click($(this).openCustomStyle);
     //custom style close
-    $('.custom-style-close-button').click(function (e){
-        $(this).closeCustomStyle();
-    });
+    $('.custom-style-close-button').click($(this).closeCustomStyle);
     
     //image url changes
-    $('.abtl-image-url').change(function(e){
-        $(this).changeImageUrl();
-    });
+    $('.abtl-image-url').change($(this).changeImageUrl);
 
     //upload or url
-    $('.upload-or-url').change(function (e) {
-        $(this).changeImageSource();
-    });
+    $('.upload-or-url').change($(this).changeImageSource);
     //initial after loading
     $('.upload-or-url').change();
 
-    $('.abtl-test-text').keyup(function(e) {
-        applyActiveTest();
-    });
+    $('.abtl-test-text').keyup(applyActiveTest);
 
-    $('.abtl-default-conversion-checkbox input').change(function (e) {
-        $(this).changeDefaultConversationCheckbox();
-    });
+    $('.abtl-default-conversion-checkbox input').change($(this).changeDefaultConversationCheckbox);
 
     //save renamed test
-    $('.test-title').blur(function() {
-        $(this).changeTitle();
-    });
+    $('.test-title').blur($(this).changeTitle);
     //save title on enter key
     $('.test-title').keypress(function(e){
         if(e.which === 13)
@@ -641,9 +627,7 @@ function templateBindings()
         pickTestElement($(this), ev);
     });
 
-    $("#abtl-add-new-test").click(function (ev) {
-        requestNewTest();
-    });
+    $("#abtl-add-new-test").click(requestNewTest);
 
     $(".abtl-tab-label .abtl-pick-test").click(function (ev) { 
         chooseTest($(this)); 
@@ -658,17 +642,11 @@ function templateBindings()
 
     } );
 
-    $(".abtl-image-upload").change(function(){
-        $(this).previewImageUpload();
-    });
+    $(".abtl-image-upload").change($(this).previewImageUpload);
 
-    $('#abtl-save').click(function () {
-        saveTests();
-    });
+    $('#abtl-save').click(saveTests);
 
-    $('#abtl-publish').click(function () {
-        publishTests();
-    });
+    $('#abtl-publish').click(publishTests);
 
    loadTests();
 }

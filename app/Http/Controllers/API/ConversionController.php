@@ -9,15 +9,10 @@ use App\Models\Conversion;
 
 class ConversionController extends ApiController
 {
-    private $user;
-    
     function __construct()
     {
-        //TODO authentication with some kind of token
-        $this->user = new \stdClass();
-        $this->user->id = 1;
     }
-    
+
     public function saveConversion(Request $request)
     {
         //check host, if it comes from the right website
@@ -26,15 +21,24 @@ class ConversionController extends ApiController
         $visitorID = (int) $request->get('visitor_id');
         
         if ($testID > 0 && ($variation === 'a' OR $variation === 'b'))
-        {            
+        {
             $conversion = Conversion::firstOrNew([
                 'test_id' => $testID,
                 'visitor_id' => $visitorID,
                 'variation' => $variation]);
-            
+
             $conversion->count++;
-            $conversion->save();            
+            $conversion->save();
+            
+            if ($conversion->count === 1)
+            {
+                if ($variation === 'a')
+                    $conversion->test->original_conversion_count++;
+                else if ($variation === 'b')
+                    $conversion->test->variation_conversion_count++;
+                
+                $conversion->test->save();
+            }
         }
-        return '';
     }
 }

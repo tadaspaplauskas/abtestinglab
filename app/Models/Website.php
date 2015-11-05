@@ -13,16 +13,16 @@ class Website extends Model
     
     protected $table = 'websites';
 
-    protected $fillable = ['user_id', 'enabled', 'url', 'title', 'token', 'deleted_at'];
+    protected $fillable = ['user_id', 'status', 'url', 'title', 'token', 'deleted_at'];
     
     public function tests()
     {
-        return $this->hasMany('App\Models\Test')->where('archived', 0)->orderBy('created_at', 'desc');
+        return $this->hasMany('App\Models\Test')->where('status', '!=', 'archived')->orderBy('created_at', 'desc');
     }
     
     public function archivedTests()
     {
-        return $this->hasMany('App\Models\Test')->where('archived', 1)->orderBy('created_at', 'desc');
+        return $this->hasMany('App\Models\Test')->where('status', 'archived')->orderBy('created_at', 'desc');
     }
     
     public function user()            

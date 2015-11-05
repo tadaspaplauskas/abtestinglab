@@ -137,7 +137,7 @@ class WebsiteController extends Controller
         Website::where('id', $id)
                 ->where('user_id', $this->user->id)
                 ->first()
-                ->update(['enabled' => 1]);
+                ->update(['status' => 'enabled']);
 
         Session::flash('success', 'Website enabled.'); 
         return redirect()->back();
@@ -148,7 +148,7 @@ class WebsiteController extends Controller
         Website::where('id', $id)
                 ->where('user_id', $this->user->id)
                 ->first()
-                ->update(['enabled' => 0]);
+                ->update(['status' => 'disabled']);
 
         Session::flash('success', 'Website disabled.'); 
         return redirect()->back();

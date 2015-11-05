@@ -13,7 +13,7 @@ Route::group(['prefix' => 'api', ], function () {
     //public
     Route::any('save_conversion', 'API\ConversionController@saveConversion');
     Route::any('new_visitor', 'API\VisitorController@newVisitor');
-
+    Route::any('log_visit', 'API\VisitorController@logVisit');
 });
 
 //Route::group(['prefix' => 'user'], function () {

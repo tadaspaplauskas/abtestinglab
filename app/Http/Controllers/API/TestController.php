@@ -51,7 +51,7 @@ class TestController extends ApiController
                     $testInDB = Test::create(['website_id' => $websiteID]);
                 }
                 $testInDB->title = $test['title'];
-                $testInDB->enabled = 1;
+                $testInDB->status = 'enabled';
                 $testInDB->test_element = $test['from'];
 
                 if ($testInDB->test_variation !== $test['to'])
@@ -124,7 +124,7 @@ class TestController extends ApiController
                 $test['id'] = $testInDB->id;
                 $testsToSave[] = $testInDB->id;
             }
-            //Test::where('website_id', $websiteID)->whereNotIn('id', $testsToSave)->delete();
+            Test::where('website_id', $websiteID)->whereNotIn('id', $testsToSave)->update(['status' => 'disabled']);
         }
         return self::respondSuccess($tests);
     }

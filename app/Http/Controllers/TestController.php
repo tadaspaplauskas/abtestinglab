@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Website;
 use App\Models\Test;
+use MatthiasMullie\Minify;
 
 
 class TestController extends Controller
@@ -27,13 +28,13 @@ class TestController extends Controller
 
         if ($test->website->user_id === $this->user->id)
         {
-            if ($test->enabled == 0)
+            if ($test->status == 'disabled')
             {
-                $test->enabled = 1;
+                $test->status = 'enabled';
             }
-            else if ($test->enabled == 1)
+            else if ($test->status == 'enabled')
             {
-                $test->enabled = 0;
+                $test->status = 'disabled';
             }
             $test->save();
         }
@@ -46,14 +47,13 @@ class TestController extends Controller
 
         if ($test->website->user_id === $this->user->id)
         {
-            if ($test->archived == 0)
+            if ($test->status !== 'archived')
             {
-                $test->archived = 1;
-                $test->enabled = 0;
+                $test->status = 'archived';
             }
-            else if ($test->archived == 1)
+            else
             {
-                $test->archived = 0;
+                $test->status = 'enabled';
             }
             $test->save();
         }
@@ -168,9 +168,14 @@ class TestController extends Controller
 
         $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
-        $return = file_put_contents($website->jsPath(), view('js.manager', [
+        $jsPath = $website->jsPath();
+        $return = file_put_contents($jsPath, view('js.manager', [
             'website' => $website, 'tests' => $returnValue]), LOCK_EX);
-        return $return;
+        
+        if ($return)
+            return $this->minifyJS($jsPath);
+        else
+            return false;
     }
 
     public function generateTestsJS($website)
@@ -218,9 +223,31 @@ class TestController extends Controller
 
         $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
-        $return = file_put_contents($website->jsPath(), view('js.visitor', [
+        $jsPath = $website->jsPath();
+        $return = file_put_contents($jsPath, view('js.visitor', [
             'website' => $website, 'tests' => $returnValue]), LOCK_EX);
-        return $return;
+        
+        if ($return)
+            return $this->minifyJS($jsPath);
+        else
+            return false;
+    }
+    
+    public function minifyJS($jsPath)
+    {
+        //minify first
+        $minifier = new Minify\JS($jsPath);
+        $return = $minifier->minify($jsPath);
+        //gzip if success
+        if ($return)
+        {
+            $return = $minifier->gzip($jsPath . '.gz', 9);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }

@@ -10,7 +10,7 @@ class Test extends Model
 
     protected $fillable = [
         'website_id',
-        'enabled',
+        'status',
         'title',
         'test_element',
         'element_type',
@@ -35,6 +35,11 @@ class Test extends Model
         return $this->belongsTo('App\Models\Website');
     }
     
+    public function totalReach()
+    {
+        return $this->original_pageviews + $this->variation_pageviews;
+    }
+    
     public function originalConv()
     {
         if ($this->original_pageviews == 0)
@@ -47,7 +52,7 @@ class Test extends Model
     
     public function variationConv()
     {
-        if ($this->original_pageviews == 0)
+        if ($this->variation_pageviews == 0)
             return 0;
         
         $calc = round($this->variation_conversion_count / $this->variation_pageviews * 100, 2);

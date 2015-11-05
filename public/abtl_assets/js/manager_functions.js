@@ -27,16 +27,6 @@ jQuery.fn.extend({
             time.show();
         }
     },
-    changeIdentifierText: function ()
-    {
-        var elem = $(this) || $('.abtl-identifier-text');
-        elem.each(function() {
-            if ($(this).val().length > 0)
-                    $(this).parent().find('.abtl-pick-element').text('Picked. Again?');
-            else
-                $(this).parent().find('.abtl-pick-element').text('Pick.');
-        });
-    },
     openCustomStyle: function ()
     {
         var container = $(this).parent(3).find('.custom-style-container');
@@ -143,16 +133,28 @@ jQuery.fn.extend({
         link.text($(this).val());
         link.show();
         $(this).hide();
-    },
-    requestNewTest: function ()
-    {
-        addTest();
-        //show title input, encourage user to rename test
-        $(".abtl-tab-label.active .abtl-pick-test").click();
-        $(".abtl-tab-label.active .test-title").focus();
-        $(".abtl-tab-label.active .test-title").select();
     }
 });
+
+function requestNewTest()
+{
+    addTest();
+    //show title input, encourage user to rename test
+    $(".abtl-tab-label.active .abtl-pick-test").click();
+    $(".abtl-tab-label.active .test-title").focus();
+    $(".abtl-tab-label.active .test-title").select();
+}
+
+function changeIdentifierText()
+{
+    var elem = $('.abtl-identifier-text');
+    elem.each(function() {
+        if ($(this).val().length > 0)
+                $(this).parent().find('.abtl-pick-element').text('Picked. Again?');
+        else
+            $(this).parent().find('.abtl-pick-element').text('Pick.');
+    });
+}
 
 function apiCall(target, data, doneFn)
 {
