@@ -32,12 +32,13 @@ class ConversionController extends ApiController
             
             if ($conversion->count === 1)
             {
+                $test = $conversion->test;
                 if ($variation === 'a')
-                    $conversion->test->original_conversion_count++;
+                    $test->original_conversion_count++;
                 else if ($variation === 'b')
-                    $conversion->test->variation_conversion_count++;
+                    $test->variation_conversion_count++;
                 
-                $conversion->test->save();
+                $test->save();
             }
         }
     }
