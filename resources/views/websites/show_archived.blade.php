@@ -10,8 +10,8 @@
     <p>Nothing to see here.</p>
 @else
 
-    <?php $tests = $website->archivedTests(); ?>
-    @include('tests_table')
+    <?php $tests = $website->archivedTests; ?>
+    @include('websites.tests_table')
 
 @endif
 <hr>

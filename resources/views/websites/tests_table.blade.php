@@ -12,6 +12,7 @@
         </tr>
 
     @foreach ($tests as $test)
+        {{-- turning this off because there's archive function and that should be enough
         @if ($test->status === 'enabled')
             <tr class="test-enabled">
         @else
@@ -22,7 +23,9 @@
             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
         @else
             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-        @endif
+        @endif--}}
+        <tr>
+            <td class="strong">
             {{ $test->title }}
             </td>
             <td class="text-right">
@@ -51,12 +54,14 @@
                 <div class="btn-group">
                 <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Choose <span class="caret"></span></button>
                 <ul class="dropdown-menu">
+                    {{--
                     @if ($test->status === 'enabled')
                         <li><a href="{{ route('tests.disable', ['id' => $test->id]) }}">Disable</a></li>
                     @elseif ($test->status === 'disabled')
                         <li><a href="{{ route('tests.enable', ['id' => $test->id]) }}">Enable</a></li>
                     @endif
-                    <li class="divider"></li>
+                    <li class="divider"></li>--}}
+                    
                     @if ($test->status === 'enabled' || $test->status === 'disabled')
                         <li><a href="{{ route('tests.archive', ['id' => $test->id]) }}">Archive</a></li>
                     @elseif ($test->status === 'enabled')

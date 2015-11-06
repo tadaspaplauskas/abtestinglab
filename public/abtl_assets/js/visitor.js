@@ -3,7 +3,7 @@ visitorStorage = 'abtl_vstr';
 
 $(document).ready(function() {
     //do not track the manager
-    if (getLocal('abtl_do_not_track') !== 1)
+    if (getLocal('abtl_do_not_track') !== '1')
         applyTestsAndConversions(abtlData);
 });
 
@@ -102,10 +102,10 @@ function applyTestsAndConversions(data)
         }
     });
     //log new reach for new tests
-    if (getLocal(testsVariationsStorage) !== newTestVariations)
+    if (JSON.stringify(getLocal(testsVariationsStorage)) != JSON.stringify(newTestVariations))
         logVisit(newTestVariations);
     //saving variations for future use
-    setLocal(testsVariationsStorage, testVariations);
+    setLocal(testsVariationsStorage, newTestVariations);
     newVisitor();
 }
 

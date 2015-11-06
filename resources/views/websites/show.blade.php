@@ -25,6 +25,7 @@
     @else
         <a href="{{ route('website.enable', ['id' => $website->id]) }}" class="btn btn-default">Enable website</a>
     @endif
+
     <a href="{{ route('website.edit', ['id' => $website->id]) }}" class="btn btn-default">Edit website</a>
     <a href="{{ route('website.delete', ['id' => $website->id]) }}" class="btn btn-danger">Delete website</a>
 </div>

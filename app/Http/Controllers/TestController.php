@@ -22,7 +22,7 @@ class TestController extends Controller
         $this->user = Auth::user();
     }
 
-    public function changePublicStatus($id)
+    /*public function changePublicStatus($id)
     {
        $test = Test::find($id);
 
@@ -39,7 +39,7 @@ class TestController extends Controller
             $test->save();
         }
         return redirect()->back();
-    }
+    }*/
     
     public function changeArchiveStatus($id)
     {
@@ -56,6 +56,8 @@ class TestController extends Controller
                 $test->status = 'enabled';
             }
             $test->save();
+            
+            $this->generateTestsJS($test->website);
         }
         return redirect()->back();
     }
@@ -95,14 +97,11 @@ class TestController extends Controller
 
         if ($this->generateTestsJS($website))
         {
-            $website->published_at = DB::raw('NOW()');
-            $website->save();
             Session::flash('success', 'Published successfully.');
         }
         else {
             Session::flash('fail', 'Something went wrong, please try again later.');
         }
-
         return redirect('website/show/' . $website->id);
     }
 
@@ -183,51 +182,62 @@ class TestController extends Controller
         $tests = $website->tests;
         $jsTests = [];
         $jsConversions = [];
-
-        foreach($tests as $test)
+        $jsPath = $website->jsPath();
+        
+        if ($website->status === 'enabled')
         {
-            //default half 50/100
-            $weight = 50;
-
-            if ($test->adaptive)
+            foreach($tests as $test)
             {
-                //kick in after n conversions. Arbitrary number
-                if (($test->variation_conversion_count + $test->original_conversion_count) > self::ADAPTIVE_CONVERSIONS_BOUNDARY)
+                //default half 50/100
+                $weight = 50;
+
+                if ($test->adaptive)
                 {
-                    $weight = $test->variation_conversion_count / $test->variation_pageviews;
+                    //kick in after n conversions. Arbitrary number
+                    if (($test->variation_conversion_count + $test->original_conversion_count) > self::ADAPTIVE_CONVERSIONS_BOUNDARY)
+                    {
+                        $weight = $test->variation_conversion_count / $test->variation_pageviews;
 
-                    if ($weight > 0.9)
-                        $weight = 0.9;
-                    else if ($weight < 0.1)
-                        $weight = 0.9;
+                        if ($weight > 0.9)
+                            $weight = 0.9;
+                        else if ($weight < 0.1)
+                            $weight = 0.9;
 
-                    $weight = $weight * 100;
+                        $weight = $weight * 100;
+                    }
                 }
+
+                $variation = $test->test_variation;
+
+                $jsTests[] = ['id' => $test->id,
+                    'element' => $test->test_element,
+                    'element_type' => $test->element_type,
+                    'variation' => $variation,
+                    'attributes' => json_decode($test->attributes),
+                    'variation_weight' => $weight];
+
+                $jsConversions[] = [
+                    'test_id' => $test->id,
+                    'conversion_type' => $test->conversion_type,
+                    'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
+                    ];
             }
 
-            $variation = $test->test_variation;
-            
-            $jsTests[] = ['id' => $test->id,
-                'element' => $test->test_element,
-                'element_type' => $test->element_type,
-                'variation' => $variation,
-                'attributes' => json_decode($test->attributes),
-                'variation_weight' => $weight];
+            $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
-            $jsConversions[] = [
-                'test_id' => $test->id,
-                'conversion_type' => $test->conversion_type,
-                'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
-                ];
+            $content = view('js.visitor', ['website' => $website, 'tests' => $returnValue]);
         }
-
-        $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
-
-        $jsPath = $website->jsPath();
-        $return = file_put_contents($jsPath, view('js.visitor', [
-            'website' => $website, 'tests' => $returnValue]), LOCK_EX);
+        else //if website is disabled, there should be no tests
+        {
+            $content = '';
+        }
         
-        if ($return)
+        $return = file_put_contents($jsPath, $content, LOCK_EX);
+
+        $website->published_at = DB::raw('NOW()');
+        $website->save();
+            
+        if ($return !== false)
             return $this->minifyJS($jsPath);
         else
             return false;
@@ -236,17 +246,25 @@ class TestController extends Controller
     public function minifyJS($jsPath)
     {
         //minify first
-        $minifier = new Minify\JS($jsPath);
-        $return = $minifier->minify($jsPath);
-        //gzip if success
-        if ($return)
+        if (filesize($jsPath) > 0)
         {
-            $return = $minifier->gzip($jsPath . '.gz', 9);
-            return true;
+            $minifier = new Minify\JS($jsPath);
+            $return = $minifier->minify($jsPath);
+            //gzip if success
+            if ($return)
+            {
+                $return = $minifier->gzip($jsPath . '.gz', 9);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
-            return false;
+            @unlink($jsPath . '.gz');
+            return true;
         }
     }
 

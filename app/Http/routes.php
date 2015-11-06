@@ -38,8 +38,8 @@ Route::group(['middleware' => 'auth'], function ()
     
     Route::group(['prefix' => 'tests'], function ()
     {
-        Route::get('disable/{id}', ['as' => 'tests.disable', 'uses' => 'TestController@changePublicStatus']);
-        Route::get('enable/{id}', ['as' => 'tests.enable', 'uses' => 'TestController@changePublicStatus']);
+        //Route::get('disable/{id}', ['as' => 'tests.disable', 'uses' => 'TestController@changePublicStatus']);
+        //Route::get('enable/{id}', ['as' => 'tests.enable', 'uses' => 'TestController@changePublicStatus']);
         Route::get('publish/{id}', ['as' => 'tests.publish', 'uses' => 'TestController@publish']);
         Route::get('manager/{id}', ['as' => 'tests.manager', 'uses' => 'TestController@manager']);        
         Route::get('archive/{id}', ['as' => 'tests.archive', 'uses' => 'TestController@changeArchiveStatus']);

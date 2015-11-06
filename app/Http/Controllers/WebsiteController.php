@@ -6,6 +6,8 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Website;
+use Session;
+use App\Http\Controllers\TestController;
 
 class WebsiteController extends Controller
 {
@@ -134,10 +136,14 @@ class WebsiteController extends Controller
 
     public function enable($id)
     {
-        Website::where('id', $id)
-                ->where('user_id', $this->user->id)
-                ->first()
-                ->update(['status' => 'enabled']);
+        $website = Website::where('id', $id)
+                    ->where('user_id', $this->user->id)
+                    ->first();
+                
+        $website->update(['status' => 'enabled']);
+        
+        $tests = new TestController;
+        $tests->generateTestsJS($website);
 
         Session::flash('success', 'Website enabled.'); 
         return redirect()->back();
@@ -145,10 +151,14 @@ class WebsiteController extends Controller
 
     public function disable($id)
     {
-        Website::where('id', $id)
+        $website = Website::where('id', $id)
                 ->where('user_id', $this->user->id)
-                ->first()
-                ->update(['status' => 'disabled']);
+                ->first();
+        
+        $website->update(['status' => 'disabled']);
+        
+        $tests = new TestController;
+        $tests->generateTestsJS($website);
 
         Session::flash('success', 'Website disabled.'); 
         return redirect()->back();
