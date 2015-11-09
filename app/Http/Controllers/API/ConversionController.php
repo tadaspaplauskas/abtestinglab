@@ -30,9 +30,10 @@ class ConversionController extends ApiController
             $conversion->count++;
             $conversion->save();
             
+            $test = $conversion->test;
+                
             if ($conversion->count === 1)
             {
-                $test = $conversion->test;
                 if ($variation === 'a')
                     $test->original_conversion_count++;
                 else if ($variation === 'b')

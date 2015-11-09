@@ -101,12 +101,13 @@ function applyTestsAndConversions(data)
             }
         }
     });
-    //log new reach for new tests
+    //log changes in tests and create new visitor if there is none yet
     if (JSON.stringify(getLocal(testsVariationsStorage)) != JSON.stringify(newTestVariations))
-        logVisit(newTestVariations);
+        newVisitor(newTestVariations);
+    
     //saving variations for future use
     setLocal(testsVariationsStorage, newTestVariations);
-    newVisitor();
+    
 }
 
 function logVisit(tests)
@@ -146,7 +147,7 @@ function saveConversion(testID)
     }
 }
 
-function newVisitor()
+function newVisitor(tests)
 {
     var visitor = getLocal(visitorStorage);
     if (visitor === null || visitor === undefined)
@@ -159,7 +160,11 @@ function newVisitor()
         })
         .done(function(data){
             setLocal(visitorStorage, { visitor: data });
+            logVisit(tests);
         });
+    } else
+    {
+        logVisit(tests);
     }
 }
 
