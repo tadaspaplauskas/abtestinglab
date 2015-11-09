@@ -40,6 +40,39 @@ class Test extends Model
         return $this->original_pageviews + $this->variation_pageviews;
     }
     
+    public function disable()
+    {
+        $this->status = 'disabled';
+        return $this->save();
+    }
+    
+    public function enable()
+    {
+        $this->status = 'enabled';
+        return $this->save();
+    }
+    
+    public function archive()
+    {
+        $this->status = 'archived';
+        return $this->save();
+    }
+    
+    public function isDisabled()
+    {
+        return ($this->status === 'disabled' ? true : false);
+    }
+    
+    public function isEnabled()
+    {
+        return ($this->status === 'enabled' ? true : false);
+    }
+    
+    public function isArchived()
+    {
+        return ($this->status === 'archived' ? true : false);
+    }
+    
     public function originalConv()
     {
         if ($this->original_pageviews == 0)
@@ -61,16 +94,22 @@ class Test extends Model
     
     public function convChange()
     {
-        if ($this->original_pageviews == 0 || $this->variation_pageviews == 0)
+        if ($this->original_pageviews === 0 || $this->variation_pageviews === 0)
             return 0;
         
         $calcOrig = $this->original_conversion_count / $this->original_pageviews * 100;
         
         $calcVar = $this->variation_conversion_count / $this->variation_pageviews * 100;
         
-        $calc = round($calcVar / $calcOrig, 2);
-        
-        return $calc;
+        if ($calcOrig === 0)
+        {
+            return 0;
+        }
+        else 
+        {
+            $calc = round($calcVar / $calcOrig, 2);        
+            return $calc;
+        }
     }
     
     public function imagePath()
@@ -81,5 +120,14 @@ class Test extends Model
     public function imageUrl()
     {
         return asset($this->website->url() . '/images/' . $this->id . '.jpg');
+    }
+    
+    public function nullifyStatistics()
+    {
+        $this->original_conversion_count = 0;
+        $this->variation_conversion_count = 0;
+        $this->original_pageviews = 0;
+        $this->variation_pageviews = 0;
+        return $this->save();
     }
 }

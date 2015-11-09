@@ -5,7 +5,7 @@
 @section('content')
 
 <p>
-Nothing yet! Wanna <a href="{{ url('website/create') }}">create your first website</a>?
+Nothing yet! Wanna <a href="{{ url('website/create') }}">add your first website</a>?
 </p>
 
 @endsection

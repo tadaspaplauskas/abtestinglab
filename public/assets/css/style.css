@@ -330,3 +330,11 @@ footer {
 .breadcrumb {
     margin-bottom: 5px;
 }
+
+.glyphicon {
+    color: #333333;
+}
+
+a {
+    cursor: pointer;
+}

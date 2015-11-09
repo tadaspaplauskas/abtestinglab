@@ -124,7 +124,7 @@ function logVisit(tests)
             async: true,
             data: conversionData});
     }
-    
+
 }
 
 function saveConversion(testID)

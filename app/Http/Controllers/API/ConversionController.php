@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\ApiController;
-
 use App\Models\Conversion;
 
 class ConversionController extends ApiController
@@ -39,6 +39,15 @@ class ConversionController extends ApiController
                     $test->variation_conversion_count++;
                 
                 $test->save();
+            }
+            
+            if ($test->totalReach() >= $test->goal)
+            {
+                $test->disable();
+                $website = $test->website;
+                Auth::login($website->user);
+                $testController = new TestController();
+                $testController->generateTestsJS($website);
             }
         }
     }

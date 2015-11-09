@@ -42,6 +42,10 @@ class Website extends Model
         return md5($this->id);
     }
     
+    public function isEnabled()
+    {
+        return ($this->status === 'enabled') ? true : false;
+    }
     public function jsUrl()
     {
         return url(self::USERS_PATH

@@ -22,7 +22,7 @@ class TestController extends Controller
         $this->user = Auth::user();
     }
 
-    /*public function changePublicStatus($id)
+    public function changePublicStatus($id)
     {
        $test = Test::find($id);
 
@@ -30,16 +30,25 @@ class TestController extends Controller
         {
             if ($test->status == 'disabled')
             {
-                $test->status = 'enabled';
+                if ($test->totalReach() < $test->goal)
+                {
+                    $test->enable();
+                }
+                else
+                {
+                    Session::flash('warning', 'Could not enable the test because the goal is already reached. Please adjust the goal or make a new test.');
+                    return redirect()->back();
+                }
             }
-            else if ($test->status == 'enabled')
+            else if ($test->isEnabled())
             {
-                $test->status = 'disabled';
+                $test->disable();
             }
             $test->save();
         }
+        $this->generateTestsJS($test->website);
         return redirect()->back();
-    }*/
+    }
     
     public function changeArchiveStatus($id)
     {
@@ -47,13 +56,14 @@ class TestController extends Controller
 
         if ($test->website->user_id === $this->user->id)
         {
-            if ($test->status !== 'archived')
+            if (!$test->isArchived())
             {
-                $test->status = 'archived';
+                $test->archive();
             }
             else
             {
-                $test->status = 'enabled';
+                $test->enable();
+                $test->nullifyStatistics();
             }
             $test->save();
             
@@ -84,16 +94,13 @@ class TestController extends Controller
         if ($test->website->user_id === $this->user->id)
             $test->delete();
 
-        Session::flash('success', 'Test deleted.'); 
+        Session::flash('success', 'Test deleted.');
         return redirect('website/show/' . $websiteID);
     }
     
     public function publish($websiteID)
     {
-
-        $website = Website::where('id', $websiteID)
-                ->where('user_id', $this->user->id)
-                ->firstOrFail();
+        $website = Website::find($websiteID);
 
         if ($this->generateTestsJS($website))
         {
@@ -105,11 +112,9 @@ class TestController extends Controller
         return redirect('website/show/' . $website->id);
     }
 
-    public function manager($website_id)
+    public function manager($websiteID)
     {
-        $website = Website::where('id', $website_id)
-                ->where('user_id', $this->user->id)
-                ->firstOrFail();
+        $website = Website::find($websiteID);
 
         $token = self::token();
 
@@ -128,6 +133,9 @@ class TestController extends Controller
 
     public function generateManagerJS($website)
     {
+        if ($website->user->id !== $this->user->id)
+            return false;
+        
         $tests = $website->tests;
         $jsTests = [];
         $jsConversions = [];
@@ -179,12 +187,15 @@ class TestController extends Controller
 
     public function generateTestsJS($website)
     {
+        if ($website->user->id !== $this->user->id)
+            return false;
+        
         $tests = $website->tests;
         $jsTests = [];
         $jsConversions = [];
         $jsPath = $website->jsPath();
         
-        if ($website->status === 'enabled')
+        if ($website->isEnabled())
         {
             foreach($tests as $test)
             {

@@ -24,6 +24,7 @@
     
     <script src="/assets/js/jquery-1.11.1.js"></script>
     <script src="/assets/js/bootstrap.js"></script>
+    <script src="/assets/js/scripts.js"></script>
 </head>
 <body>
     <header>
@@ -90,6 +91,11 @@
                     @if(Session::has('fail'))
                         <div class="alert alert-warning">
                             <strong>Oops...</strong> {{ Session::get('fail') }}
+                        </div>
+                    @endif
+                    @if(Session::has('warning'))
+                        <div class="alert alert-warning">
+                            <strong>Warning</strong> {{ Session::get('warning') }}
                         </div>
                     @endif
                     

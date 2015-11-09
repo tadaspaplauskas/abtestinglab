@@ -12,30 +12,27 @@
         </tr>
 
     @foreach ($tests as $test)
-        {{-- turning this off because there's archive function and that should be enough
-        @if ($test->status === 'enabled')
-            <tr class="test-enabled">
+        @if($test->status === 'disabled')
+            <tr class="test-disabled" id="test-{{ $test->id }}">
         @else
-            <tr class="test-disabled">
+            <tr id="test-{{ $test->id }}">
         @endif
             <td class="strong">
-        @if ($test->status === 'enabled')
-            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-        @else
-            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-        @endif--}}
-        <tr>
-            <td class="strong">
-            {{ $test->title }}
+                @if($test->isEnabled())
+                <a href="{{ route('tests.disable', ['id' => $test->id]) }}" title="Pause"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></a>
+                @elseif ($test->isDisabled())
+                <a href="{{ route('tests.enable', ['id' => $test->id]) }}" title="Enable"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a>
+                @endif
+                {{ $test->title }}
             </td>
             <td class="text-right">
-                {{ $test->originalConv() }}
+                {{ $test->originalConv() }} %
             </td>
             <td class="text-right">
-                {{ $test->variationConv() }}
+                {{ $test->variationConv() }} %
             </td>
             <td class="text-right">
-                {{ $test->convChange() }}
+                {{ $test->convChange() }} %
             </td>
             {{--<td class="text-right">
                 {{ $test->adaptive }}
@@ -55,19 +52,24 @@
                 <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Choose <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     {{--
-                    @if ($test->status === 'enabled')
+                    @if ($test->isEnabled())
                         <li><a href="{{ route('tests.disable', ['id' => $test->id]) }}">Disable</a></li>
-                    @elseif ($test->status === 'disabled')
+                    @elseif ($test->isDisabled())
                         <li><a href="{{ route('tests.enable', ['id' => $test->id]) }}">Enable</a></li>
                     @endif
                     <li class="divider"></li>--}}
                     
-                    @if ($test->status === 'enabled' || $test->status === 'disabled')
-                        <li><a href="{{ route('tests.archive', ['id' => $test->id]) }}">Archive</a></li>
-                    @elseif ($test->status === 'enabled')
-                        <li><a href="{{ url('tests/archive', ['id' => $test->id]) }}">Activate again</a></li>
+                    @if (!$test->isArchived())
+                    <li><a href="{{ route('tests.archive', ['id' => $test->id]) }}">
+                            <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                            Archive</a>
+                    </li>
+                    @else
+                        <li><a onclick='confirmLocation("{{ url('tests/archive', ['id' => $test->id]) }}", "Stats will be reset to initial values if you activate this test again. Are you sure?")'>
+                                <span class="glyphicon glyphicon-inbox" aria-hidden="true"></span>
+                                Activate again</a></li>
                     @endif
-                    <li><a href="{{ url('tests/delete', ['id' => $test->id]) }}">Delete</a></li>
+                    <li><a href="{{ url('tests/delete', ['id' => $test->id]) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a></li>
                 </ul>
                 </div>
             </td>

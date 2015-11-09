@@ -20,7 +20,7 @@
     @endif
 </div>
 <div class="col-md-5 text-right">
-    @if($website->status === 'enabled')
+    @if($website->isEnabled())
         <a href="{{ route('website.disable', ['id' => $website->id]) }}" class="btn btn-default">Disable website</a>
     @else
         <a href="{{ route('website.enable', ['id' => $website->id]) }}" class="btn btn-default">Enable website</a>
@@ -35,10 +35,8 @@
 @if ($website->tests->isEmpty())
     <p>Create your first test now!</p>
 @else
-
     <?php $tests = $website->tests; ?>
     @include('websites.tests_table')
-    
 @endif
 <hr>
 <p>
@@ -52,7 +50,7 @@
     This code should be loaded in every page where you want to conduct tests.
 </p>
 <p>
-    <input type="text" style="width: 100%" readonly onclick="this.focus();this.select()" value='<script src="{{ $website->jsUrl() }}"></script>'>
+    <input type="text" style="width: 100%" readonly onclick="this.focus();this.select()" value='<script type="text/javascript" src="{{ $website->jsUrl() }}" async></script>'>
 </p>
 </div>
 
