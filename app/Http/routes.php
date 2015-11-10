@@ -1,6 +1,8 @@
 <?php
 
-Route::get('about', 'PagesController@about');
+Route::get('about', ['as' => 'about', 'uses' => 'PagesController@about']);
+Route::get('help', ['as' => 'help', 'uses' => 'PagesController@about']);
+Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@about']);
 
 Route::group(['prefix' => 'api', ], function () {
     
@@ -20,6 +22,13 @@ Route::group(['prefix' => 'api', ], function () {
 Route::group(['middleware' => 'auth'], function ()
 {
     Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'DashboardController@index']);
+    
+    Route::group(['prefix' => 'user'], function ()
+    {
+        Route::get('settings', ['as' => 'user.settings', 'uses' => 'WebsiteController@index']);
+        Route::get('billing', ['as' => 'user.billing', 'uses' => 'WebsiteController@index']);
+        
+    });
     
     Route::group(['prefix' => 'website'], function ()
     {
@@ -51,11 +60,11 @@ Route::group(['middleware' => 'auth'], function ()
 
 
 //auth stuff
-Route::get('auth/login', 'Auth\AuthController@login');
-Route::get('auth/register', 'Auth\AuthController@register');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
+Route::get('auth/login', ['uses' => 'Auth\AuthController@login', 'as' => 'loginGET']);
+Route::get('auth/register', ['uses' => 'Auth\AuthController@register', 'as' => 'registerGET']);
+Route::post('auth/register', ['uses' => 'Auth\AuthController@postRegister', 'as' => 'registerPOST']);
+Route::post('auth/login', ['uses' => 'Auth\AuthController@postLogin', 'as' => 'loginPOST']);
+Route::get('auth/logout', ['uses' => 'Auth\AuthController@getLogout', 'as' => 'logout']);
 
 // Password reset link request routes...
 Route::get('password/email', 'Auth\PasswordController@getEmail');

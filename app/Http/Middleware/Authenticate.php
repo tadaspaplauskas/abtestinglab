@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Auth;
 
 class Authenticate
 {
@@ -41,7 +42,12 @@ class Authenticate
                 return redirect()->guest('auth/login');
             }
         }
-
+        /* touch last user activity */
+        $user = Auth::user();
+        $user->touchActivity();
+        
+        /* end */
+        
         return $next($request);
     }
 }

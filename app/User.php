@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use DB;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -41,5 +42,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function hash()
     {
         return md5($this->id);
+    }
+    
+    public function touchActivity()
+    {
+        $this->last_activity = DB::raw('NOW()');
+        $this->save();
     }
 }

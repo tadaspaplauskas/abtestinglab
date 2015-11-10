@@ -40,11 +40,11 @@
     <div class="navbar navbar-inverse set-radius-zero">
         <div class="container">
             <div class="navbar-header">
-                <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                {{--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>-->
+                </button>--}}
                 <a class="navbar-brand" href="{{ route('dashboard') }}">
                     <img src="/assets/img/abtl_logo.png" style="height: 80px;" />
                 </a>
@@ -58,13 +58,13 @@
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
-                            <li><a  href="index.html">Dashboard</a></li>
-                            <li><a href="ui.html">UI Elements</a></li>
-                            <li><a href="table.html">Data Tables</a></li>
-                            <li><a href="forms.html">Forms</a></li>
-                             <li><a href="login.html">Login Page</a></li>
-                            <li><a class="menu-top-active" href="blank.html">Blank Page</a></li>
-
+                            <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ route('website.index') }}">Websites</a></li>
+                            <li><a href="{{ route('user.settings') }}">Settings</a></li>
+                            <li><a href="{{ route('user.billing') }}">Billing</a></li>
+                            <li><a href="{{ route('help') }}">Help</a></li>
+                            <li><a href="{{ route('contact') }}">Contact</a></li>
+                            <li><a onclick="confirmLocation('{{ route('logout') }}', 'Are you sure?')">Logout</a></li>
                         </ul>
                     </div>
                 </div>

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Website;
+use App\Models\Test;
 
 class DashboardController extends Controller
 {
@@ -16,7 +15,20 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return view('dashboard/index');
+
+        //stopped since last activity
+        $stopped = Test::disabled()
+                ->my()
+                ->where('updated_at', '<=', $this->user->last_activity)
+                ->get();
+        
+        $lastUpdated = Test::enabled()
+                ->my()
+                ->orderBy('updated_at', 'desc')
+                ->take(5)
+                ->get();
+        
+        return view('dashboard/index', compact('stopped', 'lastUpdated', 'idea'));
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Test extends Model
@@ -71,6 +72,30 @@ class Test extends Model
     public function isArchived()
     {
         return ($this->status === 'archived' ? true : false);
+    }
+    
+    public function scopeEnabled($query)
+    {
+        return $query->where('status', 'enabled');
+    }
+    
+    public function scopeDisabled($query)
+    {
+        return $query->where('status', 'disabled');
+    }
+    
+    public function scopeMy($query)
+    {
+        $user = Auth::user();
+        if (Auth::check())
+        {
+            return $query
+                ->whereRaw('website_id IN (SELECT website_id FROM websites WHERE user_id='. $user->id .')');
+        }
+        else
+        {
+            return $query->whereRaw('true = false');
+        }
     }
     
     public function originalConv()
