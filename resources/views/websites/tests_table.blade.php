@@ -69,7 +69,7 @@
                                 <span class="glyphicon glyphicon-inbox" aria-hidden="true"></span>
                                 Activate again</a></li>
                     @endif
-                    <li><a href="{{ url('tests/delete', ['id' => $test->id]) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a></li>
+                    <li><a onclick='confirmLocation("{{ url('tests/destroy', ['id' => $test->id]) }}", "Deleted tests cannot be recovered. Are you sure?")'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a></li>
                 </ul>
                 </div>
             </td>

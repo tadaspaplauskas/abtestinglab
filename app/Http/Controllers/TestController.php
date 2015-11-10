@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use Session;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Website;
 use App\Models\Test;
-use MatthiasMullie\Minify;
+use App\Jobs\MinifyCompressJS;
 
 
 class TestController extends Controller
@@ -72,7 +71,7 @@ class TestController extends Controller
         return redirect()->back();
     }
 
-    public function delete($id)
+    /*public function delete($id)
     {
         $website = Test::find($id);
 
@@ -84,18 +83,18 @@ class TestController extends Controller
         {
             return redirect('website/index');
         }
-    }
+    }*/
 
-    public function destroy(Request $request)
+    public function destroy($testID)
     {
-        $test = Test::find($request->get('test_id'));
+        $test = Test::find($testID);
         $websiteID = $test->website->id;
 
         if ($test->website->user_id === $this->user->id)
             $test->delete();
 
         Session::flash('success', 'Test deleted.');
-        return redirect('website/show/' . $websiteID);
+        return redirect()->back();
     }
     
     public function publish($websiteID)
@@ -190,12 +189,16 @@ class TestController extends Controller
         if ($website->user->id !== $this->user->id)
             return false;
         
-        $tests = $website->tests;
+        $tests = $website->enabledTests;
         $jsTests = [];
         $jsConversions = [];
         $jsPath = $website->jsPath();
         
-        if ($website->isEnabled())
+        if ($tests->isEmpty())
+        {
+            $content = '';
+        }
+        else
         {
             foreach($tests as $test)
             {
@@ -238,10 +241,6 @@ class TestController extends Controller
 
             $content = view('js.visitor', ['website' => $website, 'tests' => $returnValue]);
         }
-        else //if website is disabled, there should be no tests
-        {
-            $content = '';
-        }
         
         $return = file_put_contents($jsPath, $content, LOCK_EX);
 
@@ -256,27 +255,15 @@ class TestController extends Controller
     
     public function minifyJS($jsPath)
     {
+        //delete cache anyway
+        @unlink($jsPath . '.gz'); 
+        
+        //queue resource intense tasks
         //minify first
         if (filesize($jsPath) > 0)
         {
-            $minifier = new Minify\JS($jsPath);
-            $return = $minifier->minify($jsPath);
-            //gzip if success
-            if ($return)
-            {
-                $return = $minifier->gzip($jsPath . '.gz', 9);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            $this->dispatch(new MinifyCompressJS($jsPath));
         }
-        else
-        {
-            @unlink($jsPath . '.gz');
-            return true;
-        }
+        return true;
     }
-
 }

@@ -134,7 +134,7 @@ class WebsiteController extends Controller
         return redirect('website/index');
     }
 
-    public function enable($id)
+    /*public function enable($id)
     {
         $website = Website::where('id', $id)
                     ->where('user_id', $this->user->id)
@@ -162,8 +162,22 @@ class WebsiteController extends Controller
 
         Session::flash('success', 'Website disabled.'); 
         return redirect()->back();
-    }
+    }*/
+    
+    public function stopAllTesting($id)
+    {
+        $website = Website::where('id', $id)
+                ->where('user_id', $this->user->id)
+                ->first();
+        
+        $website->disableTests();
+        
+        $tests = new TestController;
+        $tests->generateTestsJS($website);
 
+        Session::flash('success', 'All tests are stopped for this website.'); 
+        return redirect()->back();
+    }
 
     /*********** HELPERS ****************/
     

@@ -20,6 +20,11 @@ class Website extends Model
         return $this->hasMany('App\Models\Test')->where('status', '!=', 'archived')->orderBy('created_at', 'desc');
     }
     
+    public function enabledTests()
+    {
+        return $this->hasMany('App\Models\Test')->where('status', 'enabled')->orderBy('created_at', 'desc');
+    }
+    
     public function archivedTests()
     {
         return $this->hasMany('App\Models\Test')->where('status', 'archived')->orderBy('created_at', 'desc');
@@ -74,5 +79,13 @@ class Website extends Model
         return url(self::USERS_PATH
                 . $this->user->hash() . '/' 
                 . $this->hash() . '/');
+    }
+    
+    public function disableTests()
+    {
+        foreach ($this->tests as $test)
+        {
+            $test->disable();
+        }
     }
 }

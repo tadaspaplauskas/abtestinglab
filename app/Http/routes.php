@@ -32,8 +32,9 @@ Route::group(['middleware' => 'auth'], function ()
         Route::post('update', ['as' => 'website.update', 'uses' => 'WebsiteController@update']);
         Route::get('delete/{id}', ['as' => 'website.delete', 'uses' => 'WebsiteController@delete']);
         Route::post('destroy', ['as' => 'website.destroy', 'uses' => 'WebsiteController@destroy']);
-        Route::get('enable/{id}', ['as' => 'website.enable', 'uses' => 'WebsiteController@enable']);
-        Route::get('disable/{id}', ['as' => 'website.disable', 'uses' => 'WebsiteController@disable']);
+        //Route::get('enable/{id}', ['as' => 'website.enable', 'uses' => 'WebsiteController@enable']);
+        //Route::get('disable/{id}', ['as' => 'website.disable', 'uses' => 'WebsiteController@disable']);
+        Route::get('stop/{id}', ['as' => 'website.stop', 'uses' => 'WebsiteController@stopAllTesting']);
     });
     
     Route::group(['prefix' => 'tests'], function ()
@@ -43,8 +44,8 @@ Route::group(['middleware' => 'auth'], function ()
         Route::get('publish/{id}', ['as' => 'tests.publish', 'uses' => 'TestController@publish']);
         Route::get('manager/{id}', ['as' => 'tests.manager', 'uses' => 'TestController@manager']);        
         Route::get('archive/{id}', ['as' => 'tests.archive', 'uses' => 'TestController@changeArchiveStatus']);
-        Route::get('delete/{id}', ['as' => 'tests.delete', 'uses' => 'TestController@delete']);
-        Route::post('destroy', ['as' => 'tests.destroy', 'uses' => 'TestController@destroy']);
+        //Route::get('delete/{id}', ['as' => 'tests.delete', 'uses' => 'TestController@delete']);
+        Route::get('destroy/{id}', ['as' => 'tests.destroy', 'uses' => 'TestController@destroy']);
     });
 });
 

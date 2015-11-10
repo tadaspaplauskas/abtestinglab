@@ -8,11 +8,14 @@
 
 <div class="row actions-menu">
 <div class="col-md-7 text-left">
-    <a href="{{ route('tests.manager', ['id' => $website->id]) }}" class="btn btn-primary">Manage tests</a>
+    <a href="{{ route('tests.manager', ['id' => $website->id]) }}" class="btn btn-primary">
+        Manage tests</a>
     @if ($website->unpublishedChanges() || true)
-        <a href="{{ route('tests.publish', ['id' => $website->id]) }}" class="btn btn-default">Publish test changes</a>
+        <a href="{{ route('tests.publish', ['id' => $website->id]) }}" class="btn btn-default">
+            Publish test changes</a>
     @else
-        <a class="btn btn-default disabled">Publish changes</a>
+        <a class="btn btn-default disabled">
+            Publish changes</a>
     @endif
     
     @if ($website->published_at > 0)
@@ -20,14 +23,14 @@
     @endif
 </div>
 <div class="col-md-5 text-right">
-    @if($website->isEnabled())
-        <a href="{{ route('website.disable', ['id' => $website->id]) }}" class="btn btn-default">Disable website</a>
-    @else
-        <a href="{{ route('website.enable', ['id' => $website->id]) }}" class="btn btn-default">Enable website</a>
-    @endif
+    <a href="{{ route('website.stop', ['id' => $website->id]) }}" class="btn btn-default">Stop all testing</a>    
 
-    <a href="{{ route('website.edit', ['id' => $website->id]) }}" class="btn btn-default">Edit website</a>
-    <a href="{{ route('website.delete', ['id' => $website->id]) }}" class="btn btn-danger">Delete website</a>
+    <a href="{{ route('website.edit', ['id' => $website->id]) }}" class="btn btn-default">
+        {{--<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>--}}
+        Edit website</a>
+    <a href="{{ route('website.delete', ['id' => $website->id]) }}" class="btn btn-danger">
+        {{--<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>--}}
+        Delete website</a>
 </div>
 </div>
 
