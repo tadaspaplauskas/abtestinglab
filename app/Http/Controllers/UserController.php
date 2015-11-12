@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Session;
+use Hash;
 
 class UserController extends Controller
 {
@@ -48,7 +50,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        
     }
 
     /**
@@ -70,7 +73,15 @@ class UserController extends Controller
      */
     public function edit()
     {
-        return view('user.edit', ['user' => $this->user]);
+        if (Session::has('user'))
+        {
+            $user = (object) Session::get('user');
+        }
+        else
+        {
+            $user = $this->user;
+        }
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -80,9 +91,43 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:50',
+            'email' => 'required|email|max:50',
+            'new_password' => 'min:6|same:new_password_verification',
+        ]);
+        
+        $data = $request->all();
+        $data['test_notifications'] = isset($data['test_notifications']);
+        $data['weekly_reports'] = isset($data['weekly_reports']);
+        $data['newsletter'] = isset($data['newsletter']);
+
+        if (($data['email'] !== $this->user->email || !empty($data['new_password']))
+            && (empty($data['old_password']) || !Hash::check($data['old_password'], $this->user->password)))
+        {
+            Session::flash('fail', 'Enter correct current password.');
+        }
+        else
+        {
+            if (!empty($data['new_password']) && $data['new_password'] === $data['new_password_verification'])
+            {
+                $data['password'] = Hash::make($data['new_password']);
+            }
+
+            $this->user->fill($data);
+
+            if ($this->user->save())
+            {
+                Session::flash('success', 'Changes saved.');
+            }
+            else
+            {
+                Session::flash('warning', 'Something went wrong, please try again in a minute.');
+            }
+        }
+        return redirect()->back()->with(['user' => $data]);
     }
 
     /**

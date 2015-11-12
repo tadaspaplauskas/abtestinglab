@@ -26,7 +26,8 @@ Route::group(['middleware' => 'auth'], function ()
     Route::group(['prefix' => 'user'], function ()
     {
         Route::get('settings', ['as' => 'user.settings', 'uses' => 'UserController@edit']);
-        Route::get('billing', ['as' => 'user.billing', 'uses' => 'WebsiteController@index']);
+        Route::get('billing', ['as' => 'user.billing', 'uses' => 'UserController@index']);
+        Route::post('update', ['as' => 'user.update', 'uses' => 'UserController@update']);
         
     });
     

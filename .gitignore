@@ -3,3 +3,4 @@
 /vendor
 .env
 /public/users
+/node_modules

@@ -4,6 +4,7 @@
 
 @section('content')
 
+<form role="form" method="POST" action="{{ route('user.update') }}">
 <div class="row">
 <div class="col-md-6">
     <div class="panel panel-default">
@@ -22,35 +23,30 @@
     </div>
     @endif
 
-    <form role="form" method="POST" action="{{ route('website.store') }}">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="hidden" name="website_id" value="{{ $website->id or '' }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-        <div class="form-group required">
-            <label for="url">Name</label>
-            <input name="url" id="url" type="text" class="form-control" value="{{ $website->url or '' }}">
-        </div>
-        <div class="form-group required">
-            <label for="title">Email</label>
-            <input name="title" id="title" type="text" class="form-control" value="{{ $website->title or '' }}">
-        </div>
-        <div class="form-group required">
-            <label for="title">Old password</label>
-            <input name="title" id="title" type="text" class="form-control" value="{{ $website->title or '' }}">
-        </div>
-        <hr>
-        <div class="form-group">
-            <label for="title">New password</label>
-            <input name="title" id="title" type="text" class="form-control" value="{{ $website->title or '' }}">
-        </div>
-        <div class="form-group">
-            <label for="title">Repeat new password</label>
-            <input name="title" id="title" type="text" class="form-control" value="{{ $website->title or '' }}">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
+    <div class="form-group required">
+        <label for="name">Name</label>
+        <input name="name" id="name" type="text" class="form-control" value="{{ $user->name }}">
+    </div>
+    <div class="form-group required">
+        <label for="email">Email {{ Input::old('email') }}</label>
+        <input name="email" id="email" type="text" class="form-control" value="{{ $user->email }}">
+    </div>
+    <div class="form-group required">
+        <label for="old_password">Old password</label>
+        <small>required to change email or password</small>
+        <input name="old_password" id="old_password" type="password" class="form-control">
+    </div>
+    <hr>
+    <div class="form-group">
+        <label for="new_password">New password</label>
+        <input name="new_password" id="new_password" type="password" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="new_password_verification">Repeat new password</label>
+        <input name="new_password_verification" id="new_password_verification" type="password" class="form-control">
+    </div>
     </div>
     </div>
 </div>
@@ -60,12 +56,24 @@
        Email notifications
     </div>
     <div class="panel-body">
-        Send me weekly reports
-        Send me a notification when test is completed
-        Subscribe me to AB Testing Lab newsletter (no more than one email per week)
+        <div class="form-group">
+            <input {{ $user->weekly_reports ? 'checked' : ''  }} name="weekly_reports" id="weekly_reports" type="checkbox" value="1">
+            <label for="weekly_reports"> Send me weekly reports</label>
+        </div>
+        <div class="form-group">
+            <input {{ $user->test_notifications ? 'checked' : ''  }} name="test_notifications" id="test_notifications" type="checkbox" value="1">
+            <label for="test_notifications"> Send me a notification when test is completed</label>
+        </div>
+        <div class="form-group">
+            <input {{ $user->newsletter ? 'checked' : ''  }} name="newsletter" id="newsletter" type="checkbox" value="1">
+            <label for="newsletter"> Subscribe to the newsletter (no more than once a week)</label>
+        </div>
     </div>
     </div>
 </div>
 </div>
+    
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
 
 @endsection
