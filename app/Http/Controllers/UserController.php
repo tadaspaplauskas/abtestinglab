@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    public $user;
     
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->user = Auth::user();
     }
     
     /**
@@ -66,9 +68,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        return view('user.edit', ['user' => $this->user]);
     }
 
     /**

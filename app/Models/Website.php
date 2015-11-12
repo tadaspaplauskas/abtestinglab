@@ -13,7 +13,14 @@ class Website extends Model
     
     protected $table = 'websites';
 
-    protected $fillable = ['user_id', 'status', 'url', 'title', 'token', 'deleted_at'];
+    protected $fillable = ['user_id', 
+        'status',
+        'url', 
+        'title', 
+        'token', 
+        'deleted_at',
+        'published_at',
+        'updated_at'];
     
     public function tests()
     {
@@ -44,7 +51,7 @@ class Website extends Model
     
     public function hash()
     {
-        return md5($this->id);
+        return md5($this->id); //maybe add salt here
     }
     
     public function isEnabled()
@@ -87,5 +94,16 @@ class Website extends Model
         {
             $test->disable();
         }
+    }
+    
+    public function testsCount($status = null)
+    {
+        $condition = (is_null($status) ? 'true' : 'status = "'. $status .'"');
+        $count = Test::where('website_id', $this->id)
+                ->whereRaw($condition)
+                ->count();
+        
+        print_r($count);
+        return '';
     }
 }

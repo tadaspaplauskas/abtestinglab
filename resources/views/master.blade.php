@@ -22,9 +22,9 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     
-    <script src="/assets/js/jquery-1.11.1.js"></script>
-    <script src="/assets/js/bootstrap.js"></script>
-    <script src="/assets/js/scripts.js"></script>
+    <script src="/assets/js/jquery-1.11.1.js" defer></script>
+    <script src="/assets/js/bootstrap.js" defer></script>
+    <script src="/assets/js/scripts.js" defer></script>
 </head>
 <body>
     <header>

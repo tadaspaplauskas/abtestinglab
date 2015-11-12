@@ -23,7 +23,7 @@
     @endif
 </div>
 <div class="col-md-5 text-right">
-    <a href="{{ route('website.stop', ['id' => $website->id]) }}" class="btn btn-default">Stop all testing</a>    
+    <a href="{{ route('website.stop', ['id' => $website->id]) }}" class="btn btn-default">Pause all testing</a>    
 
     <a href="{{ route('website.edit', ['id' => $website->id]) }}" class="btn btn-default">
         {{--<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>--}}

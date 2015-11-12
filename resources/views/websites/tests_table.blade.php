@@ -17,12 +17,7 @@
         @else
             <tr id="test-{{ $test->id }}">
         @endif
-            <td class="strong">
-                @if($test->isEnabled())
-                <a href="{{ route('tests.disable', ['id' => $test->id]) }}" title="Pause"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></a>
-                @elseif ($test->isDisabled())
-                <a href="{{ route('tests.enable', ['id' => $test->id]) }}" title="Enable"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a>
-                @endif
+            <td class="strong">                
                 {{ $test->title }}
             </td>
             <td class="text-right">
@@ -58,7 +53,15 @@
                         <li><a href="{{ route('tests.enable', ['id' => $test->id]) }}">Enable</a></li>
                     @endif
                     <li class="divider"></li>--}}
-                    
+                    @if($test->isEnabled())
+                    <li><a href="{{ route('tests.disable', ['id' => $test->id]) }}" title="Pause">
+                        <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+                        Pause</a></li>
+                    @elseif ($test->isDisabled())
+                    <li><a href="{{ route('tests.enable', ['id' => $test->id]) }}" title="Enable">
+                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                        Resume</a></li>
+                    @endif
                     @if (!$test->isArchived())
                     <li><a href="{{ route('tests.archive', ['id' => $test->id]) }}">
                             <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
