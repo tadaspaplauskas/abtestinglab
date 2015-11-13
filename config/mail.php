@@ -15,8 +15,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
-
+    'driver' => env('MAIL_DRIVER', 'log'),
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Address
@@ -54,7 +53,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'info@abtestinglab.com', 'name' => 'A/B Testing Lab'],
 
     /*
     |--------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 @section('content')
 
 <p>
-    Started from the bottom now we're here.
+    Landing pages rock
 </p>
 
 @endsection

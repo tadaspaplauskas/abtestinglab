@@ -49,6 +49,8 @@ class ConversionController extends ApiController
                 Auth::login($website->user);
                 $testController = new TestController();
                 $testController->generateTestsJS($website);
+                
+                Event::fire(new TestCompleted($test));
             }
         }
     }
