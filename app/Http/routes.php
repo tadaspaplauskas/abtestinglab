@@ -1,9 +1,7 @@
 <?php
+use Illuminate\Support\Facades\DB;
 
-Route::get('/', ['as' => 'index', 'uses' => 'PagesController@index']);
-Route::get('about', ['as' => 'about', 'uses' => 'PagesController@about']);
-Route::get('help', ['as' => 'help', 'uses' => 'PagesController@about']);
-Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@about']);
+$token = DB::select('select token from websites where id = ?', [1]);
 
 Route::group(['prefix' => 'api', ], function () {
     
@@ -62,8 +60,8 @@ Route::group(['middleware' => 'auth'], function ()
 
 
 //auth stuff
-Route::get('auth/login', ['uses' => 'Auth\AuthController@login', 'as' => 'loginGET']);
-Route::get('auth/register', ['uses' => 'Auth\AuthController@register', 'as' => 'registerGET']);
+Route::get('auth/login', ['uses' => 'Auth\AuthController@login', 'as' => 'login']);
+Route::get('auth/register', ['uses' => 'Auth\AuthController@register', 'as' => 'register']);
 Route::post('auth/register', ['uses' => 'Auth\AuthController@postRegister', 'as' => 'registerPOST']);
 Route::post('auth/login', ['uses' => 'Auth\AuthController@postLogin', 'as' => 'loginPOST']);
 Route::get('auth/logout', ['uses' => 'Auth\AuthController@getLogout', 'as' => 'logout']);
@@ -82,3 +80,9 @@ Route::get('auth/google/callback', 'Auth\AuthController@handleProviderCallbackGo
 
 Route::get('auth/facebook', 'Auth\AuthController@redirectToProviderFacebook');
 Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallbackFacebook');
+
+
+Route::get('/', ['as' => 'index', 'uses' => 'PagesController@index']);
+Route::get('about', ['as' => 'about', 'uses' => 'PagesController@about']);
+Route::get('help', ['as' => 'help', 'uses' => 'PagesController@about']);
+Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@about']);

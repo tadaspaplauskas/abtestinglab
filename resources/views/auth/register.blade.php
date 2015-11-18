@@ -23,7 +23,7 @@
   <input name="password_confirmation" type="password" class="form-control" id="password_confirmation" placeholder="Password again" />
 </div>
 <div class="form-group">
-  <button type="submit" class="btn btn-confirm">Register</button>
+  <button type="submit" class="btn btn-confirm">Sign up</button>
 </div>
 </form>
     

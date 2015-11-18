@@ -7,8 +7,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      *
      * @var string
      */
-    protected $baseUrl = 'http://localhost';
-
+    protected $baseUrl = 'http://abtestinglab.dev';
+    protected $website = 1; //website record used for testing
+    protected $user = 1; //user used for testing
     /**
      * Creates the application.
      *

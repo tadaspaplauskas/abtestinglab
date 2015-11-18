@@ -36,15 +36,15 @@
 
 
 @if ($website->tests->isEmpty())
-    <p>Create your first test now!</p>
+    <p class="text-center">Create your first test now!</p>
 @else
     <?php $tests = $website->tests; ?>
     @include('websites.tests_table')
+    <hr>
+    <p>
+        <a href="{{ url('website/show/archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>
+    </p>
 @endif
-<hr>
-<p>
-    <a href="{{ url('website/show/archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>
-</p>
 <hr>
 <div>
 <h2>JS code</h2>

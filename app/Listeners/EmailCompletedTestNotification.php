@@ -20,10 +20,13 @@ class EmailCompletedTestNotification implements ShouldQueue
     {
         $test = $event->test;
         
-        Mail::queue('emails.test_completed', compact('test'),
-        function ($m) use ($test) {
-            $m->to($test->website->user->email, $test->website->user->name)
-            ->subject('Test "' . $test->title . '" is completed');
-        });
+        if ($test->website->user->test_notifications)
+        {
+            Mail::queue('emails.test_completed', compact('test'),
+            function ($m) use ($test) {
+                $m->to($test->website->user->email, $test->website->user->name)
+                ->subject('Test "' . $test->title . '" is completed');
+            });
+        }
     }
 }

@@ -1,0 +1,9 @@
+{
+    "baseUrl": "http://abtestinglab.dev",
+    
+    "pdo": {
+        "connection": "mysql:host=localhost;dbname=abtestinglab",
+        "username": "homestead",
+        "password": "secret"
+    }
+}

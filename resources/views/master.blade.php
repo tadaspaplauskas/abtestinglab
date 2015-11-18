@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+$loggedIn = Auth::check();
+?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -58,13 +60,20 @@
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
+                        @if($loggedIn)
                             <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             <li><a href="{{ route('website.index') }}">Websites</a></li>
                             <li><a href="{{ route('user.settings') }}">Settings</a></li>
                             <li><a href="{{ route('user.billing') }}">Billing</a></li>
-                            <li><a href="{{ route('help') }}">Help</a></li>
+                        @endif
+                            <li><a href="{{ route('help') }}">FAQ</a></li>
                             <li><a href="{{ route('contact') }}">Contact</a></li>
-                            <li><a onclick="confirmLocation('{{ route('logout') }}', 'Are you sure?')">Logout</a></li>
+                        @if($loggedIn)
+                            <li><a onclick="{{ route('logout') }}">Log out</a></li>
+                        @else
+                            <li><a href="{{ route('register') }}">Sign up</a></li>
+                            <li><a href="{{ route('login') }}">Log in</a></li>
+                        @endif
                         </ul>
                     </div>
                 </div>

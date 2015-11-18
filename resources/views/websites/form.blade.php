@@ -28,14 +28,14 @@
     
     <div class="form-group">
         <label for="url">Website url</label>
-        <input name="url" id="url" type="text" class="form-control" value="{{ $website->url or '' }}">
+        <input name="url" id="url" type="text" class="form-control" value="{{ $website->url or '' }}" placeholder="https://">
     </div>
     <div class="form-group">
         <label for="title">Website title</label>
         <input name="title" id="title" type="text" class="form-control" value="{{ $website->title or '' }}">
     </div>
     
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
 

@@ -33,7 +33,7 @@ class WebsiteController extends Controller
 
     public function store(Request $request)
     {
-        if (is_numeric($request['website_id']))
+        if ($request->has('website_id'))
         {
             $this->validate($request, [
                 'title' => 'required|max:255',
@@ -183,13 +183,13 @@ class WebsiteController extends Controller
     
     public static function createWebsitePath($website)
     {
-        $return = mkdir(public_path(self::USERS_PATH
+        $return = mkdir(public_path(Website::USERS_PATH
                 . $website->user->hash() . '/' 
                 . $website->hash()));
         
         if ($return)
         {
-            mkdir(public_path(self::USERS_PATH
+            mkdir(public_path(Website::USERS_PATH
                 . $website->user->hash() . '/' 
                 . $website->hash() . '/images'));
         } else {
