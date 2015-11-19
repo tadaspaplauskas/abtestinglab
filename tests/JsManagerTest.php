@@ -28,7 +28,7 @@ class JsManagerTest extends Selenium
         return $this->visit('/auth/login')
             ->type('tadaspaplauskas@gmail.com', 'email')
             ->type('paplauskas', 'password')
-            ->press('Sign in');//->waitForElement('menu-top'); //gotta wait, its a real browser after all
+            ->press('Log in');//->waitForElement('menu-top'); //gotta wait, its a real browser after all
     }
         
         

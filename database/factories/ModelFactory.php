@@ -11,11 +11,21 @@
 |
 */
 
-$factory->define(App\User::class, function ($faker) {
+$factory->define(App\User::class, function () {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'password' => str_random(10),
-        'remember_token' => str_random(10),
+        'name' => 'Tadas Paplauskas',
+        'email' => 'testing@abtestinglab.dev',
+        'password' => '$2y$10$FSNzRAt9gZvsrVVxLyScFe/bDxGKB8k5o5uIpv4BMHYfjtpHBTzyu',
+        'weekly_reports' => 1,
+        'test_notifications' => 1,
+        'newsletter' => 1,
+    ];
+});
+
+$factory->define(App\Models\Website::class, function () {
+    return [
+        'url' => 'abtestinglab.dev/blog.html',
+        'title' => 'Testy test',
+        'status' => 'enabled',
     ];
 });

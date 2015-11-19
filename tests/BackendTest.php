@@ -12,11 +12,11 @@ class BackendTest extends TestCase
     public function testLoginAndLogout()
     {
         $this->visit('/')
-        ->click('Sign in')
+        ->click('Log in')
         ->seePageIs('/auth/login')
         ->type('tadaspaplauskas@gmail.com', 'email')
         ->type('paplauskas', 'password')
-        ->press('Sign in')
+        ->press('Log in')
         ->see('Dashboard')
         ->visit('auth/logout')
         ->seePageIs('/');
