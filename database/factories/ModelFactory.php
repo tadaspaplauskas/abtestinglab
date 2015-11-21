@@ -29,3 +29,22 @@ $factory->define(App\Models\Website::class, function () {
         'status' => 'enabled',
     ];
 });
+
+$factory->define(App\Models\Test::class, function () {
+    return json_decode('
+        {
+            "title":"First test",
+            "test_element":"Tadas\' blog",
+            "element_type": "text",
+            "test_variation":"title",
+            "conversion_type":"time",
+            "conversion_element":"15",
+            "goal":"500"
+        }', true);
+});
+
+$factory->define(App\Models\Visitor::class, function () {
+    return [
+
+    ];
+});

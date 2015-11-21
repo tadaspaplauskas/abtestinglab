@@ -23,7 +23,7 @@ class VerifyAPIToken
         
         if (!is_null($token) && !is_null($websiteID))
         {
-            $website = Website::find($websiteID);
+            $website = Website::findOrFail($websiteID);
             if ($website->token !== $token)
             {
                 return response()->json(['error' => 'token mismatch'], 401);

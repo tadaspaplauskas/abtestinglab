@@ -24,14 +24,13 @@ class VisitorController extends ApiController
         if ($request->has('website_id'))
         {
             $visitor = Visitor::create([
-                //'hash' => DB::raw('MD5(id)'),
                 'ip' => $request->ip(),
-                'website' => $request->get('website_id'),
+                'website_id' => $request->get('website_id'),
                 'user_agent' => $request->server('HTTP_USER_AGENT')]);
-
+            
             return $visitor->id;
-            //return Visitor::find($visitor->id)->hash;
         }
+        return $this->respondError();
     }
     
     public function logVisit(Request $request)
@@ -42,13 +41,17 @@ class VisitorController extends ApiController
             return false;
         
         $visitor = Visitor::find($request->get('visitor_id'));
-
+        
+        if (!isset($visitor->id))
+        {
+            return $this->respondError('Visitor does not exist');
+        }
         //get all saved and accounted tests for visitor
         if (!empty($visitor->tests))
             $oldTests = json_decode($visitor->tests, true);
         else
             $oldTests = [];
-        
+
         $oldKeys = array_keys($oldTests);
         foreach($newTests as $testID => $variation)
         {
@@ -56,15 +59,21 @@ class VisitorController extends ApiController
             if (!in_array($testID, $oldKeys))
             {
                 $test = Test::find($testID);
-                if ($variation === 'a')
-                    $test->original_pageviews++;
-                else if ($variation === 'b')
-                    $test->variation_pageviews++;
+                if (isset($test->id))
+                {
+                    if ($variation === 'a')
+                        $test->original_pageviews++;
+                    else if ($variation === 'b')
+                        $test->variation_pageviews++;
 
-                $test->save();
+                    $test->save();
+                }
             }
         }
         $visitor->tests = json_encode($newTests);
         $visitor->save();
+
+        return $this->respondSuccess();
+
     }
 }

@@ -189,6 +189,7 @@ function apiCall(target, data, doneFn)
         }
         else
             alert('Request failed, please try again in a minute or two');
+            window.location = abtlUrl + '/website/show/' + websiteID;
     });
 }
 

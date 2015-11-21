@@ -1,8 +1,6 @@
 <?php
 use Illuminate\Support\Facades\DB;
 
-$token = DB::select('select token from websites where id = ?', [1]);
-
 Route::group(['prefix' => 'api', ], function () {
     
     //secured

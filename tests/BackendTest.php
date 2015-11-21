@@ -64,7 +64,10 @@ class BackendTest extends TestCase
             ->see('Success');
     }
     
-    
+    public function cleanup()
+    {
+        File::deleteDirectory($this->user->path());
+    }
 
     /*
     public function testRouteWebsiteShow()

@@ -5,27 +5,28 @@ namespace App\Http\Controllers\API;
 use Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Website;
+use Response;
 
 abstract class ApiController extends Controller
 {
     
     public function checkWebsiteOwner($websiteID)
     {
-        $website = Website::find($websiteID) or self::respondError('Website not found');
+        $website = Website::find($websiteID) or $this->respondError('Website not found');
 
         if ($website->user_id !== Auth::user()->id)
         {
-            self::respondError('not your website');
+            $this->respondError('not your website');
         }
     }
     
-    public static function respondError($msg = 'error')
+    public function respondError($msg = 'error')
     {
-        die(json_encode(['message' => $msg]));
+        return Response::json(['message' => $msg], 500);
     }
     
-    public static function respondSuccess($data = [])
+    public function respondSuccess($data = [])
     {
-        return json_encode($data);
+        return Response::json($data, 200);
     }
 }

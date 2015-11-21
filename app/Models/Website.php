@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\WebsiteController;
+use App\User;
 
 class Website extends Model
 {
     const JS_FILENAME = 'tests.js';
-    const USERS_PATH = 'users/';
-    
     
     protected $table = 'websites';
 
@@ -60,7 +59,7 @@ class Website extends Model
     }
     public function jsUrl()
     {
-        return url(self::USERS_PATH
+        return url(User::USERS_PATH
                 . $this->user->hash() . '/' 
                 . $this->hash() . '/'
                 . self::JS_FILENAME);
@@ -68,14 +67,14 @@ class Website extends Model
 
     public function path()
     {
-        return public_path(self::USERS_PATH
+        return public_path(User::USERS_PATH
                 . $this->user->hash() . '/' 
                 . $this->hash() . '/');
     }
     
     public function jsPath()
     {
-        return public_path(self::USERS_PATH
+        return public_path(User::USERS_PATH
                 . $this->user->hash() . '/' 
                 . $this->hash() . '/'
                 . self::JS_FILENAME);
@@ -83,7 +82,7 @@ class Website extends Model
     
     public function url()
     {
-        return url(self::USERS_PATH
+        return url(User::USERS_PATH
                 . $this->user->hash() . '/' 
                 . $this->hash() . '/');
     }

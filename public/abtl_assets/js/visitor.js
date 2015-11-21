@@ -118,14 +118,13 @@ function logVisit(tests)
             && tests !==null && tests !== undefined)
     {
         //sending to backend
-        conversionData = { visitor_id: visitor['visitor'], tests: tests };
+        var visitData = { visitor_id: visitor['visitor'], tests: tests };
         $.ajax({
             url:"/api/log_visit",
             method: 'POST',
             async: true,
-            data: conversionData});
+            data: visitData});
     }
-
 }
 
 function saveConversion(testID)

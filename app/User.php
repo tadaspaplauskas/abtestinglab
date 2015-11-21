@@ -13,6 +13,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 {
     use Authenticatable, CanResetPassword;
 
+    const USERS_PATH = 'users/';
+    
     /**
      * The database table used by the model.
      *
@@ -55,5 +57,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         $this->last_activity = DB::raw('NOW()');
         $this->save();
+    }
+    
+    public function path()
+    {
+        return public_path(self::USERS_PATH . $this->hash());
     }
 }

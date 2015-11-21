@@ -11,8 +11,9 @@ class Visitor extends Model
     protected $fillable = [
         'hash',
         'ip',
+        'website_id',
         'user_agent',
-        'tests'
+        'tests',
         ];
 
     public function conversions()

@@ -41,7 +41,7 @@ class ConversionController extends ApiController
                 
                 $test->save();
             }
-            
+            //goal is reached
             if ($test->totalReach() >= $test->goal)
             {
                 $test->disable();
@@ -52,6 +52,8 @@ class ConversionController extends ApiController
                 
                 Event::fire(new TestCompleted($test));
             }
-        }
+            return $this->respondSuccess();
+        }        
+        return $this->respondError();
     }
 }

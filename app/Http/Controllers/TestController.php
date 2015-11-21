@@ -177,7 +177,7 @@ class TestController extends Controller
         $jsPath = $website->jsPath();
         $return = file_put_contents($jsPath, view('js.manager', [
             'website' => $website, 'tests' => $returnValue]), LOCK_EX);
-        
+
         if ($return)
             return $this->minifyJS($jsPath);
         else
