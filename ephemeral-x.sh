@@ -22,8 +22,8 @@ usage() {
   echo "start an Xserver on that display, then run your command."
   echo
   echo "Examples:"
-  echo "  $prog -x 'Xephyr -screen 1280x720' xterm"
-  echo "  $prog -x 'Xvnc -httpd /usr/share/vnc/classes -geometry 1024x768 -depth 24' -w "gnome-session" firefox"
+  echo "  $prog -x 'Xephyr -screen 1920x1080' xterm"
+  echo "  $prog -x 'Xvnc -httpd /usr/share/vnc/classes -geometry 1920x1080 -depth 24' -w "gnome-session" firefox"
 }
 
 quiet() {

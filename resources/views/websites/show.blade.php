@@ -36,7 +36,7 @@
 
 
 @if ($website->tests->isEmpty())
-    <p class="text-center">Create your first test now!</p>
+    <p class="text-center"><a href="{{ route('tests.manager', ['id' => $website->id]) }}">Create your first test now!</a></p>
 @else
     <?php $tests = $website->tests; ?>
     @include('websites.tests_table')

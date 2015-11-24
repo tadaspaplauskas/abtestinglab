@@ -29,7 +29,7 @@ jQuery.fn.extend({
     },
     openCustomStyle: function ()
     {
-        var container = $(this).parent(3).find('.custom-style-container');
+        var container = $(this).up(3).find('.custom-style-container');
         container.show();
         container.addClass('abtl-container-expanded');
 
@@ -48,7 +48,7 @@ jQuery.fn.extend({
     },
     closeCustomStyle: function ()
         {
-        var container = elem.up(3);        
+        var container = $(this).up(3);        
         container.removeClass('abtl-container-expanded');
         container.hide();
 

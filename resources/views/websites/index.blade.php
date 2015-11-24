@@ -37,7 +37,9 @@
             {{ $website->testsCount() }}
         </td>
         <td class="text-right">
-            {{ $website->published_at }}
+            @if ($website->published_at > 0)
+                {{ $website->published_at }}
+            @endif
         </td>
         <td class="text-right">
             <div class="btn-group">

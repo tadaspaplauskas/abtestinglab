@@ -70,7 +70,6 @@ function pickConversionElement(btn, ev)
                 && target.prop('tagName') !== 'BUTTON'
                 && !target.parents('a, button').length)
         {
-            console.log(target.parents('a, button').length);
             if (!confirm('This element doesnt appear to be optimal for click tracking. Are you sure you want to use it?'))
             return false;
         }
@@ -110,7 +109,7 @@ function pickTestElement(btn, ev)
                 var tag = $(ev.target).prop('tagName');
                 var src = $(ev.target).attr('src');
                 var parentConv = parentConversion($(ev.target));
-
+                
                 if (src !== undefined)
                     fillTest(src, tag, parentConv);
                 else
@@ -180,7 +179,7 @@ function drop(ev) {
     var src = ev.dataTransfer.getData('src');
     var width = ev.dataTransfer.getData('width');
     var height = ev.dataTransfer.getData('height');
-    var parentConversion = ev.dataTransfer.getData('parent_conversion');
+    var parentConversion = (ev.dataTransfer.getData('parent_conversion') === 'true');
 
     if (src.length)
         fillTest(src, tag, parentConversion, width, height);
@@ -227,10 +226,10 @@ function fillTest(content, tag, parentConversion, width, height)
         return false;
     }
     //is element a link? if not, prepare to select conversion
-    var conversionCheckbox = $('.tab-content .active .abtl-default-conversion-checkbox input');
+    var conversionCheckbox = $('.active .abtl-default-conversion-checkbox input');
 
     //if link - check conversion checkbox by default
-    if (tag === 'A' || parentConversion === 'true')
+    if (tag === 'A' || parentConversion == true)
     {
         conversionCheckbox.prop('checked', true);
         conversionCheckbox.change();
@@ -569,11 +568,12 @@ function saveTests()
             alert('Saved successfully');
         });
     }
+    return success;
 }
 
 function publishTests()
 {
-    saveTests();
+    if(saveTests())
     window.location = abtlUrl + '/tests/publish/' + websiteID;
 }
 

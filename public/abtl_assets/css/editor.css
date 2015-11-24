@@ -19,6 +19,12 @@
     background-color: white;
 }
 
+@media screen and (max-width: 1024px) {
+    #abtl-control, #abtl-placeholder {
+        height: 32em;
+    }
+}
+
 #abtl-control a {
     cursor: pointer;
 }
@@ -332,7 +338,7 @@
 }
 
 .abtl-input-short {
-    width: 8em !important;
+    width: 9em !important;
     display: inline !important;
 }
 
