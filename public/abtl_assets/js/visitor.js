@@ -1,10 +1,13 @@
 testsVariationsStorage = 'abtl_t_v';
 visitorStorage = 'abtl_vstr';
 
-$(document).ready(function() {
+$(document).ready(function() { 
     //do not track the manager
     if (getLocal('abtl_do_not_track') !== '1')
         applyTestsAndConversions(abtlData);
+    
+    //display body
+    $('body').css('visibility', 'initial');   
 });
 
 function applyTestsAndConversions(data)

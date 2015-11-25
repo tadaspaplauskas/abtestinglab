@@ -1,11 +1,11 @@
 <table class="table">
         <tr>
             <th class="text-center">Test</th>
-            <th class="text-right">Original conv.</th>
+            <th class="text-right">Control conv.</th>
             <th class="text-right">Variation conv.</th>
             <th class="text-right">Improvement</th>
             {{--<th class="text-right">Adaptive</th>--}}
-            <th class="text-right">Total visitors reached</th>
+            <th class="text-right">Visitors reached</th>
             <th class="text-right">Goal</th>
             <th class="text-right">Updated</th>
             <th class="text-right">Actions</th>        

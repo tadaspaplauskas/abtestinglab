@@ -27,6 +27,9 @@ $(document).ready(function() {
         toggleDragging(true);
         //cursor functionality
         toggleCursor('grab');
+        
+        //display body
+        $('body').css('visibility', 'initial');   
     }
 });
 

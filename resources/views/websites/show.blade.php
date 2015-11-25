@@ -53,7 +53,7 @@
     This code should be loaded in every page where you want to conduct tests.
 </p>
 <p>
-    <input type="text" style="width: 100%" readonly onclick="this.focus();this.select()" value='<script type="text/javascript" src="{{ $website->jsUrl() }}" async></script>'>
+    <input type="text" style="width: 100%" readonly onclick="this.focus();this.select()" value='<script type="text/javascript" src="{{ $website->jsUrl() }}" async></script><script type="text/javascript">var s=document.createElement("style");s.type="text/css";s.appendChild(document.createTextNode("body{visibility:hidden;}"));document.getElementsByTagName("head")[0].appendChild(s);setTimeout(function(){document.body.style.visibility = "initial";},500);</script>'>
 </p>
 </div>
 
