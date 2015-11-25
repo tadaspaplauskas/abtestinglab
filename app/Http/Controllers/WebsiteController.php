@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Website;
+use App\User;
 use Session;
 use App\Http\Controllers\TestController;
 
@@ -183,13 +184,13 @@ class WebsiteController extends Controller
     
     public static function createWebsitePath($website)
     {
-        $return = mkdir(public_path(Website::USERS_PATH
+        $return = mkdir(public_path(User::USERS_PATH
                 . $website->user->hash() . '/' 
                 . $website->hash()));
         
         if ($return)
         {
-            mkdir(public_path(Website::USERS_PATH
+            mkdir(public_path(User::USERS_PATH
                 . $website->user->hash() . '/' 
                 . $website->hash() . '/images'));
         } else {
