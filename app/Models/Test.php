@@ -132,9 +132,14 @@ class Test extends Model
         }
         else 
         {
-            $calc = round($calcVar / $calcOrig, 2);        
+            $calc = round(($calcVar / $calcOrig - 1) * 100, 2);        
             return $calc;
         }
+    }
+    
+    public function convDiff()
+    {
+        return $this->variationConv() - $this->originalConv();
     }
     
     public function imagePath()
@@ -154,5 +159,64 @@ class Test extends Model
         $this->original_pageviews = 0;
         $this->variation_pageviews = 0;
         return $this->save();
+    }
+    
+    public function calculateConfidence($percentage = true)
+    {
+        $controlConv = $this->original_conversion_count;
+        $controlVisitors = $this->original_pageviews;
+        
+        $variationConv = $this->variation_conversion_count;
+        $variationVisitors = $this->variation_pageviews;
+        
+        if ($controlConv === 0 || $controlVisitors === 0
+                || $variationConv === 0 || $variationVisitors === 0)
+            return 0;
+        
+        $controlP = $controlConv / $controlVisitors;
+        $variationP = $variationConv / $variationVisitors;
+        
+        $controlSE = sqrt($controlP * (1 - $controlP) / $controlVisitors);
+        $variationSE = sqrt($variationP * (1 - $variationP) / $variationVisitors);
+        
+        $zScore = ($controlP - $variationP) /
+                sqrt(pow($controlSE, 2) + pow($variationSE, 2));
+        
+        //$pValue = stats_cdf_normal($zScore, 0, 1, 1);
+        $pValue = self::cumnormdist($zScore);
+        
+        if ($pValue < 0.5)
+            $confidence = (1 - $pValue);
+        else
+            $confidence = $pValue;
+        
+        if ($percentage)
+        {
+            $confidence = round($confidence * 100);
+        }
+        
+        return $confidence;
+    }
+    
+    public static function cumNormDist($x)
+    {
+      $b1 =  0.319381530;
+      $b2 = -0.356563782;
+      $b3 =  1.781477937;
+      $b4 = -1.821255978;
+      $b5 =  1.330274429;
+      $p  =  0.2316419;
+      $c  =  0.39894228;
+
+      if($x >= 0.0) {
+          $t = 1.0 / ( 1.0 + $p * $x );
+          return (1.0 - $c * exp( -$x * $x / 2.0 ) * $t *
+          ( $t *( $t * ( $t * ( $t * $b5 + $b4 ) + $b3 ) + $b2 ) + $b1 ));
+      }
+      else {
+          $t = 1.0 / ( 1.0 - $p * $x );
+          return ( $c * exp( -$x * $x / 2.0 ) * $t *
+          ( $t *( $t * ( $t * ( $t * $b5 + $b4 ) + $b3 ) + $b2 ) + $b1 ));
+        }
     }
 }

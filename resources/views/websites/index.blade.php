@@ -37,8 +37,8 @@
             {{ $website->testsCount() }}
         </td>
         <td class="text-right">
-            @if ($website->published_at > 0)
-                {{ $website->published_at }}
+            @if ($website->published_at->timestamp > 0)
+                {{ $website->publishedAtForHumans() }}
             @endif
         </td>
         <td class="text-right">

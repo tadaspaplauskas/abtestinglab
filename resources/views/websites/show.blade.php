@@ -10,16 +10,16 @@
 <div class="col-md-7 text-left">
     <a href="{{ route('tests.manager', ['id' => $website->id]) }}" class="btn btn-primary">
         Manage tests</a>
-    @if ($website->unpublishedChanges() || true)
-        <a href="{{ route('tests.publish', ['id' => $website->id]) }}" class="btn btn-default">
-            Publish test changes</a>
+    @if ($website->unpublishedChanges())
+        <a href="{{ route('tests.publish', ['id' => $website->id]) }}" class="btn btn-primary">
+            Publish tests *</a>
     @else
         <a class="btn btn-default disabled">
-            Publish changes</a>
+            Publish tests</a>
     @endif
     
-    @if ($website->published_at > 0)
-        <small>Last published: {{ $website->published_at }}</small>
+    @if ($website->published_at->timestamp > 0)
+        <small>Last published: {{ $website->publishedAtForHumans() }}</small>
     @endif
 </div>
 <div class="col-md-5 text-right">
@@ -39,7 +39,7 @@
     <p class="text-center"><a href="{{ route('tests.manager', ['id' => $website->id]) }}">Create your first test now!</a></p>
 @else
     <?php $tests = $website->tests; ?>
-    @include('websites.tests_table')
+    @include('tests.tests_table')
     <hr>
     <p>
         <a href="{{ url('website/show/archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>

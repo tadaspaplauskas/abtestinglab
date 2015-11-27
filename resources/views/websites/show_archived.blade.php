@@ -11,7 +11,7 @@
 @else
 
     <?php $tests = $website->archivedTests; ?>
-    @include('websites.tests_table')
+    @include('tests.tests_table')
 
 @endif
 <hr>

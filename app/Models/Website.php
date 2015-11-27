@@ -21,6 +21,8 @@ class Website extends Model
         'published_at',
         'updated_at'];
     
+    protected $dates = ['created_at', 'updated_at', 'published_at', 'deleted_at'];
+    
     public function tests()
     {
         return $this->hasMany('App\Models\Test')->where('status', '!=', 'archived')->orderBy('created_at', 'desc');
@@ -104,5 +106,10 @@ class Website extends Model
         
         print_r($count);
         return '';
+    }
+    
+    public function publishedAtForHumans()
+    {
+        return $this->published_at->diffForHumans();
     }
 }

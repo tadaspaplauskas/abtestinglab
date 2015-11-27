@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use Session;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 
 use App\Models\Website;
@@ -244,7 +245,7 @@ class TestController extends Controller
         
         $return = file_put_contents($jsPath, $content, LOCK_EX);
 
-        $website->published_at = DB::raw('NOW()');
+        $website->published_at = Carbon::now();
         $website->save();
             
         if ($return !== false)

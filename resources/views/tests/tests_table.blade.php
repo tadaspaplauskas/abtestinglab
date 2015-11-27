@@ -3,7 +3,7 @@
             <th class="text-center">Test</th>
             <th class="text-right">Control conv.</th>
             <th class="text-right">Variation conv.</th>
-            <th class="text-right">Improvement</th>
+            <th class="text-right">Change</th>
             {{--<th class="text-right">Adaptive</th>--}}
             <th class="text-right">Visitors reached</th>
             <th class="text-right">Goal</th>
@@ -21,13 +21,14 @@
                 {{ $test->title }}
             </td>
             <td class="text-right">
-                {{ $test->originalConv() }} %
+                {{ $test->originalConv() }} % ({{ $test->original_conversion_count}})
             </td>
             <td class="text-right">
-                {{ $test->variationConv() }} %
+                {{ $test->variationConv() }} % ({{ $test->variation_conversion_count}})
             </td>
             <td class="text-right">
-                {{ $test->convChange() }} %
+                {{ $test->convDiff() }} %
+                ({{ $test->convChange() }} %)
             </td>
             {{--<td class="text-right">
                 {{ $test->adaptive }}
@@ -39,7 +40,10 @@
                 {{ $test->goal }}
             </td>
             <td class="text-right">
-                {{ $test->updated_at or $test->created_at }}
+                {{ $test->updated_at->diffForHumans() }}
+            </td>
+            <td class="text-right">
+                {{ $test->calculateConfidence() }}
             </td>
             <!--actions go here-->        
             <td class="text-right">
