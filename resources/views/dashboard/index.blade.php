@@ -19,10 +19,10 @@
             <ul>
                 @foreach($stopped as $test)
                 <li>
-                    <a href="{{ url('website/show', ['id' => $test->website_id]) }}#test-{{ $test->id }}">
+                    <a href="{{ route('website.show', ['id' => $test->website_id]) }}#test-{{ $test->id }}">
                         {{ $test->title }}
                     </a> in 
-                    <a href="{{ url('website/show', ['id' => $test->website_id]) }}">
+                    <a href="{{ route('website.show', ['id' => $test->website_id]) }}">
                         {{ $test->website->title }}
                     </a> 
                 </li>
@@ -41,17 +41,17 @@
         @if ($lastUpdated->isEmpty())
             <p>
                 Not much is going on here. Wanna get to the testing?<br>
-                <a href="{{ url('website/create') }}">Add a new website</a> or 
-                <a href="{{ url('website/index') }}">create new tests</a>.
+                <a href="{{ route('website.create') }}">Add a new website</a> or 
+                <a href="{{ route('website.index') }}">create new tests</a>.
             </p>
         @else
             <ul>
                 @foreach($lastUpdated as $test)
                 <li>
-                    <a href="{{ url('website/show', ['id' => $test->website_id]) }}#test-{{ $test->id }}">
+                    <a href="{{ route('website.show', ['id' => $test->website_id]) }}#test-{{ $test->id }}">
                         {{ $test->title }}
                     </a> in 
-                    <a href="{{ url('website/show', ['id' => $test->website_id]) }}">
+                    <a href="{{ route('website.show', ['id' => $test->website_id]) }}">
                         {{ $test->website->title }}
                     </a> 
                 </li>

@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return redirect('website/index');
+        return redirect('website.index');
         return view('user/dashboard');
     }
     

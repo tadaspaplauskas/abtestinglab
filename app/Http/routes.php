@@ -28,11 +28,9 @@ Route::group(['middleware' => 'auth'], function ()
         
     });
     
-    Route::group(['prefix' => 'website'], function ()
+    Route::group(['prefix' => 'websites'], function ()
     {
-        Route::get('index', ['as' => 'website.index', 'uses' => 'WebsiteController@index']);
-        Route::get('show/{id}', ['as' => 'website.show', 'uses' => 'WebsiteController@show']);
-        Route::get('show/archived/{id}', ['as' => 'website.archived', 'uses' => 'WebsiteController@showArchived']);
+        Route::get('archived/{id}', ['as' => 'website.archived', 'uses' => 'WebsiteController@showArchived']);
         Route::get('create', ['as' => 'website.create', 'uses' => 'WebsiteController@create']);
         Route::post('store', ['as' => 'website.store', 'uses' => 'WebsiteController@store']);        
         Route::get('edit/{id}', ['as' => 'website.edit', 'uses' => 'WebsiteController@edit']);    
@@ -42,6 +40,9 @@ Route::group(['middleware' => 'auth'], function ()
         //Route::get('enable/{id}', ['as' => 'website.enable', 'uses' => 'WebsiteController@enable']);
         //Route::get('disable/{id}', ['as' => 'website.disable', 'uses' => 'WebsiteController@disable']);
         Route::get('stop/{id}', ['as' => 'website.stop', 'uses' => 'WebsiteController@stopAllTesting']);
+    
+        Route::get('', ['as' => 'website.index', 'uses' => 'WebsiteController@index']);
+        Route::get('{id}', ['as' => 'website.show', 'uses' => 'WebsiteController@show']);
     });
     
     Route::group(['prefix' => 'tests'], function ()

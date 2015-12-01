@@ -42,7 +42,7 @@
     @include('tests.tests_table')
     <hr>
     <p>
-        <a href="{{ url('website/show/archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>
+        <a href="{{ route('website.archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>
     </p>
 @endif
 <hr>

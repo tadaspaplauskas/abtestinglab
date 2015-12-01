@@ -161,7 +161,7 @@ class Test extends Model
         return $this->save();
     }
     
-    public function calculateConfidence($percentage = true)
+    public function calculateSignificance($percentage = true)
     {
         $controlConv = $this->original_conversion_count;
         $controlVisitors = $this->original_pageviews;

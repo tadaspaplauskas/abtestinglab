@@ -12,11 +12,6 @@ use App\Http\Controllers\TestController;
 
 class WebsiteController extends Controller
 {
-
-
-    //kick in after n views. Arbitrary number, FIXME
-    const ADAPTIVE_CONVERSIONS_BOUNDARY = 20;
-
     function __construct()
     {
         $this->user = Auth::user();
@@ -24,36 +19,26 @@ class WebsiteController extends Controller
 
     public function index()
     {
-        return view('websites/index', ['websites' => $this->user->websites]);
+        return view('websites.index', ['websites' => $this->user->websites]);
     }
 
     public function create()
     {
-        return view('websites/form');
+        return view('websites.form');
     }
 
     public function store(Request $request)
     {
-        if ($request->has('website_id'))
-        {
-            $this->validate($request, [
-                'title' => 'required|max:255',
-                'url' => 'required',
-            ]);
-        }
-        else
-        {
-            $this->validate($request, [
-                'title' => 'required|max:255',
-                'url' => 'required|unique:websites',
-            ]);
-        }
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'url' => 'required|url',//active_url
+        ]);
 
         $request = $request->all();
         $request['user_id'] = $this->user->id;
 
-        $request['url'] = str_replace(['http://www.', 'https://www.',
-            'http://', 'https://'], '', $request['url']);
+        /*$request['url'] = str_replace(['http://www.', 'https://www.',
+            'http://', 'https://'], '', $request['url']);*/
 
         if (is_numeric($request['website_id']))
         {
@@ -71,7 +56,7 @@ class WebsiteController extends Controller
             Session::flash('success', 'Website created.'); 
         }
 
-        return redirect('website/show/' . $website->id);
+        return redirect(route('website.show', ['id' => $website->id]));
     }
 
     public function show($id)
@@ -98,11 +83,11 @@ class WebsiteController extends Controller
 
         if (isset($website->id))
         {
-            return view('websites/form', ['website' => $website]);
+            return view('websites.form', ['website' => $website]);
         }
         else
         {
-            return redirect('website/index');
+            return redirect(route('website.index'));
         }
     }
 
@@ -121,7 +106,7 @@ class WebsiteController extends Controller
         }
         else
         {
-            return redirect('website/index');
+            return redirect(route('website.index'));
         }
     }
 
@@ -132,7 +117,7 @@ class WebsiteController extends Controller
                 ->delete();
 
         Session::flash('success', 'Website deleted.'); 
-        return redirect('website/index');
+        return redirect(route('website.index'));
     }
 
     /*public function enable($id)

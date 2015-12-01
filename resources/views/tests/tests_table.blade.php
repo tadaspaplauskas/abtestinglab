@@ -1,51 +1,77 @@
-<table class="table">
+<table class="table tests-table">
         <tr>
             <th class="text-center">Test</th>
             <th class="text-right">Control conv.</th>
             <th class="text-right">Variation conv.</th>
-            <th class="text-right">Change</th>
+            <th class="text-right" title="Absolute and relative change is provided.">
+                Change
+                <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            </th>
             {{--<th class="text-right">Adaptive</th>--}}
-            <th class="text-right">Visitors reached</th>
-            <th class="text-right">Goal</th>
+            <th class="text-right" title="Ususally in statistics 95% is a sufficient significance level, but it's up to you to decide. 95% means that if you repeated the same test 100 times, the same results would be expected at least 95 times.">
+                Significance
+                <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            </th>
+            <th class="text-right">Visitors reached/Goal</th>
             <th class="text-right">Updated</th>
-            <th class="text-right">Actions</th>        
+            <th class="text-right">Actions</th>
         </tr>
 
     @foreach ($tests as $test)
-        @if($test->status === 'disabled')
+        <?php
+            $status = $test->status;
+            $controlConv = $test->originalConv();
+            $variationConv = $test->variationConv();
+            $convDiff = $test->convDiff();
+            $reach = $test->totalReach();
+            $goal = $test->goal;
+            $significance = $test->calculateSignificance();
+        ?>
+        @if($status === 'disabled')
             <tr class="test-disabled" id="test-{{ $test->id }}">
         @else
             <tr id="test-{{ $test->id }}">
         @endif
-            <td class="strong">                
-                {{ $test->title }}
+            <td class="title">
+                <strong>{{ $test->title }}</strong>
+                <div class="test-conclusion">
+                    @if($reach < $goal)
+                        The test is still running, so let's wait for it to finish.
+                    @else
+                        @if ($convDiff > 0 && $significance > 90)
+                            The variation looks promising.
+                        @elseif ($convDiff < 0 && $significance > 90)
+                            The variation underperformed. Back to the drawing board!
+                        @elseif ($convDiff > 0 && $significance < 90)
+                            The results are positive but inconclusive. Consider expanding the test reach.
+                        @elseif ($convDiff < 0 && $significance < 90)
+                            The results are negative but inconclusive. Consider expanding the test reach.
+                        @endif
+                    @endif
+                </div>
             </td>
             <td class="text-right">
-                {{ $test->originalConv() }} % ({{ $test->original_conversion_count}})
+                {{ $controlConv }} % ({{ $test->original_conversion_count}})
             </td>
             <td class="text-right">
-                {{ $test->variationConv() }} % ({{ $test->variation_conversion_count}})
+                {{ $variationConv }} % ({{ $test->variation_conversion_count}})
             </td>
-            <td class="text-right">
-                {{ $test->convDiff() }} %
-                ({{ $test->convChange() }} %)
+            <td class="text-right {{ ($convDiff < 0) ? 'bad' : (($convDiff > 0) ? 'good' : '') }}">
+                {{ $convDiff }} % / {{ $test->convChange() }} %
             </td>
             {{--<td class="text-right">
                 {{ $test->adaptive }}
-            </td>--}}            
-            <td class="text-right">
-                {{ $test->totalReach() }}
+            </td>--}}
+            <td class="text-right {{ (($significance < 90) ? 'bad' : (($significance < 95) ? 'okay' : 'good')) }}">
+                {{ $test->calculateSignificance() }} %
             </td>
             <td class="text-right">
-                {{ $test->goal }}
+                {{ $reach }}/{{ $goal }}
             </td>
             <td class="text-right">
                 {{ $test->updated_at->diffForHumans() }}
             </td>
-            <td class="text-right">
-                {{ $test->calculateConfidence() }}
-            </td>
-            <!--actions go here-->        
+            <!--actions go here-->
             <td class="text-right">
                 <div class="btn-group">
                 <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Choose <span class="caret"></span></button>
@@ -72,11 +98,11 @@
                             Archive</a>
                     </li>
                     @else
-                        <li><a onclick='confirmLocation("{{ url('tests/archive', ['id' => $test->id]) }}", "Stats will be reset to initial values if you activate this test again. Are you sure?")'>
+                        <li><a onclick='confirmLocation("{{ route('tests.archive', ['id' => $test->id]) }}", "Stats will be reset to initial values if you activate this test again. Are you sure?")'>
                                 <span class="glyphicon glyphicon-inbox" aria-hidden="true"></span>
                                 Activate again</a></li>
                     @endif
-                    <li><a onclick='confirmLocation("{{ url('tests/destroy', ['id' => $test->id]) }}", "Deleted tests cannot be recovered. Are you sure?")'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a></li>
+                    <li><a onclick='confirmLocation("{{ route('tests.destroy', ['id' => $test->id]) }}", "Deleted tests cannot be recovered. Are you sure?")'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a></li>
                 </ul>
                 </div>
             </td>

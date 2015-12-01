@@ -323,7 +323,7 @@ footer {
     background-color: antiquewhite;
 }
 
-.table .glyphicon {
+.td .glyphicon {
     margin: 0.75em;
 }
 
@@ -342,4 +342,32 @@ a {
 .form-group.required label:after {
   content: " *";
   color: red;
+}
+
+.bad {
+    color: red;
+}
+
+.okay {
+    color: #EDD028;
+}
+
+.good {
+    color: green;
+}
+
+.tests-table .test-conclusion {
+    font-size: 80%;
+}
+
+.tests-table th {
+    font-size: 90%;
+}
+
+.tests-table .title {
+    width: 15em;
+}
+
+.tests-table .test-conclusion {
+    font-style: italic;
 }

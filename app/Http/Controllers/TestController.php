@@ -109,7 +109,7 @@ class TestController extends Controller
         else {
             Session::flash('fail', 'Something went wrong, please try again later.');
         }
-        return redirect('website/show/' . $website->id);
+        return redirect(route('website.show', ['id' => $website->id]));
     }
 
     public function manager($websiteID)
@@ -123,7 +123,7 @@ class TestController extends Controller
 
         if ($this->generateManagerJS($website))
         {
-            return redirect('http://abtestinglab.dev/blog.html#token=' . $token);
+            return redirect($website->url . '#token=' . $token);
         }
         else {
             Session::flash('fail', 'Something went wrong, please try again later.');
@@ -176,7 +176,7 @@ class TestController extends Controller
         $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
         $jsPath = $website->jsPath();
-        $return = file_put_contents($jsPath, view('js.manager', [
+        $return = self::filePut($jsPath, view('js.manager', [
             'website' => $website, 'tests' => $returnValue]), LOCK_EX);
 
         if ($return)
@@ -243,7 +243,7 @@ class TestController extends Controller
             $content = view('js.visitor', ['website' => $website, 'tests' => $returnValue]);
         }
         
-        $return = file_put_contents($jsPath, $content, LOCK_EX);
+        $return = self::filePut($jsPath, $content, LOCK_EX);
 
         $website->published_at = Carbon::now();
         $website->save();

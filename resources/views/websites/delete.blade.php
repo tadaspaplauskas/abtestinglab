@@ -6,7 +6,7 @@
 
 @section('content')
 
-<form role="form" method="POST" action="{{ url('website/destroy') }}">
+<form role="form" method="POST" action="{{ route('website.destroy') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="website_id" value="{{ $website->id }}">
 

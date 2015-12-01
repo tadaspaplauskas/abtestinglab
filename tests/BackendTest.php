@@ -28,9 +28,9 @@ class BackendTest extends TestCase
         $user = App\User::find(1); // used only for testing
         
         $this->actingAs($user)
-            ->visit('website/index')
+            ->visit('websites')
             ->click('Add a new one')
-            ->type('http://abtestinglab.dev', 'url')
+            ->type('http://abtestinglab.dev/blog.html', 'url')
             ->type('Testy test', 'title')
             ->press('Save')
             ->see('Success!')

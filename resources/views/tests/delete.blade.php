@@ -6,7 +6,7 @@
 
 @section('content')
 
-<form role="form" method="POST" action="{{ url('tests/destroy') }}">
+<form role="form" method="POST" action="{{ route('tests.destroy') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="test_id" value="{{ $test->id }}">
 
