@@ -185,11 +185,10 @@ function apiCall(target, data, doneFn)
         if (response.status === 400 || response.status === 401)
         {
             alert('Authentication failed, please open manager again');
-            window.location = abtlUrl + '/website/show/' + websiteID;
+            window.location = abtlBackUrl;
         }
         else
             alert('Request failed, please try again in a minute or two');
-            window.location = abtlUrl + '/website/show/' + websiteID;
     });
 }
 

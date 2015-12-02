@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\ApiController;
 use Image;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\FileController;
 
 use App\Models\Test;
 use App\Models\Website;
@@ -34,6 +36,7 @@ class TestController extends ApiController
         {
             foreach ($tests as $key => &$test)
             {
+                DB::beginTransaction();
                 //quick check
                 if (empty($test['from']) || empty($test['to']) || empty($test['title']))
                 {
@@ -69,6 +72,9 @@ class TestController extends ApiController
                         // not for now, but probably should in the future
                         // $img->resize(self::ONE_SIZE_WIDTH, self::ONE_SIZE_HEIGHT, function ($constraint){$constraint->aspectRatio();});
                         $umask = umask(0);
+                        
+                        //just to be sure
+                        FileController::fileDir($imagePath);                        
                         $img->save($imagePath);
                         chmod($imagePath, 0664);
                         umask($umask);
@@ -123,6 +129,8 @@ class TestController extends ApiController
 
                 $test['id'] = $testInDB->id;
                 $testsToSave[] = $testInDB->id;
+                
+                DB::commit();
             }
             Test::where('website_id', $websiteID)->whereNotIn('id', $testsToSave)->update(['status' => 'disabled']);
         }

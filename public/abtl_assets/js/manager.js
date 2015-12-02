@@ -335,7 +335,7 @@ function addTest(data)
         }
 
         //CONVERSION
-        if (data.conversion_element.length > 0)
+        if (data.conversion_element !== null && data.conversion_element.length > 0)
         {
             if (data.conversion_type === 'click')
             {

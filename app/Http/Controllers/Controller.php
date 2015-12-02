@@ -20,13 +20,4 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
         return str_random(40);
     }
     
-    public static function filePut($path, $content, $lock = LOCK_EX)
-    {
-        $dir = dirname($path);
-        if (!is_dir($dir))
-        {
-            mkdir($dir);
-        }
-        return file_put_contents($path, $content, $lock);
-    }
 }

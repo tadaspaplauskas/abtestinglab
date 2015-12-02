@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Website;
 use App\Models\Test;
-use App\Jobs\MinifyCompressJS;
+use App\Http\Controllers\FileController;
 
 
 class TestController extends Controller
@@ -176,13 +176,10 @@ class TestController extends Controller
         $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
         $jsPath = $website->jsPath();
-        $return = self::filePut($jsPath, view('js.manager', [
-            'website' => $website, 'tests' => $returnValue]), LOCK_EX);
+        
+        return FileController::put($jsPath, view('js.manager', [
+            'website' => $website, 'tests' => $returnValue]), true);
 
-        if ($return)
-            return $this->minifyJS($jsPath);
-        else
-            return false;
     }
 
     public function generateTestsJS($website)
@@ -243,28 +240,12 @@ class TestController extends Controller
             $content = view('js.visitor', ['website' => $website, 'tests' => $returnValue]);
         }
         
-        $return = self::filePut($jsPath, $content, LOCK_EX);
+        $return = FileController::put($jsPath, $content, true);
 
         $website->published_at = Carbon::now();
         $website->save();
             
-        if ($return !== false)
-            return $this->minifyJS($jsPath);
-        else
-            return false;
+        return $return;
     }
-    
-    public function minifyJS($jsPath)
-    {
-        //delete cache anyway
-        @unlink($jsPath . '.gz'); 
-        
-        //queue resource intense tasks
-        //minify first
-        if (filesize($jsPath) > 0)
-        {
-            $this->dispatch(new MinifyCompressJS($jsPath));
-        }
-        return true;
-    }
+
 }
