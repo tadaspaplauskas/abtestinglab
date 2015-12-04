@@ -19,7 +19,8 @@ class TestController extends Controller
 
     function __construct()
     {
-        $this->user = Auth::user();
+        if (Auth::check())
+            $this->user = Auth::user();
     }
 
     public function changePublicStatus($id)
@@ -101,7 +102,9 @@ class TestController extends Controller
     public function publish($websiteID)
     {
         $website = Website::find($websiteID);
-
+        if ($website->user->id !== $this->user->id)
+            return false;
+        
         if ($this->generateTestsJS($website))
         {
             Session::flash('success', 'Published successfully.');
@@ -113,11 +116,12 @@ class TestController extends Controller
     }
 
     public function manager($websiteID)
-    {
+    {        
+        if ($website->user->id !== $this->user->id)
+            return false;
+        
         $website = Website::find($websiteID);
-
         $token = self::token();
-
         $website->token = $token;
         $website->save();
 
@@ -132,10 +136,7 @@ class TestController extends Controller
     }
 
     public function generateManagerJS($website)
-    {
-        if ($website->user->id !== $this->user->id)
-            return false;
-        
+    {        
         $tests = $website->tests;
         $jsTests = [];
         $jsConversions = [];
@@ -184,9 +185,6 @@ class TestController extends Controller
 
     public function generateTestsJS($website)
     {
-        if ($website->user->id !== $this->user->id)
-            return false;
-        
         $tests = $website->enabledTests;
         $jsTests = [];
         $jsConversions = [];

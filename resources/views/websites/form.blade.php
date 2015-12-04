@@ -35,6 +35,14 @@
         <input name="title" id="title" type="text" class="form-control" value="{{ $website->title or '' }}">
     </div>
     
+    <div class="form-group">
+        <label for="title">Keep the winning variations</label>
+        <label class="explain">
+        <input {{ ($website->keep_best_variation == 1) ? 'checked' : '' }} name="keep_best_variation" id="keep_best_variation" type="checkbox" value="1">
+        After the test is completed display the best variation on the webpage.
+        </label>
+    </div>
+    
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 

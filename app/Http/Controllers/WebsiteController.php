@@ -36,7 +36,8 @@ class WebsiteController extends Controller
 
         $request = $request->all();
         $request['user_id'] = $this->user->id;
-
+        $request['keep_best_variation'] = isset($request['keep_best_variation']);
+                
         /*$request['url'] = str_replace(['http://www.', 'https://www.',
             'http://', 'https://'], '', $request['url']);*/
 

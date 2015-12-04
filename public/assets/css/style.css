@@ -371,3 +371,8 @@ a {
 .tests-table .test-conclusion {
     font-style: italic;
 }
+
+label.explain {
+    display: block;
+    font-weight: normal;
+}

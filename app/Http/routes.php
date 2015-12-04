@@ -32,7 +32,6 @@ Route::group(['middleware' => 'auth'], function ()
     {
         Route::get('archived/{id}', ['as' => 'website.archived', 'uses' => 'WebsiteController@showArchived']);
         Route::get('create', ['as' => 'website.create', 'uses' => 'WebsiteController@create']);
-        Route::post('store', ['as' => 'website.store', 'uses' => 'WebsiteController@store']);        
         Route::get('edit/{id}', ['as' => 'website.edit', 'uses' => 'WebsiteController@edit']);    
         Route::post('update', ['as' => 'website.update', 'uses' => 'WebsiteController@update']);
         Route::get('delete/{id}', ['as' => 'website.delete', 'uses' => 'WebsiteController@delete']);
@@ -43,7 +42,8 @@ Route::group(['middleware' => 'auth'], function ()
     
         Route::get('', ['as' => 'website.index', 'uses' => 'WebsiteController@index']);
         Route::get('{id}', ['as' => 'website.show', 'uses' => 'WebsiteController@show']);
-    });
+        Route::post('', ['as' => 'website.store', 'uses' => 'WebsiteController@store']);        
+        });
     
     Route::group(['prefix' => 'tests'], function ()
     {

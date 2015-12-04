@@ -19,7 +19,9 @@ class Website extends Model
         'token', 
         'deleted_at',
         'published_at',
-        'updated_at'];
+        'updated_at',
+        'keep_best_variation',
+        ];
     
     protected $dates = ['created_at', 'updated_at', 'published_at', 'deleted_at'];
     
