@@ -48,7 +48,7 @@ jQuery.fn.extend({
     },
     closeCustomStyle: function ()
         {
-        var container = $(this).up(3);        
+        var container = $(this).up(3);
         container.removeClass('abtl-container-expanded');
         container.hide();
 
@@ -57,7 +57,7 @@ jQuery.fn.extend({
         var element = getCurrentElement();
 
         if (classes.val() === prepareClassNames(element.data('class')))
-        {            
+        {
             classes.val('');
         }
         if (style.val() === prepareCSS(element.data('style')))
@@ -65,7 +65,7 @@ jQuery.fn.extend({
             style.val('');
         }
         applyActiveTest();
-    },    
+    },
     previewImageUpload: function ()
     {
         var preview = $(this).up(4).find('.image-upload-preview');
@@ -130,6 +130,7 @@ jQuery.fn.extend({
     changeTitle: function ()
     {
         link = $(this).parent().find('.abtl-pick-test');
+        $(this).parent().find('span').each(function(){ $(this).css('visibility', 'visible'); });
         link.text($(this).val());
         link.show();
         $(this).hide();
@@ -141,8 +142,7 @@ function requestNewTest()
     addTest();
     //show title input, encourage user to rename test
     $(".abtl-tab-label.active .abtl-pick-test").click();
-    $(".abtl-tab-label.active .test-title").focus();
-    $(".abtl-tab-label.active .test-title").select();
+    $(".abtl-tab-label.active .test-title").focus().select();
 }
 
 function changeIdentifierText()

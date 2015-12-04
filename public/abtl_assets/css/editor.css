@@ -26,7 +26,8 @@
 }
 
 #abtl-control a {
-    cursor: pointer;
+    cursor: pointer;    
+    padding-left: 2em;
 }
 
 #abtl-newTest, .abtl-variationTabHandle {
@@ -226,13 +227,21 @@
     cursor: text;
 }
 
-.abtl-delete-tab{
-    position: absolute;
-    top: 0;
-    right: 0.5em;
+.abtl-delete-tab {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0.1em;
     cursor: pointer;
-    font-weight: bold;
-    color: red;
+    color: #AB0000;
+    display: none;
+}
+
+.status-icon {
+    position: absolute !important;
+    top: 1em !important;
+    cursor: default;
+    color: #CECECE;    
+    margin-left: 1em;
     display: none;
 }
 

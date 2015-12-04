@@ -27,9 +27,9 @@ $(document).ready(function() {
         toggleDragging(true);
         //cursor functionality
         toggleCursor('grab');
-        
+
         //display body
-        $('body').css('visibility', 'initial');   
+        $('body').css('visibility', 'initial');
     }
 });
 
@@ -61,7 +61,7 @@ function pickConversionElement(btn, ev)
     btn.prop('disabled', true);
     var message = currentObject.find('.picked-not-picked');
     btn.text('Click anywhere on the website');
-    
+
     selection = $('body');
     toggleCursor('crosshair');
 
@@ -112,7 +112,7 @@ function pickTestElement(btn, ev)
                 var tag = $(ev.target).prop('tagName');
                 var src = $(ev.target).attr('src');
                 var parentConv = parentConversion($(ev.target));
-                
+
                 if (src !== undefined)
                     fillTest(src, tag, parentConv);
                 else
@@ -266,7 +266,7 @@ function fillTest(content, tag, parentConversion, width, height)
         testImage.hide();
     }
     changeIdentifierText();
-    
+
     resetTests();
     testText.keyup();
     markChosenElements();
@@ -291,6 +291,19 @@ function addTest(data)
     newTestNav = $('#abtl-test-nav-template').clone(true).removeClass('abtl-hidden').insertAfter("#abtl-add-new-test");
     newTestNav.removeAttr('id');
     newTestNav.attr('data-tab', id);
+
+    //show specific icon
+    if (data.status !== undefined)
+    {
+        if (data.status === 'enabled')
+            newTestNav.find('.enabled').show();
+        else if (data.status === 'disabled')
+            newTestNav.find('.disabled').show();
+    }
+    else
+    {
+        newTestNav.find('.new').show();
+    }
 
     //activate!
     $("#abtl-tests-container .active, #abtl-nav-tabs .active").removeClass('active');
@@ -375,6 +388,8 @@ function chooseTest(elem)
     {
         liItem.find('.test-title').show();
         liItem.find('.abtl-pick-test').hide();
+        liItem.find('.test-title').focus().select();
+        liItem.find('span').each(function(){ $(this).css('visibility', 'hidden'); });
     }
     //activate
     else
@@ -528,7 +543,7 @@ function saveTests()
     $('#abtl-nav-tabs .abtl-tab-label[data-tab^="abtl-test-"]')
             .not('#abtl-test-template').each(function (){
         var tab = $('#' + $(this).data('tab'));
-        
+
         //check if required info is provided: element, variation, conversion, goal
         if (tab.find('.abtl-conversion-goal').val() < 100 //is goal set?
                 || (tab.find('.abtl-conversion-type').val() === 'click' && !tab.find('.abtl-default-conversion-checkbox input').prop('checked') && tab.find('.abtl-click-conversion-input').val().length === 0) //is click conv set?
@@ -554,7 +569,7 @@ function saveTests()
                         style: tab.find('.custom-style-css').val()}
         });
     });
-    
+
     if (success)
     {
         //reverse array so that newer tests are in the front
@@ -589,17 +604,17 @@ function templateBindings()
     $('#abtl-exit').prop('title', 'Exit editor now');
     $('#abtl-exit').click(function() { window.location = abtlBackUrl; });
 
-    /*************** TEMPLATE FUNCTIONALITY ****************/    
-    $('.abtl-conversion-type').change($(this).changeConversionType);    
+    /*************** TEMPLATE FUNCTIONALITY ****************/
+    $('.abtl-conversion-type').change($(this).changeConversionType);
     $('.abtl-identifier-text').change(function(){
         changeIdentifierText();
     });
-    
+
     //custom style open
     $('.abtl-cutom-style-button').click($(this).openCustomStyle);
     //custom style close
     $('.custom-style-close-button').click($(this).closeCustomStyle);
-    
+
     //image url changes
     $('.abtl-image-url').change($(this).changeImageUrl);
 
@@ -626,17 +641,17 @@ function templateBindings()
         pickConversionElement($(this), ev);
     });
 
-    $(".abtl-pick-element").click(function (ev) { 
+    $(".abtl-pick-element").click(function (ev) {
         pickTestElement($(this), ev);
     });
 
     $("#abtl-add-new-test").click(requestNewTest);
 
-    $(".abtl-tab-label .abtl-pick-test").click(function (ev) { 
-        chooseTest($(this)); 
+    $(".abtl-tab-label .abtl-pick-test").click(function (ev) {
+        chooseTest($(this));
     });
 
-    $('.abtl-delete-tab').click (function (ev) { 
+    $('.abtl-delete-tab').click (function (ev) {
         deleteTest($(this));
     });
 

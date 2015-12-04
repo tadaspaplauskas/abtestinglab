@@ -50,7 +50,7 @@ class TestController extends Controller
         $this->generateTestsJS($test->website);
         return redirect()->back();
     }
-    
+
     public function changeArchiveStatus($id)
     {
        $test = Test::find($id);
@@ -67,7 +67,7 @@ class TestController extends Controller
                 $test->nullifyStatistics();
             }
             $test->save();
-            
+
             $this->generateTestsJS($test->website);
         }
         return redirect()->back();
@@ -98,13 +98,14 @@ class TestController extends Controller
         Session::flash('success', 'Test deleted.');
         return redirect()->back();
     }
-    
+
     public function publish($websiteID)
     {
         $website = Website::find($websiteID);
+        
         if ($website->user->id !== $this->user->id)
             return false;
-        
+
         if ($this->generateTestsJS($website))
         {
             Session::flash('success', 'Published successfully.');
@@ -116,11 +117,12 @@ class TestController extends Controller
     }
 
     public function manager($websiteID)
-    {        
+    {
+        $website = Website::find($websiteID);
+
         if ($website->user->id !== $this->user->id)
             return false;
-        
-        $website = Website::find($websiteID);
+
         $token = self::token();
         $website->token = $token;
         $website->save();
@@ -136,7 +138,7 @@ class TestController extends Controller
     }
 
     public function generateManagerJS($website)
-    {        
+    {
         $tests = $website->tests;
         $jsTests = [];
         $jsConversions = [];
@@ -177,7 +179,7 @@ class TestController extends Controller
         $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
 
         $jsPath = $website->jsPath();
-        
+
         return FileController::put($jsPath, view('js.manager', [
             'website' => $website, 'tests' => $returnValue]), true);
 
@@ -189,7 +191,7 @@ class TestController extends Controller
         $jsTests = [];
         $jsConversions = [];
         $jsPath = $website->jsPath();
-        
+
         if ($tests->isEmpty())
         {
             $content = '';
@@ -237,12 +239,12 @@ class TestController extends Controller
 
             $content = view('js.visitor', ['website' => $website, 'tests' => $returnValue]);
         }
-        
+
         $return = FileController::put($jsPath, $content, true);
 
         $website->published_at = Carbon::now();
         $website->save();
-            
+
         return $return;
     }
 
