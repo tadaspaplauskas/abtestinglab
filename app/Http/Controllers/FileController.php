@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\MinifyCompressJS;
+use Image;
 
 class FileController extends Controller
 {
@@ -20,10 +21,14 @@ class FileController extends Controller
         }
         $return = file_put_contents($path, $content, LOCK_EX);
 
-        if ($return)
-            return self::minifyJS($path);
-        else
-            return false;
+        if ($minify)
+        {
+            if ($return)
+                return self::minifyJS($path);
+            else
+                return false;
+        }
+        return $return;
     }
 
     public static function minifyJS($path)
@@ -49,6 +54,21 @@ class FileController extends Controller
                 return mkdir($path);
         }
         return true;
+    }
+    
+    public static function makeImage($base64, $path)
+    {
+        $img = Image::make($base64);
+        // not for now, but probably should in the future - scaling
+        // $img->resize(self::ONE_SIZE_WIDTH, self::ONE_SIZE_HEIGHT, function ($constraint){$constraint->aspectRatio();});
+        $umask = umask(0);
+        //just to be sure that directory exists - shit happens
+        self::fileDir($path);                        
+        $img->save($path);
+        chmod($path, 0664);
+        umask($umask);
+
+        return $img;
     }
 
 }

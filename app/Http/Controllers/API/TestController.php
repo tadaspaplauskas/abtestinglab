@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\ApiController;
-use Image;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\FileController;
 
@@ -37,6 +36,7 @@ class TestController extends ApiController
             foreach ($tests as $key => &$test)
             {
                 DB::beginTransaction();
+                
                 //quick check
                 if (empty($test['from']) || empty($test['to']) || empty($test['title']))
                 {
@@ -65,19 +65,8 @@ class TestController extends ApiController
                     {
                         $base64 = str_replace(['data:image/jpeg;base64,', 'data:image/png;base64,'], '', $test['to']);
                         $base64 = base64_decode($base64);
-                        $img = Image::make($base64);
-
-                        $imagePath = $testInDB->imagePath();
-
-                        // not for now, but probably should in the future
-                        // $img->resize(self::ONE_SIZE_WIDTH, self::ONE_SIZE_HEIGHT, function ($constraint){$constraint->aspectRatio();});
-                        $umask = umask(0);
                         
-                        //just to be sure
-                        FileController::fileDir($imagePath);                        
-                        $img->save($imagePath);
-                        chmod($imagePath, 0664);
-                        umask($umask);
+                        FileController::makeImage($base64, $testInDB->imagePath());
 
                         $testInDB->test_variation = $testInDB->imageUrl();
                         $testInDB->element_type = 'image';
@@ -116,8 +105,8 @@ class TestController extends ApiController
                     $testInDB->conversion_element = $test['conversion']['conversion'];
                 }
 
-                //WHEN TO STOP THE TEST
-                $testInDB->goal_type = 'conversions';
+                // SAVE GOAL
+                $testInDB->goal_type = 'views'; // hardcoded for now. Can be 'conversions' too.
                 $testInDB->goal = $test['goal'];
 
                 $testInDB->start = '';
@@ -143,7 +132,7 @@ class TestController extends ApiController
 
         $this->checkWebsiteOwner($websiteID);
 
-        $tests = Test::where('website_id', $websiteID)
+        $tests = Test::enabled()->where('website_id', $websiteID)
                 ->orderBy('updated_at', 'desc')
                 ->get();
 
