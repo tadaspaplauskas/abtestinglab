@@ -219,4 +219,27 @@ class Test extends Model
           ( $t *( $t * ( $t * ( $t * $b5 + $b4 ) + $b3 ) + $b2 ) + $b1 ));
         }
     }
+    
+    public function getWeight()
+    {
+        //default half 50/100
+        $weight = 50;
+
+        if ($this->adaptive)
+        {
+            //kick in after n conversions. Arbitrary number
+            if (($this->variation_conversion_count + $this->original_conversion_count) > self::ADAPTIVE_CONVERSIONS_BOUNDARY)
+            {
+                $weight = $this->variation_conversion_count / $this->variation_pageviews;
+
+                if ($weight > 0.9)
+                    $weight = 0.9;
+                else if ($weight < 0.1)
+                    $weight = 0.9;
+
+                $weight = $weight * 100;
+            }
+        }
+        return $weight;
+    }
 }

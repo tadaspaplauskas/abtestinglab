@@ -47,7 +47,11 @@ class TestController extends Controller
             }
             $test->save();
         }
-        $this->generateTestsJS($test->website);
+        if ($this->refreshTestsJS($test->website))
+            Session::flash('success', 'Changes were saved and published.');
+        else
+            Session::flash('fail', 'Something went wrong, please try again later.');
+        
         return redirect()->back();
     }
 
@@ -68,8 +72,12 @@ class TestController extends Controller
             }
             $test->save();
 
-            $this->generateTestsJS($test->website);
+            if ($this->refreshTestsJS($test->website))
+                Session::flash('success', 'Changes were saved and published.');
+            else
+                Session::flash('fail', 'Something went wrong, please try again later.');
         }
+        
         return redirect()->back();
     }
 
@@ -106,7 +114,7 @@ class TestController extends Controller
         if ($website->user->id !== $this->user->id)
             return false;
 
-        if ($this->generateTestsJS($website))
+        if ($this->refreshTestsJS($website))
         {
             Session::flash('success', 'Published successfully.');
         }
@@ -136,60 +144,37 @@ class TestController extends Controller
             return redirect()->back();
         }
     }
+    
+    public function refreshTestsJS($website)
+    {
+        if (empty($website->token))
+        {
+            return $this->generateTestsJS($website);
+        }
+        else
+        {
+            return $this->generateManagerJS($website);
+        }
+    }
 
     public function generateManagerJS($website)
     {
-        $tests = $website->tests;
-        $jsTests = [];
-        $jsConversions = [];
-
-        foreach($tests as $test)
-        {
-            //default half 50/100
-            $weight = 50;
-
-            if ($test->adaptive)
-            {
-                //kick in after n conversions. Arbitrary number
-                if (($test->variation_conversion_count + $test->original_conversion_count) > self::ADAPTIVE_CONVERSIONS_BOUNDARY)
-                {
-                    $weight = $test->variation_conversion_count / $test->variation_pageviews;
-
-                    if ($weight > 0.9)
-                        $weight = 0.9;
-                    else if ($weight < 0.1)
-                        $weight = 0.9;
-
-                    $weight = $weight * 100;
-                }
-            }
-
-            $jsTests[] = ['id' => $test->id,
-                //'title' => $test->title,
-                'element' => $test->test_element,
-                'variation' => $test->test_variation,
-                'variation_weight' => $weight];
-
-            $jsConversions[] = [
-                'test_id' => $test->id,
-                'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
-                ];
-        }
-
-        $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
+        $returnValue = $this->testsArray($website->tests);
 
         $jsPath = $website->jsPath();
 
-        return FileController::put($jsPath, view('js.manager', [
-            'website' => $website, 'tests' => $returnValue]), true);
-
+        $return = FileController::put($jsPath, view('js.manager', [
+            'website' => $website, 'tests' => $returnValue]));
+        
+        $website->published_at = Carbon::now();
+        $website->save();
+        
+        return $return;
     }
 
     public function generateTestsJS($website)
     {
         $tests = $website->enabledTests;
-        $jsTests = [];
-        $jsConversions = [];
         $jsPath = $website->jsPath();
 
         if ($tests->isEmpty())
@@ -198,54 +183,41 @@ class TestController extends Controller
         }
         else
         {
-            foreach($tests as $test)
-            {
-                //default half 50/100
-                $weight = 50;
-
-                if ($test->adaptive)
-                {
-                    //kick in after n conversions. Arbitrary number
-                    if (($test->variation_conversion_count + $test->original_conversion_count) > self::ADAPTIVE_CONVERSIONS_BOUNDARY)
-                    {
-                        $weight = $test->variation_conversion_count / $test->variation_pageviews;
-
-                        if ($weight > 0.9)
-                            $weight = 0.9;
-                        else if ($weight < 0.1)
-                            $weight = 0.9;
-
-                        $weight = $weight * 100;
-                    }
-                }
-
-                $variation = $test->test_variation;
-
-                $jsTests[] = ['id' => $test->id,
-                    'element' => $test->test_element,
-                    'element_type' => $test->element_type,
-                    'variation' => $variation,
-                    'attributes' => json_decode($test->attributes),
-                    'variation_weight' => $weight];
-
-                $jsConversions[] = [
-                    'test_id' => $test->id,
-                    'conversion_type' => $test->conversion_type,
-                    'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
-                    ];
-            }
-
-            $returnValue = ['tests' => $jsTests, 'conversions' => $jsConversions];
+            $returnValue = $this->testsArray($tests);
 
             $content = view('js.visitor', ['website' => $website, 'tests' => $returnValue]);
         }
 
-        $return = FileController::put($jsPath, $content, true);
+        $return = FileController::put($jsPath, $content);
 
         $website->published_at = Carbon::now();
         $website->save();
 
         return $return;
+    }
+    
+    public function testsArray($tests)
+    {
+        $jsTests = [];
+        $jsConversions = [];
+        
+        foreach($tests as $test)
+        {
+            $jsTests[] = ['id' => $test->id,
+                'element' => $test->test_element,
+                'element_type' => $test->element_type,
+                'variation' => $test->test_variation,
+                'attributes' => json_decode($test->attributes),
+                'variation_weight' => $test->getWeight(),
+                ];
+
+            $jsConversions[] = [
+                'test_id' => $test->id,
+                'conversion_type' => $test->conversion_type,
+                'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
+                ];
+        }
+        return ['tests' => $jsTests, 'conversions' => $jsConversions];
     }
 
 }

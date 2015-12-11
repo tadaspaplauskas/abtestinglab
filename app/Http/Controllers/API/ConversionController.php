@@ -47,7 +47,7 @@ class ConversionController extends ApiController
             {
                 $test->disable();
                 $testController = new TestController();
-                $testController->generateTestsJS($test->website);
+                $testController->refreshTestsJS($test->website);
                 
                 Event::fire(new TestCompleted($test));
             }

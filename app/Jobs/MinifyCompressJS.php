@@ -8,8 +8,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use MatthiasMullie\Minify;
 
+
+//not used now
 class MinifyCompressJS extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
@@ -33,14 +34,6 @@ class MinifyCompressJS extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
-        $minifier = new Minify\JS($this->path);
-        $return = $minifier->minify($this->path);
         
-        //gzip if success
-        if ($return)
-        {
-            $return = $minifier->gzip($this->path . '.gz', 9);
-            //return true;
-        }
     }
 }

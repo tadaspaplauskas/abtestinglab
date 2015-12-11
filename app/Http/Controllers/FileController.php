@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use MatthiasMullie\Minify;
+
 use App\Http\Controllers\Controller;
-use App\Jobs\MinifyCompressJS;
 use Image;
 
 class FileController extends Controller
@@ -21,28 +22,32 @@ class FileController extends Controller
         }
         $return = file_put_contents($path, $content, LOCK_EX);
 
-        if ($minify)
+        if ($minify && $return)
         {
-            if ($return)
-                return self::minifyJS($path);
-            else
-                return false;
+            return self::minifyJS($path);
         }
         return $return;
     }
 
     public static function minifyJS($path)
     {
-        //delete cache anyway
+        //try to delete cache anyway
         @unlink($path . '.gz');
 
         //queue resource intense tasks
         //minify first
         if (filesize($path) > 0)
         {
-            new MinifyCompressJS($path);
+            $minifier = new Minify\JS($path);
+            $return = $minifier->minify($path);
+
+            //gzip if success
+            if ($return)
+            {
+                $return = $minifier->gzip($path . '.gz', 9);
+            }
         }
-        return true;
+        return $return;
     }
 
     public static function fileDir($path)
@@ -51,7 +56,9 @@ class FileController extends Controller
         {
             $path = dirname($path);
             if (!is_dir($path))
+            {
                 return mkdir($path);
+            }
         }
         return true;
     }
