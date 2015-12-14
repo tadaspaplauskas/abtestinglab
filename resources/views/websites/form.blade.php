@@ -38,7 +38,7 @@
     <div class="form-group">
         <label for="title">Keep the winning variations</label>
         <label class="explain">
-        <input {{ ($website->keep_best_variation == 1) ? 'checked' : '' }} name="keep_best_variation" id="keep_best_variation" type="checkbox" value="1">
+        <input {{ (isset($website) && $website->keep_best_variation == 1) ? 'checked' : '' }} name="keep_best_variation" id="keep_best_variation" type="checkbox" value="1">
         Display the best performing variation after the test has completed.
         </label>
     </div>

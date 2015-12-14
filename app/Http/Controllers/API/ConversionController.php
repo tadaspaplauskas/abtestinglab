@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\ApiController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\TestController as MainTestController;
 use App\Models\Conversion;
 
 class ConversionController extends ApiController
@@ -46,7 +46,7 @@ class ConversionController extends ApiController
             if ($test->totalReach() >= $test->goal)
             {
                 $test->disable();
-                $testController = new TestController();
+                $testController = new MainTestController();
                 $testController->refreshTestsJS($test->website);
                 
                 Event::fire(new TestCompleted($test));
