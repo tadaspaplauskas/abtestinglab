@@ -21,7 +21,8 @@ function applyTestsAndConversions(data)
 
     var tests = data.tests;
     var conversions = data.conversions;
-
+    var finished = data.finished;
+    
     //looking for time conversions to apply
     for(i = 0; i < conversions.length; i++)
     {
@@ -103,10 +104,37 @@ function applyTestsAndConversions(data)
                 }
             }
         }
+        
+        //looking for finished variations to apply
+        for(i = 0; i < finished.length; i++)
+        {
+            var elementType = finished[i].element_type;
+            var element = finished[i].element;
+            var variation = finished[i].variation;
+            var attributes = finished[i].attributes || null;
+            
+            if (elementType === 'image' && customTrim($(this).attr('src')) === element)
+            {
+                $(this).attr('src', variation);
+            }
+            else if (customTrim($(this).html()) === element || customTrim($(this).attr('href')) === element)
+            {
+                $(this).html(variation);
+            }
+            if(attributes)
+            {
+                if (attributes.style !== undefined)
+                    $(this).attr('style', attributes.style);
+                if (attributes.class !== undefined)
+                    $(this).attr('class', attributes.class);
+            }
+        }
     });
     //log changes in tests and create new visitor if there is none yet
     if (JSON.stringify(getLocal(testsVariationsStorage)) != JSON.stringify(newTestVariations))
+    {
         newVisitor(newTestVariations);
+    }
     
     //saving variations for future use
     setLocal(testsVariationsStorage, newTestVariations);

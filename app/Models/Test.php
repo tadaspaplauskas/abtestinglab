@@ -84,6 +84,11 @@ class Test extends Model
         return $query->where('status', 'disabled');
     }
     
+    public function scopeNotArchived($query)
+    {
+        return $query->where('status', '!=', 'archived');
+    }
+    
     public function scopeMy($query)
     {
         $user = Auth::user();

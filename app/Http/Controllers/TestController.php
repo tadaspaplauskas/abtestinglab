@@ -159,7 +159,7 @@ class TestController extends Controller
 
     public function generateManagerJS($website)
     {
-        $returnValue = $this->testsArray($website->tests);
+        $returnValue = $this->testsArray($website);
 
         $jsPath = $website->jsPath();
 
@@ -174,17 +174,13 @@ class TestController extends Controller
 
     public function generateTestsJS($website)
     {
-        $tests = $website->enabledTests;
         $jsPath = $website->jsPath();
-
-        if ($tests->isEmpty())
+        $content = '';
+        
+        $returnValue = $this->testsArray($website);
+                
+        if (!is_null($returnValue))
         {
-            $content = '';
-        }
-        else
-        {
-            $returnValue = $this->testsArray($tests);
-
             $content = view('js.visitor', ['website' => $website, 'tests' => $returnValue]);
         }
 
@@ -196,28 +192,56 @@ class TestController extends Controller
         return $return;
     }
     
-    public function testsArray($tests)
+    public function testsArray($website)
     {
-        $jsTests = [];
-        $jsConversions = [];
+        $applyTests = [];
+        $trackConversions = [];
+        $applyFinished = [];
+        
+        $tests = $website->tests()->notArchived()->get();
+        if ($tests->isEmpty())
+            return null;
         
         foreach($tests as $test)
         {
-            $jsTests[] = ['id' => $test->id,
-                'element' => $test->test_element,
-                'element_type' => $test->element_type,
-                'variation' => $test->test_variation,
-                'attributes' => json_decode($test->attributes),
-                'variation_weight' => $test->getWeight(),
-                ];
+            //if the option is set to keep winning variation after
+            //the test is over
+            if ($website->keep_best_variation && $test->isDisabled())
+            {
+                //variation wins
+                if ($test->convDiff() > 0)
+                {
+                    $applyFinished[] = [
+                        'element' => $test->test_element,
+                        'element_type' => $test->element_type,
+                        'variation' => $test->test_variation,
+                        'attributes' => json_decode($test->attributes),
+                    ];
+                }
+                //if control wins - do nothing, it's already there
+            }
+            else if ($test->isEnabled())
+            {
+                $applyTests[] = ['id' => $test->id,
+                    'element' => $test->test_element,
+                    'element_type' => $test->element_type,
+                    'variation' => $test->test_variation,
+                    'attributes' => json_decode($test->attributes),
+                    'variation_weight' => $test->getWeight(),
+                    ];
 
-            $jsConversions[] = [
-                'test_id' => $test->id,
-                'conversion_type' => $test->conversion_type,
-                'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
-                ];
+                $trackConversions[] = [
+                    'test_id' => $test->id,
+                    'conversion_type' => $test->conversion_type,
+                    'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
+                    ];
+            }
         }
-        return ['tests' => $jsTests, 'conversions' => $jsConversions];
+        return [
+            'tests' => $applyTests,
+            'conversions' => $trackConversions,
+            'finished' => $applyFinished,    
+            ];
     }
 
 }
