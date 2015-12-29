@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => '',
-        'secret' => '',
+        'domain' => env('MAILGUN_DOMAIN', ''),
+        'secret' => env('MAILGUN_SECRET', ''),
     ],
 
     'mandrill' => [
@@ -34,7 +34,7 @@ return [
         'key'    => '',
         'secret' => '',
     ],
-    
+
     'facebook' => [
         'client_id' => '1639486112957971',
         'client_secret' => '05182b3be962d1014a37f8e78abe0fef',

@@ -19,44 +19,54 @@ $loggedIn = Auth::check();
     <link href="/assets/css/style.css" rel="stylesheet" />
     <script src="/assets/js/jquery-1.11.1.js" defer></script>
     <script src="/assets/js/bootstrap.js" defer></script>
-    <script src="/assets/js/scripts.js" defer></script>    
+    <script src="/assets/js/scripts.js" defer></script>
     <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->    
+    <![endif]-->
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <strong>Contact us: </strong>info@abtestinglab.com
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- HEADER END-->
-    <div class="navbar navbar-inverse set-radius-zero">
-        <div class="container">
+    <nav class="navbar menu-section">
+        <div class="container container-fluid">
             <div class="navbar-header">
-                {{--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>--}}
-                <a class="navbar-brand" href="{{ route('dashboard') }}">
-                    <img src="/assets/img/abtl_logo.png" style="height: 80px;" />
-                </a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                    Menu
+                </button>
+            <a class="navbar-brand" href="{{ route('dashboard') }}">
+                <img src="/assets/img/abtl_logo.png" id="header-logo" />
+            </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul id="menu-top" class="nav navbar-nav navbar-right">
+                @if($loggedIn)
+                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ route('website.index') }}">Websites</a></li>
+                    <li><a href="{{ route('user.settings') }}">Settings</a></li>
+                    <li><a href="{{ route('user.billing') }}">Billing</a></li>
+                @endif
+                    <li><a href="{{ route('help') }}">FAQ</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                @if($loggedIn)
+                    <li><a onclick="{{ route('logout') }}">Log out</a></li>
+                @else
+                    <li><a href="{{ route('register') }}">Sign up</a></li>
+                    <li><a href="{{ route('login') }}">Log in</a></li>
+                @endif
+                </ul>
             </div>
         </div>
-    </div>
-    <!-- LOGO HEADER END-->
-    <section class="menu-section">
+    </nav>
+    {{--<header class="menu-section">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-2">
+                    <a class="navbar-brand" href="{{ route('dashboard') }}">
+                        <img src="/assets/img/abtl_logo.png" id="header-logo" />
+                    </a>
+                </div>
+                <div class="col-cd-10">
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
                         @if($loggedIn)
@@ -78,11 +88,12 @@ $loggedIn = Auth::check();
                 </div>
             </div>
         </div>
-    </section>
+    </header>--}}
+
     <!-- MENU SECTION END-->
     <div class="content-wrapper">
         <div class="container">
-            @yield('breadcrumbs')          
+            @yield('breadcrumbs')
             <div class="row">
                 <div class="col-md-12">
                     <h4 class="page-head-line">@yield('title')</h4>
@@ -90,7 +101,7 @@ $loggedIn = Auth::check();
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    
+
                     @if(Session::has('success'))
                         <div class="alert alert-success">
                             <strong>Success!</strong> {{ Session::get('success') }}
@@ -106,9 +117,9 @@ $loggedIn = Auth::check();
                             <strong>Warning</strong> {{ Session::get('warning') }}
                         </div>
                     @endif
-                    
+
                     @yield('content')
-                    
+
                 </div>
             </div>
         </div>

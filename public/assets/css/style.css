@@ -20,9 +20,9 @@ body {
 .page-head-line {
     font-weight: 900;
     padding-bottom: 20px;
-    border-bottom: 2px solid #F0677C;
+    border-bottom: 2px solid #979797;
     text-transform: uppercase;
-    color: #F0677C;
+    color: #555;
     font-size: 20px;
     margin-bottom: 40px;
 }
@@ -39,47 +39,34 @@ body {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
 }
+
 .login-icon {
     height: 60px;
-width: 60px;
-padding: 13px;
-border-radius: 50%;
-font-size: 30px;
-margin-bottom: 20px;
-color: #fff;
-text-align: center;
-cursor:pointer;
-background-color:#F0677C;
--webkit-border-radius:50%;
+    width: 60px;
+    padding: 13px;
+    border-radius: 50%;
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #fff;
+    text-align: center;
+    cursor:pointer;
+    background-color:#F0677C;
+    -webkit-border-radius:50%;
     -moz-border-radius:50%;
 }
-/* =============================================================
-   HEADER SECTION STYLES
- ============================================================ */
-header {
-    background-color: #F0677C;
-    color: #fff;
-    padding: 10px;
-    text-align: right;
+
+#header-logo {
+    height: 2.9em;
 }
 
-
-/* =============================================================
-   LOGO SECTION STYLES
- ============================================================ */
 .left-div {
     padding-left: 30px;
     margin-top: 40px;
     margin-bottom: 30px;
 }
 
-.navbar-brand {
-    width: 300px;
-    padding-top: 30px;
-    color: #fff !important;
-}
-
 /* USER SETTINGS DIV */
+
 .user-settings-wrapper .nav > li > a {
     position: relative;
     display: block;
@@ -97,42 +84,42 @@ header {
     margin-top: 10px;
 }
 
-    .user-settings-wrapper li {
-        display: inline-block;
-    }
+.user-settings-wrapper li {
+    display: inline-block;
+}
 
-    .user-settings-wrapper .dropdown-settings {
-        width: 200px;
-        padding: 10px;
-    }
+.user-settings-wrapper .dropdown-settings {
+    width: 200px;
+    padding: 10px;
+}
 
-    .user-settings-wrapper .nav > li > a:hover,.user-settings-wrapper .nav > li > a:focus {
-        text-decoration: none;
-        background-color: #C36464!important;
-    }
+.user-settings-wrapper .nav > li > a:hover,.user-settings-wrapper .nav > li > a:focus {
+    background-color: #808080 !important;
+    border-color: #fff;
+}
 
-    .user-settings-wrapper img {
-        height: 64px;
-        width: 64px;
-        border: 1px solid #000000;
-    }
+.user-settings-wrapper img {
+    height: 64px;
+    width: 64px;
+    border: 1px solid #000000;
+}
 
-    .user-settings-wrapper .dropdown-menu {
-        margin: 0px;
-        border-radius: 0px!important;
-        -moz-border-radius: 0px!important;
-        -webkit-border-radius: 0px!important;
-    }
+.user-settings-wrapper .dropdown-menu {
+    margin: 0px;
+    border-radius: 0px!important;
+    -moz-border-radius: 0px!important;
+    -webkit-border-radius: 0px!important;
+}
 
-    .user-settings-wrapper .btn {
-        border-radius: 0px!important;
-        -moz-border-radius: 0px!important;
-        -webkit-border-radius: 0px!important;
-    }
+.user-settings-wrapper .btn {
+    border-radius: 0px!important;
+    -moz-border-radius: 0px!important;
+    -webkit-border-radius: 0px!important;
+}
 
-    .user-settings-wrapper .media-heading {
-        padding-top: 10px;
-    }
+.user-settings-wrapper .media-heading {
+    padding-top: 10px;
+}
 
 /* MENU LINKS SECTION*/
 
@@ -153,47 +140,46 @@ header {
 }
 
 .menu-section .nav > li > a:hover,.menu-section .nav > li > a:focus {
-    background-color: #F0677C!important;
+    background-color: #808080;
+    border-color: #fff;
 }
 
 .menu-section .dropdown-menu > li > a:hover,.menu-section .dropdown-menu > li > a:focus {
-    background-color: #F0677C!important;
+    background-color: #808080;
+    border-color: #fff;
 }
 
 .navbar-inverse {
-    background-color: #C36464;
+    background-color: #f5f5f5;
     border-color: transparent;
 }
 
 .navbar-toggle {
-    background-color: #F0677C;
+    background-color: #808080;
     border: 1px solid #fff;
+    color: #fff;
 }
 
 .navbar {
     margin-bottom: 0px;
-    height: 130px;
+    /*height: 130px;*/
 }
-/* =============================================================
-   FOOTER SECTION STYLES
- ============================================================ */
+
+/* FOOTER SECTION STYLES */
+
 footer {
     padding: 10px;
     color: #fff;
     font-size: 12px;
-    background-color: #C36464;
+    background-color: #3D3D3D;
 }
 
-    footer a, footer a:hover {
-        color: #fff;
-        text-decoration: none;
-    }
+footer a, footer a:hover {
+    color: #fff;
+    text-decoration: none;
+}
 
-/*==============================================
-    DASHBOARD  STYLES    
- =============================================*/
-
-/* DASHBOARD ICONS */
+/* DASHBOARD  STYLES */
 
 .bk-clr-one {
     background-color: #B9B739;
@@ -232,12 +218,11 @@ footer {
     margin-bottom: 50px;
 }
 
-    .dashboard-div-wrapper .progress {
-        height: 2px;
-    }
+.dashboard-div-wrapper .progress {
+    height: 2px;
+}
 
 /* NOTICE BOARD */
-
 
 .notice-board .panel {
     border-radius: 0px;
@@ -255,28 +240,29 @@ footer {
     border-bottom: 1px solid #E5E5E5;
 }
 
-    .notice-board li span {
-        margin-right: 10px;
-        border: 1px solid #DBDBDB;
-        padding: 5px;
-    }
+.notice-board li span {
+    margin-right: 10px;
+    border: 1px solid #DBDBDB;
+    padding: 5px;
+}
 
-    .notice-board li a, li a:hover {
-        text-decoration: none;
-        color: #000;
-    }
+.notice-board li a, li a:hover {
+    text-decoration: none;
+    color: #000;
+}
 
 /* SOCIAL BUTTONS */
+
 .btn-social {
     color: white;
     opacity: 0.8;
 }
 
-    .btn-social:hover {
-        color: white;
-        opacity: 1;
-        text-decoration: none;
-    }
+.btn-social:hover {
+    color: white;
+    opacity: 1;
+    text-decoration: none;
+}
 
 .btn-facebook {
     background-color: #3b5998;
@@ -294,13 +280,11 @@ footer {
     background-color: #c32f10;
 }
 
-
-/**************** NEW ****************/
+/* OTHER */
 
 .actions-menu {
     padding-bottom: 1em;
     margin-bottom: 1em;
-    /*border-bottom: 1px solid #ddd;*/
 }
 
 .strong {
@@ -320,7 +304,7 @@ footer {
 }
 
 .test-disabled {
-    background-color: antiquewhite;
+    color: #B6B6B6;
 }
 
 .td .glyphicon {

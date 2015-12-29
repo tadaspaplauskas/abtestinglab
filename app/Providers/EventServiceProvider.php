@@ -14,7 +14,16 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\TestCompleted' => [
-            'App\Listeners\EmailCompletedTestNotification',
+            'App\Listeners\EmailTestCompleted',
+        ],
+        'App\Events\UserSignedUp' => [
+            'App\Listeners\EmailWelcome',
+        ],
+        'App\Events\SubscriptionEnded' => [
+            'App\Listeners\EmailSubscriptionEnded',
+        ],
+        'App\Events\UserPaymentReceived' => [
+            'App\Listeners\EmailPaymentReceived',
         ],
     ];
 

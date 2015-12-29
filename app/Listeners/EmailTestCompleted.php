@@ -5,11 +5,9 @@ namespace App\Listeners;
 use App\Events\TestCompleted;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Models\Test;
-
 use Mail;
 
-class EmailCompletedTestNotification implements ShouldQueue
+class EmailTestCompleted implements ShouldQueue
 {    
 
     public function __construct()

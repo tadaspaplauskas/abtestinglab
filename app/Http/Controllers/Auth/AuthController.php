@@ -23,7 +23,7 @@ class AuthController extends Controller
     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
-    
+
     protected $redirectPath = '/dashboard';
 
     /**
@@ -59,23 +59,27 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        event(new App\Events\UserSignedUp($user));
+
+        return $user;
     }
-    
+
     public function login()
     {
         return view('auth/login');
     }
-    
+
     public function register()
     {
         return view('auth/register');
     }
-    
+
     public function redirectToProviderFacebook()
     {
         return Socialite::driver('facebook')->redirect();
@@ -87,7 +91,7 @@ class AuthController extends Controller
 
         // $user->token;
     }
-    
+
     public function redirectToProviderGoogle()
     {
         return Socialite::driver('google')->redirect();
