@@ -1,15 +1,12 @@
 #abtl-placeholder {
-    /*min-height:20em;*/
-    /*height: 35vh;*/
-    height: 22em;
+    height: 15em;
 }
 
 #abtl-control {
     position:fixed;
     bottom:0px;
     width:100%;
-    /*min-height:20em;*/
-    height: 22em;
+    height: 15em;
     border-top: 2px solid #ddd;
     font-size: 1em;
     white-space: nowrap;
@@ -26,7 +23,7 @@
 }
 
 #abtl-control a {
-    cursor: pointer;    
+    cursor: pointer;
     padding-left: 2em;
 }
 
@@ -55,7 +52,6 @@
 .abtl-menu {
     background-color: beige;
     padding:0.5em 0em 0em 0em;
-    /*border-bottom: 1px solid #ddd;*/
 }
 
 .abtl-menu-bar {
@@ -68,9 +64,8 @@
 
 .abtl-test {
     width: 20em;
-    border-right: 0.1em solid;
     padding: 1em;
-    height: 14.1em;
+    /*height: 14.1em;*/
     display: inline-block;
     white-space: normal;
 }
@@ -108,7 +103,6 @@
 
 .abtl-instructions {
     text-align:center;
-    margin-top: 0.5em;
     line-height: 2em;
 }
 
@@ -122,34 +116,13 @@
     width: 100%;
 }
 
-
 .abtl-tests-window {
-    height: 13em;
-    margin: auto;
-}
-
-.abtl-tests-window-smaller {
-    height: 9em !important;
-}
-
-.abtl-conversion-picker {
-    /*text-align: center;*/
-    padding-bottom: 1em;
-    margin: auto;
-    border-top: 1px solid #ddd;
-    padding-top: 0.75em;
-}
-
-.abtl-before {
-    border-right: 1px solid #ddd;
+    margin-top: 0.5em;
 }
 
 .abtl-identifier, .abtl-test-text {
     width: 100%;
     overflow:hidden;
-    text-align: center;
-
-    //min-height: 0.5em;
 }
 
 .abtl-conversion-tracking-element {
@@ -167,7 +140,7 @@
 }
 
 .abtl-cell textarea {
-    height: 60%;
+    height: 7em !important;
     resize: none;
     overflow-y: scroll;
 }
@@ -240,7 +213,7 @@
     position: absolute !important;
     top: 1em !important;
     cursor: default;
-    color: #CECECE;    
+    color: #CECECE;
     margin-left: 1em;
     display: none;
 }
@@ -258,8 +231,9 @@
 }*/
 
 .abtl-identifier-image {
-    max-height: 8em;
+    max-height: 7em;
     max-width: 20em;
+    margin: auto;
 }
 
 .abtl-image-container {
@@ -297,8 +271,8 @@
 }
 
 .abtl-test-image img{
-    max-height: 8em;
-    max-width: 15em;
+    max-height: 7em;
+    max-width: 20em;
 }
 
 .abtl-test-image div, .abtl-test-image span {
@@ -347,10 +321,40 @@
 }
 
 .abtl-input-short {
-    width: 9em !important;
+    width: initial !important;
     display: inline !important;
 }
 
 .abtl-default-conversion-checkbox {
     font-weight: normal;
+}
+
+.abtl-steps {
+    color: #8D8D8D;
+    font-style: italic;
+    cursor: pointer;
+    border-right: 1px solid #ddd;
+    height: 10em;
+}
+
+.abtl-steps li{
+    line-height: 2em;
+    /*text-decoration: underline;*/
+}
+
+.abtl-steps .active-step {
+    color: #474747;
+    font-style: normal;
+    font-weight: bold;
+}
+
+div>.abtl-step-element, div>.abtl-step-variation, div>.abtl-step-conversion, div>.abtl-step-reach {
+    display: none;
+}
+div>.active-step {
+    display: block !important;
+}
+
+.abtl-image-upload {
+    margin: auto;
 }

@@ -605,6 +605,9 @@ function templateBindings()
     $('#abtl-exit').click(function() { window.location = abtlBackUrl; });
 
     /*************** TEMPLATE FUNCTIONALITY ****************/
+
+    $('.abtl-steps li').click($(this).activateStep);
+
     $('.abtl-conversion-type').change($(this).changeConversionType);
     $('.abtl-identifier-text').change(function(){
         changeIdentifierText();

@@ -103,14 +103,17 @@ jQuery.fn.extend({
     },
     changeImageSource: function ()
     {
+        var area = $(this).up(2);
+
         if ($(this).val() === 'url')
         {
-            $(this).up(2).find('.abtl-image-url').show();
-            $(this).up(2).find('.abtl-image-upload').hide();
-        } else
+            area.find('.abtl-image-url').show();
+            area.find('.abtl-image-upload').hide();
+        }
+        else
         {
-            $(this).up(2).find('.abtl-image-url').hide();
-            $(this).up(2).find('.abtl-image-upload').show();
+            area.find('.abtl-image-url').hide();
+            area.find('.abtl-image-upload').show();
         }
     },
     changeDefaultConversationCheckbox: function ()
@@ -134,6 +137,12 @@ jQuery.fn.extend({
         link.text($(this).val());
         link.show();
         $(this).hide();
+    },
+    activateStep: function()
+    {
+        $('.active-step').removeClass('active-step');
+        $('.' + this.className).addClass('active-step');
+
     }
 });
 
