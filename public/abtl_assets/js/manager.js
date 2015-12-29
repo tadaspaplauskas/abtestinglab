@@ -292,17 +292,22 @@ function addTest(data)
     newTestNav.removeAttr('id');
     newTestNav.attr('data-tab', id);
 
-    //show specific icon
+    //style label according to test status
+    var label = newTestNav;
     if (data.status !== undefined)
     {
         if (data.status === 'enabled')
-            newTestNav.find('.enabled').show();
+        {
+            label.addClass('enabled');
+        }
         else if (data.status === 'disabled')
-            newTestNav.find('.disabled').show();
+        {
+            label.addClass('disabled');
+        }
     }
     else
     {
-        newTestNav.find('.new').show();
+        label.addClass('new');
     }
 
     //activate!

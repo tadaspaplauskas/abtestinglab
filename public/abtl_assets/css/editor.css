@@ -24,7 +24,6 @@
 
 #abtl-control a {
     cursor: pointer;
-    padding-left: 2em;
 }
 
 #abtl-newTest, .abtl-variationTabHandle {
@@ -202,10 +201,10 @@
 
 .abtl-delete-tab {
     position: absolute !important;
-    top: 0 !important;
-    right: 0.1em;
+    top: 0.2em !important;
+    right: 0.3em;
     cursor: pointer;
-    color: #AB0000;
+    color: #D9534F;
     display: none;
 }
 
@@ -357,4 +356,21 @@ div>.active-step {
 
 .abtl-image-upload {
     margin: auto;
+}
+
+.abtl-tab-label.enabled {
+}
+
+.abtl-tab-label.disabled {
+    color: #A5A5A5;
+    font-style: italic;
+    cursor: pointer;
+}
+
+.abtl-tab-label.disabled .abtl-pick-test::after {
+    content: " (paused)";
+}
+
+.abtl-tab-label.new {
+    font-weight: bold;
 }
