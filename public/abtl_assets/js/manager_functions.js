@@ -276,3 +276,66 @@ function activeTestStyle()
     return {class: current.find('.custom-style-classes').val(),
         style: current.find('.custom-style-css').val()};
 }
+
+/* make tab labels scrollable */
+function getListWidth()
+{
+  var itemsWidth = 0;
+  $('.nav-list li').each(function(){
+    var itemWidth = $(this).outerWidth();
+    itemsWidth+=itemWidth;
+  });
+  return itemsWidth;
+};
+
+function getNavWidth()
+{
+    return $('.wrapper').outerWidth();
+}
+
+function getLeftPos()
+{
+  return $('.nav-list').position().left;
+};
+
+function nextPos()
+{
+    var pos = getLeftPos() - getNavWidth();
+    if (Math.abs(pos) > getListWidth() - getNavWidth())
+        pos = (getListWidth() - getNavWidth() + em(1)) * -1;
+
+    return  pos;
+};
+
+function prevPos()
+{
+    var pos = getLeftPos() + getNavWidth();
+    if (pos > 0)
+        pos = 0;
+
+    return pos;
+};
+
+function reAdjust()
+{
+    if ((getLeftPos() * -1) + getNavWidth() < getListWidth()) {
+        $('.scroller-right').show();
+    }
+    else {
+        $('.scroller-right').hide();
+    }
+
+    if (getLeftPos() < -1) {
+        $('.scroller-left').show();
+    }
+    else {
+        $('.item').animate({left: 0});
+        $('.scroller-left').hide();
+    }
+}
+
+function em(input)
+{
+    var emSize = parseFloat($("body").css("font-size"));
+    return (emSize * input);
+}

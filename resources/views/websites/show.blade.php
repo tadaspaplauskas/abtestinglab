@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="row actions-menu">
-<div class="col-md-7 text-left">
+<div class="col-md-6 text-left">
     <a href="{{ route('tests.manager', ['id' => $website->id]) }}" class="btn btn-primary">
         Manage tests</a>
     @if ($website->unpublishedChanges())
@@ -17,13 +17,13 @@
         <a class="btn btn-default disabled">
             Publish tests</a>
     @endif
-    
+
     @if ($website->published_at->timestamp > 0)
         <small>Last published: {{ $website->publishedAtForHumans() }}</small>
     @endif
 </div>
-<div class="col-md-5 text-right">
-    <a href="{{ route('website.stop', ['id' => $website->id]) }}" class="btn btn-default">Pause all testing</a>    
+<div class="col-md-6 text-right">
+    <a href="{{ route('website.stop', ['id' => $website->id]) }}" class="btn btn-default">Pause all testing</a>
 
     <a href="{{ route('website.edit', ['id' => $website->id]) }}" class="btn btn-default">
         {{--<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>--}}

@@ -2,17 +2,21 @@
     <!--main controls-->
     <div class="abtl-menu">
         <div class="row abtl-row abtl-menu-bar">
-            <div class="col-lg-10">
-                <ul class="nav nav-tabs" id="abtl-nav-tabs">
-                    <li id="abtl-test-nav-template" class="abtl-hidden abtl-tab-label">
-                        <a class="abtl-pick-test">New test</a>
-                        <input type="text" value="New test" style="display: none" class="test-title form-control" maxlength="30">
-                        <span class="abtl-delete-tab glyphicon glyphicon-remove"></span>
-                    </li>
-                    <li id="abtl-add-new-test"><a>+ Add new</a></li>
-                </ul>
+            <div class="col-sm-10">
+                <div class="scroller scroller-left"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                <div class="scroller scroller-right"><span class="glyphicon glyphicon-chevron-right"></span></div>
+                <div class="wrapper">
+                    <ul class="nav nav-tabs nav-list" id="abtl-nav-tabs">
+                        <li id="abtl-test-nav-template" class="abtl-hidden abtl-tab-label">
+                            <a class="abtl-pick-test">New test</a>
+                            <input type="text" value="New test" style="display: none" class="test-title form-control" maxlength="30">
+                            <span class="abtl-delete-tab glyphicon glyphicon-remove"></span>
+                        </li>
+                        <li id="abtl-add-new-test"><a>+ Add new</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="col-lg-2 text-right">
+            <div class="col-sm-2 text-right">
                 <button id="abtl-save" class="btn btn-default btn-sm">Save</button>
                 <button id="abtl-publish" class="btn btn-primary btn-sm">Publish</button>
                 <button id="abtl-exit" class="btn btn-danger btn-sm">Exit</button>

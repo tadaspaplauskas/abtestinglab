@@ -51,7 +51,7 @@ class TestController extends Controller
             Session::flash('success', 'Changes were saved and published.');
         else
             Session::flash('fail', 'Something went wrong, please try again later.');
-        
+
         return redirect()->back();
     }
 
@@ -77,7 +77,7 @@ class TestController extends Controller
             else
                 Session::flash('fail', 'Something went wrong, please try again later.');
         }
-        
+
         return redirect()->back();
     }
 
@@ -110,7 +110,7 @@ class TestController extends Controller
     public function publish($websiteID)
     {
         $website = Website::find($websiteID);
-        
+
         if ($website->user->id !== $this->user->id)
             return false;
 
@@ -144,7 +144,7 @@ class TestController extends Controller
             return redirect()->back();
         }
     }
-    
+
     public function refreshTestsJS($website)
     {
         if (empty($website->token))
@@ -165,10 +165,10 @@ class TestController extends Controller
 
         $return = FileController::put($jsPath, view('js.manager', [
             'website' => $website, 'tests' => $returnValue]));
-        
-        $website->published_at = Carbon::now();
-        $website->save();
-        
+
+        /*$website->published_at = Carbon::now();
+        $website->save();*/
+
         return $return;
     }
 
@@ -176,9 +176,9 @@ class TestController extends Controller
     {
         $jsPath = $website->jsPath();
         $content = '';
-        
+
         $returnValue = $this->testsArray($website);
-                
+
         if (!is_null($returnValue))
         {
             $content = view('js.visitor', ['website' => $website, 'tests' => $returnValue]);
@@ -191,17 +191,17 @@ class TestController extends Controller
 
         return $return;
     }
-    
+
     public function testsArray($website)
     {
         $applyTests = [];
         $trackConversions = [];
         $applyFinished = [];
-        
+
         $tests = $website->tests()->notArchived()->get();
         if ($tests->isEmpty())
             return null;
-        
+
         foreach($tests as $test)
         {
             //if the option is set to keep winning variation after
@@ -240,7 +240,7 @@ class TestController extends Controller
         return [
             'tests' => $applyTests,
             'conversions' => $trackConversions,
-            'finished' => $applyFinished,    
+            'finished' => $applyFinished,
             ];
     }
 

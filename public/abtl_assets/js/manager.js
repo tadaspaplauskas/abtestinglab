@@ -382,6 +382,7 @@ function addTest(data)
         changeIdentifierText();
         applyActiveTest();
     }
+    reAdjust();
 }
 
 function chooseTest(elem)
@@ -430,6 +431,7 @@ function deleteTest(elem)
         elem.parent().remove();
         resetTests();
         applyActiveTest();
+        reAdjust();
     }
 }
 
@@ -538,6 +540,7 @@ function loadTests()
         }
         //only show when loaded
         $('#abtl-placeholder').show();
+        reAdjust();
     });
 }
 
@@ -674,5 +677,17 @@ function templateBindings()
 
     $('#abtl-publish').click(publishTests);
 
-   loadTests();
+    loadTests();
+
+    $(window).on('resize',function(e){
+        reAdjust();
+    });
+
+    $('.scroller-right').click(function() {
+        $('.nav-list').animate({ left: nextPos() }, {always: function() {reAdjust();}});
+    });
+
+    $('.scroller-left').click(function() {
+        $('.nav-list').animate({left: prevPos()}, {always: function() {reAdjust();}});
+    });
 }
