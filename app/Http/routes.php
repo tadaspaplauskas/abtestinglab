@@ -84,8 +84,15 @@ Route::get('auth/google/callback', 'Auth\AuthController@handleProviderCallbackGo
 Route::get('auth/facebook', 'Auth\AuthController@redirectToProviderFacebook');
 Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallbackFacebook');
 
+Route::group(['prefix' => 'payments', ], function () {
+    Route::get('cancel', 'PaymentController@cancel');
+    Route::get('success', 'PaymentController@success');
+
+    Route::any('received_paypal', 'PaymentController@receivedPaypal');
+});
 
 Route::get('/', ['as' => 'index', 'uses' => 'PagesController@index']);
 Route::get('about', ['as' => 'about', 'uses' => 'PagesController@about']);
 Route::get('help', ['as' => 'help', 'uses' => 'PagesController@about']);
 Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@about']);
+Route::get('pricing', ['as' => 'contact', 'uses' => 'PagesController@pricing']);

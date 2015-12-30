@@ -17,7 +17,7 @@ Breadcrumbs::register('websites', function($breadcrumbs)
 Breadcrumbs::register('website', function($breadcrumbs, $website = null)
 {
     $breadcrumbs->parent('websites');
-    
+
     if ($website !== null)
         $breadcrumbs->push($website->title, route('website.show', $website->id));
     else
