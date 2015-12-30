@@ -10,17 +10,7 @@
 <div class="col-md-6 text-left">
     <a href="{{ route('tests.manager', ['id' => $website->id]) }}" class="btn btn-primary">
         Manage tests</a>
-    @if ($website->unpublishedChanges())
-        <a href="{{ route('tests.publish', ['id' => $website->id]) }}" class="btn btn-primary">
-            Publish tests *</a>
-    @else
-        <a class="btn btn-default disabled">
-            Publish tests</a>
-    @endif
-
-    @if ($website->published_at->timestamp > 0)
-        <small>Last published: {{ $website->publishedAtForHumans() }}</small>
-    @endif
+    <small>Last changes: {{ $website->lastChangesForHumans() }}</small>
 </div>
 <div class="col-md-6 text-right">
     <a href="{{ route('website.stop', ['id' => $website->id]) }}" class="btn btn-default">Pause all testing</a>

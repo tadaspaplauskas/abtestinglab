@@ -31,10 +31,7 @@ else
         //request manager
         if (token !== null)
         {
-        
-            loadJS('{{ $publicUrl }}/manager_functions.js');
-            loadJS('{{ $publicUrl }}/manager.js');
-
+           loadJS('{{ $publicUrl }}/manager.js');
         }
         else
         {

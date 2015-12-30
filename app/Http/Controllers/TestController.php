@@ -81,20 +81,6 @@ class TestController extends Controller
         return redirect()->back();
     }
 
-    /*public function delete($id)
-    {
-        $website = Test::find($id);
-
-        if (isset($website->id))
-        {
-            return view('tests.delete', ['test' => $website]);
-        }
-        else
-        {
-            return redirect('website/index');
-        }
-    }*/
-
     public function destroy($testID)
     {
         $test = Test::find($testID);
@@ -105,23 +91,6 @@ class TestController extends Controller
 
         Session::flash('success', 'Test deleted.');
         return redirect()->back();
-    }
-
-    public function publish($websiteID)
-    {
-        $website = Website::find($websiteID);
-
-        if ($website->user->id !== $this->user->id)
-            return false;
-
-        if ($this->refreshTestsJS($website))
-        {
-            Session::flash('success', 'Published successfully.');
-        }
-        else {
-            Session::flash('fail', 'Something went wrong, please try again later.');
-        }
-        return redirect(route('website.show', ['id' => $website->id]));
     }
 
     public function manager($websiteID)
@@ -166,9 +135,6 @@ class TestController extends Controller
         $return = FileController::put($jsPath, view('js.manager', [
             'website' => $website, 'tests' => $returnValue]));
 
-        /*$website->published_at = Carbon::now();
-        $website->save();*/
-
         return $return;
     }
 
@@ -185,9 +151,6 @@ class TestController extends Controller
         }
 
         $return = FileController::put($jsPath, $content);
-
-        $website->published_at = Carbon::now();
-        $website->save();
 
         return $return;
     }

@@ -37,7 +37,7 @@ class WebsiteController extends Controller
         $request = $request->all();
         $request['user_id'] = $this->user->id;
         $request['keep_best_variation'] = isset($request['keep_best_variation']);
-                
+
         /*$request['url'] = str_replace(['http://www.', 'https://www.',
             'http://', 'https://'], '', $request['url']);*/
 
@@ -46,15 +46,15 @@ class WebsiteController extends Controller
             $website = Website::find($request['website_id']);
             $website->update($request);
             $website->save();
-            
-            Session::flash('success', 'Website updated.'); 
+
+            Session::flash('success', 'Website updated.');
         }
         else
         {
             $website = Website::create($request);
             self::createWebsitePath($website);
-            
-            Session::flash('success', 'Website created.'); 
+
+            Session::flash('success', 'Website created.');
         }
 
         return redirect(route('website.show', ['id' => $website->id]));
@@ -65,16 +65,16 @@ class WebsiteController extends Controller
         $website = Website::where('id', $id)
                 ->where('user_id', $this->user->id)
                 ->firstOrFail();
-        
+
         return view('websites.show', compact('website'));
     }
-    
+
     public function showArchived($id)
     {
         $website = Website::where('id', $id)
                 ->where('user_id', $this->user->id)
                 ->firstOrFail();
-        
+
         return view('websites.show_archived', compact('website'));
     }
 
@@ -117,71 +117,41 @@ class WebsiteController extends Controller
                 ->where('user_id', $this->user->id)
                 ->delete();
 
-        Session::flash('success', 'Website deleted.'); 
+        Session::flash('success', 'Website deleted.');
         return redirect(route('website.index'));
     }
 
-    /*public function enable($id)
-    {
-        $website = Website::where('id', $id)
-                    ->where('user_id', $this->user->id)
-                    ->first();
-                
-        $website->update(['status' => 'enabled']);
-        
-        $tests = new TestController;
-        $tests->generateTestsJS($website);
-
-        Session::flash('success', 'Website enabled.'); 
-        return redirect()->back();
-    }
-
-    public function disable($id)
-    {
-        $website = Website::where('id', $id)
-                ->where('user_id', $this->user->id)
-                ->first();
-        
-        $website->update(['status' => 'disabled']);
-        
-        $tests = new TestController;
-        $tests->generateTestsJS($website);
-
-        Session::flash('success', 'Website disabled.'); 
-        return redirect()->back();
-    }*/
-    
     public function stopAllTesting($id)
     {
         $website = Website::where('id', $id)
                 ->where('user_id', $this->user->id)
                 ->first();
-        
+
         $website->disableTests();
-        
+
         $tests = new TestController;
         $tests->generateTestsJS($website);
 
-        Session::flash('success', 'All tests are stopped for this website.'); 
+        Session::flash('success', 'All tests are stopped for this website.');
         return redirect()->back();
     }
 
     /*********** HELPERS ****************/
-    
+
     public static function createWebsitePath($website)
     {
         $return = mkdir(public_path(User::USERS_PATH
-                . $website->user->hash() . '/' 
+                . $website->user->hash() . '/'
                 . $website->hash()));
-        
+
         if ($return)
         {
             mkdir(public_path(User::USERS_PATH
-                . $website->user->hash() . '/' 
+                . $website->user->hash() . '/'
                 . $website->hash() . '/images'));
         } else {
             return false;
         }
-        return true;            
+        return true;
     }
 }

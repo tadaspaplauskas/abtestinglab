@@ -34,6 +34,7 @@ class FileController extends Controller
         //try to delete cache anyway
         @unlink($path . '.gz');
 
+        $return = false;
         //queue resource intense tasks
         //minify first
         if (filesize($path) > 0)
@@ -62,7 +63,7 @@ class FileController extends Controller
         }
         return true;
     }
-    
+
     public static function makeImage($base64, $path)
     {
         $img = Image::make($base64);
@@ -70,7 +71,7 @@ class FileController extends Controller
         // $img->resize(self::ONE_SIZE_WIDTH, self::ONE_SIZE_HEIGHT, function ($constraint){$constraint->aspectRatio();});
         $umask = umask(0);
         //just to be sure that directory exists - shit happens
-        self::fileDir($path);                        
+        self::fileDir($path);
         $img->save($path);
         chmod($path, 0664);
         umask($umask);

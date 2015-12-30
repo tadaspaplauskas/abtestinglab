@@ -9,6 +9,7 @@ use App\Http\Controllers\FileController;
 
 use App\Models\Test;
 use App\Models\Website;
+use App\Http\Controllers\TestController as TestService;
 
 class TestController extends ApiController
 {
@@ -16,7 +17,7 @@ class TestController extends ApiController
     {
     }
 
-    public function storeTests(Request $request)
+    public function storeTests(Request $request, TestService $testService)
     {
         if ($request->has('data'))
             $tests = $request->get('data');
@@ -36,7 +37,7 @@ class TestController extends ApiController
             foreach ($tests as $key => &$test)
             {
                 DB::beginTransaction();
-                
+
                 //quick check
                 if (empty($test['from']) || empty($test['to']) || empty($test['title']))
                 {
@@ -65,7 +66,7 @@ class TestController extends ApiController
                     {
                         $base64 = str_replace(['data:image/jpeg;base64,', 'data:image/png;base64,'], '', $test['to']);
                         $base64 = base64_decode($base64);
-                        
+
                         FileController::makeImage($base64, $testInDB->imagePath());
 
                         $testInDB->test_variation = $testInDB->imageUrl();
@@ -85,11 +86,11 @@ class TestController extends ApiController
                 }
                 //style attributes
                 $attr = [];
-                if (!empty($test['attributes']['class']))                    
+                if (!empty($test['attributes']['class']))
                     $attr['class'] = $test['attributes']['class'];
-                if (!empty($test['attributes']['style']))                    
+                if (!empty($test['attributes']['style']))
                     $attr['style'] = $test['attributes']['style'];
-                
+
                 if (!empty($attr))
                     $testInDB->attributes = json_encode($attr);
 
@@ -97,7 +98,7 @@ class TestController extends ApiController
                 if ($test['conversion']['type'] === 'time')
                 {
                     $testInDB->conversion_type = 'time';
-                    $testInDB->conversion_element = $test['conversion']['conversion'];   
+                    $testInDB->conversion_element = $test['conversion']['conversion'];
                 }
                 else
                 {
@@ -118,11 +119,17 @@ class TestController extends ApiController
 
                 $test['id'] = $testInDB->id;
                 $testsToSave[] = $testInDB->id;
-                
+
                 DB::commit();
             }
+
+            $testService->refreshTestsJS($website);
+
             Test::where('website_id', $websiteID)->whereNotIn('id', $testsToSave)->update(['status' => 'disabled']);
         }
+
+
+
         return self::respondSuccess($tests);
     }
 

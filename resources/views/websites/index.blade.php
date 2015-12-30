@@ -19,7 +19,7 @@
             <th class="text-center">Address</th>
             <th class="text-right">Running tests</th>
             <th class="text-right">Total tests</th>
-            <th class="text-right">Last published</th>
+            <th class="text-right">Last changes</th>
             <th class="text-right">Actions</th>
         </tr>
     @foreach ($websites as $website)
@@ -38,12 +38,12 @@
         </td>
         <td class="text-right">
             @if ($website->published_at->timestamp > 0)
-                {{ $website->publishedAtForHumans() }}
+                {{ $website->lastChangesForHumans() }}
             @endif
         </td>
         <td class="text-right">
             <div class="btn-group">
-            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Choose <span class="caret"></span></button>   
+            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Choose <span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li>
                     <a href="{{ route('tests.manager', ['id' => $website->id]) }}">
