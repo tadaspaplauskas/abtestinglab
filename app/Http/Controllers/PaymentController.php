@@ -21,65 +21,35 @@ class PaymentController extends Controller
     ];
 
     public $paypal = [
-        'url' => 'tls://www.sandbox.paypal.com', //live https://www.paypal.com/cgi-bin/webscr, sandbox https://www.sandbox.paypal.com/cgi-bin/webscr
+        'url' => 'ssl://www.sandbox.paypal.com', //live https://www.paypal.com/cgi-bin/webscr, sandbox https://www.sandbox.paypal.com/cgi-bin/webscr
         'path' => '/cgi-bin/webscr',
     ];
 
-    public $receiver_email = 'abtestinglab.com@gmail.com';
+    public $receiver_email = ['abtestinglab.com@gmail.com', 'abtestinglab.com-facilitator@gmail.com'];
 
 
 
     //handle paypal call
     public function receivedPaypal(Request $request, User $user, Payment $payment)
     {
-        $requestAll = $request->all();
-
-        //verify transaction with paypal TODO
-        $req = 'cmd=_notify-validate';
-
-        foreach ($requestAll as $key => $value)
-        {
-            $value = urlencode(stripslashes($value));
-            $req .= '&' . $key . '=' . $value;
-        }
-        $header  = "POST " . $this->paypal['path'] . " HTTP/1.1\r\n";
-        $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-        $header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
-
-        $fp = fsockopen($this->paypal['url'], 443, $errno, $errstr, 30);
-        fputs($fp, $header . $req);
-
-        $response = fgets($fp);
-        fclose($fp);
-
         //logging raw entry to have entries if stuff will go wrong
         DB::table('paypal_logs')->insert([
             'created_at' => Carbon::now()->toDateTimeString(),
             'updated_at' => Carbon::now()->toDateTimeString(),
-            'dump' => json_encode(['response' => $response] + $requestAll)
+            'dump' => json_encode($request->all())
             ]);
 
-        if (strcasecmp($response, 'VERIFIED') != 0)
-            return $this->respondError($response);
-
-
         //check if the same transaction didnt already come
-        if (Payment::where('txn_id', $request->get('txn_id'))->exists())
-            return $this->respondError('transaction logged');
+        if ($payment->where('txn_id', $request->get('txn_id'))->exists())
+            return $this->customPaypalError($request, $request->get('txn_id') . ' transaction logged');
 
         //check if status is completed - we want to count only the money that reached us
-        if (strcasecmp($request->get('payment_status'), 'completed') !== 0)
-            return $this->respondError('status not completed');
+        if (strcasecmp($request->get('payment_status'), 'Completed') !== 0)
+            return $this->customPaypalError($request, 'status not completed');
 
         //check if status is completed - we want to count only the money that reached us
-        if (strcasecmp($request->get('receiver_email'), $this->receiver_email) !== 0)
-            return $this->respondError('wrong receiver email');
-
-        //check if price is correct DISABLED FOR THE TIME BEING BECAUSE CAN CAUSE MORE PROBLEMS THAN IT SOLVES
-        /*if (!isset($this->plans[$request->get('item_name')]) ||
-            $this->plans[$request->get('item_name')]['price'] * $request->get('quantity') != floatval($request->get('mc_gross')))
-            return $this->respondError('price incorrect');
-        */
+        if (!in_array($request->get('receiver_email'), $this->receiver_email))
+            return $this->customPaypalError($request, 'wrong receiver email');
 
         //seems okay
 
@@ -91,16 +61,16 @@ class PaymentController extends Controller
             $user_id = $user->id;
 
         $visitors = 0;
-        if (isset($this->plans[$request->get('item_name')]))
+        if (isset($this->plans[$request->get('item_number')]))
         {
-            $visitors = $this->plans[$request->get('item_name')]['visitors'] * $request->get('quantity');
+            $visitors = $this->plans[$request->get('item_number')]['visitors'] * $request->get('quantity');
         }
 
-        $payment = Payment::create([
+        $payment = $payment->create([
             'user_id' => $user_id,
             'email' => $request->get('payer_email'),
             'visitors' => $visitors,
-            'plan' => $request->get('item_name'),
+            'plan' => $request->get('item_number'),
             'quantity' => $request->get('quantity'),
             'gross' => $request->get('mc_gross'),
             'txn_id' => $request->get('txn_id'),
@@ -115,7 +85,7 @@ class PaymentController extends Controller
 
     public function success(Request $request)
     {
-
+        return ' Thank you for your payment. Your transaction has been completed, and a receipt for your purchase has been emailed to you.';
 
     }
 
@@ -199,5 +169,16 @@ class PaymentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function customPaypalError($request, $msg = '')
+    {
+        if (stripos($request->header('User-Agent'), 'PayPal') === false)
+            return $this->respondError($msg);
+        else
+        {
+            //TODO implement some kind of reporting to me
+            return '';
+        }
     }
 }
