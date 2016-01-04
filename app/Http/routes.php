@@ -1,8 +1,9 @@
 <?php
 use App\User;
-
 Route::get('test', function() {
-    event(new App\Events\LogNewVisit(User::find(1)));
+    $user = User::find(1);
+
+    event(new \App\Events\TestsModified($user));
 });
 
 Route::group(['prefix' => 'api', ], function () {

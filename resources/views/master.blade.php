@@ -91,9 +91,15 @@ if ($loggedIn)
                         </div>
                     @endif
 
-                    @if(!Session::has('warning') && $loggedIn && $user->getAvailable() === 0)
+                    @if(!Session::has('warning') && $loggedIn && $user->getAvailableResources() === 0)
                         <div class="alert alert-warning">
-                            <strong>Warning</strong> All your tests have been stopped because you ran out of resources. Please <a href="{{ route('pricing') }}">buy more</a> to resume testing.
+                            <strong>Uh-oh</strong> You can no longer run any tests because you ran out of resources. Please consider <a href="{{ route('pricing') }}">purchasing more</a> to resume testing.
+                        </div>
+
+                    @elseif($loggedIn && $user->lowResources())
+                        <div class="alert alert-info">
+                            <strong>Just so you know</strong> Currently you have {{ $user->getAvailableResources() }} visitors left but you need {{ $user->getCurrentlyNeededResources() }} to complete currently running tests.
+                            <p>You've created more tests that you can run with available reach. To avoid them stopping abruptly consider <a href="{{ route('pricing') }}">securing more resources</a> or reduce the reach of your tests to avoid any hiccups.</p>
                         </div>
                     @endif
 

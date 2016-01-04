@@ -5,7 +5,7 @@
 @section('content')
 
 <p>
-You have <strong>{{ $user->getAvailable() }}</strong> unique test views left to use. Do not wait until
+You have <strong>{{ $user->getAvailableResources() }}</strong> unique test views left to use. Do not wait until
 you run out - <a href="{{ route('pricing') }} ">buy more now</a>.
 </p>
 

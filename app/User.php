@@ -36,6 +36,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'newsletter',
         'used_reach',
         'total_available_reach',
+        'low_resources_notice',
         ];
 
     /**
@@ -75,10 +76,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->used_reach <= $this->total_available_reach;
     }
 
-    public function getAvailable()
+    public function getAvailableResources()
     {
         $left = $this->total_available_reach - $this->used_reach;
 
         return $left < 0 ? 0 : $left;
+    }
+
+    public function lowResources()
+    {
+        return $this->low_resources_notice;
+    }
+
+    public function getCurrentlyNeededResources()
+    {
+         $needed = 0;
+
+        foreach($this->websites as $website)
+        {
+            $needed += $website->enabledTests()->sum(DB::raw('goal - original_pageviews - variation_pageviews'));
+        }
+
+        return $needed;
     }
 }

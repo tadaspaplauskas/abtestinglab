@@ -16,7 +16,7 @@ class CheckAvailableResources
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->getAvailable() > 0)
+        if (Auth::check() && Auth::user()->getAvailableResources() > 0)
         {
             return $next($request);
         }

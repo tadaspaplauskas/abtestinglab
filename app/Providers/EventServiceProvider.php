@@ -25,9 +25,13 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserPaymentReceived' => [
             'App\Listeners\RefreshUserResources',
             'App\Listeners\EmailPaymentReceived',
+            'App\Listeners\CheckAvailableResourcesNotice',
         ],
         'App\Events\LogNewVisit' => [
             'App\Listeners\CheckUsersResources',
+        ],
+        'App\Events\TestsModified' => [
+            'App\Listeners\CheckAvailableResourcesNotice',
         ],
     ];
 

@@ -125,6 +125,8 @@ class TestController extends ApiController
 
             $testService->refreshTestsJS($website);
 
+            event(new \App\Events\TestsModified($website->user));
+
             Test::where('website_id', $websiteID)->whereNotIn('id', $testsToSave)->update(['status' => 'disabled']);
         }
 

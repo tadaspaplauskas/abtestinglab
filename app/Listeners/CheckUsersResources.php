@@ -31,7 +31,7 @@ class CheckUsersResources
 
         $user->increment('used_reach');
 
-        if ($user->getAvailable() === 0)
+        if ($user->getAvailableResources() === 0)
         {
             $tests = new TestController;
 
