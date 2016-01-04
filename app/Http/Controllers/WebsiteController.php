@@ -130,7 +130,7 @@ class WebsiteController extends Controller
         $website->disableTests();
 
         $tests = new TestController;
-        $tests->generateTestsJS($website);
+        $tests->refreshTestsJS($website);
 
         Session::flash('success', 'All tests are stopped for this website.');
         return redirect()->back();

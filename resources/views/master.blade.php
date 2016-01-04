@@ -1,5 +1,11 @@
 <?php
 $loggedIn = Auth::check();
+
+if ($loggedIn)
+{
+    $user = Auth::user();
+}
+
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -43,9 +49,9 @@ $loggedIn = Auth::check();
                 @if($loggedIn)
                     <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ route('website.index') }}">Websites</a></li>
-                    <li><a href="{{ route('user.settings') }}">Settings</a></li>
-                    <li><a href="{{ route('user.billing') }}">Billing</a></li>
+                    <li><a href="{{ route('account') }}">Account</a></li>
                 @endif
+                    <li><a href="{{ route('pricing') }}">Pricing</a></li>
                     <li><a href="{{ route('help') }}">FAQ</a></li>
                     <li><a href="{{ route('contact') }}">Contact</a></li>
                 @if($loggedIn)
@@ -58,38 +64,6 @@ $loggedIn = Auth::check();
             </div>
         </div>
     </nav>
-    {{--<header class="menu-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2">
-                    <a class="navbar-brand" href="{{ route('dashboard') }}">
-                        <img src="/assets/img/abtl_logo.png" id="header-logo" />
-                    </a>
-                </div>
-                <div class="col-cd-10">
-                    <div class="navbar-collapse collapse ">
-                        <ul id="menu-top" class="nav navbar-nav navbar-right">
-                        @if($loggedIn)
-                            <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li><a href="{{ route('website.index') }}">Websites</a></li>
-                            <li><a href="{{ route('user.settings') }}">Settings</a></li>
-                            <li><a href="{{ route('user.billing') }}">Billing</a></li>
-                        @endif
-                            <li><a href="{{ route('help') }}">FAQ</a></li>
-                            <li><a href="{{ route('contact') }}">Contact</a></li>
-                        @if($loggedIn)
-                            <li><a onclick="{{ route('logout') }}">Log out</a></li>
-                        @else
-                            <li><a href="{{ route('register') }}">Sign up</a></li>
-                            <li><a href="{{ route('login') }}">Log in</a></li>
-                        @endif
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>--}}
-
     <!-- MENU SECTION END-->
     <div class="content-wrapper">
         <div class="container">
@@ -101,14 +75,13 @@ $loggedIn = Auth::check();
             </div>
             <div class="row">
                 <div class="col-md-12">
-
                     @if(Session::has('success'))
                         <div class="alert alert-success">
                             <strong>Success!</strong> {{ Session::get('success') }}
                         </div>
                     @endif
                     @if(Session::has('fail'))
-                        <div class="alert alert-warning">
+                        <div class="alert alert-danger">
                             <strong>Oops...</strong> {{ Session::get('fail') }}
                         </div>
                     @endif
@@ -117,6 +90,13 @@ $loggedIn = Auth::check();
                             <strong>Warning</strong> {{ Session::get('warning') }}
                         </div>
                     @endif
+
+                    @if(!Session::has('warning') && $loggedIn && $user->getAvailable() === 0)
+                        <div class="alert alert-warning">
+                            <strong>Warning</strong> All your tests have been stopped because you ran out of resources. Please <a href="{{ route('pricing') }}">buy more</a> to resume testing.
+                        </div>
+                    @endif
+
 
                     @yield('content')
 

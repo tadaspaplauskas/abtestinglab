@@ -18,4 +18,9 @@ class Payment extends Model
         'txn_id',
         'dump',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

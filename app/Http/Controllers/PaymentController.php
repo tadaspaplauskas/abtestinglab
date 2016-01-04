@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use DB;
 use Carbon\Carbon;
 
@@ -13,11 +14,12 @@ use App\Models\Payment;
 
 class PaymentController extends Controller
 {
+    private $user;
 
     public $plans = [
-        'v10' => ['visitors' => 10000, 'price' => 9],
-        'v50' => ['visitors' => 50000, 'price' => 39],
-        'v100' => ['visitors' => 100000, 'price' => 59],
+        'v10' => ['visitors' => 10000],
+        'v50' => ['visitors' => 50000],
+        'v100' => ['visitors' => 100000],
     ];
 
     public $paypal = [
@@ -27,11 +29,17 @@ class PaymentController extends Controller
 
     public $receiver_email = ['abtestinglab.com@gmail.com', 'abtestinglab.com-facilitator@gmail.com'];
 
-
+    function __construct()
+    {
+        if (Auth::check())
+            $this->user = Auth::user();
+    }
 
     //handle paypal call
     public function receivedPaypal(Request $request, User $user, Payment $payment)
     {
+        $email = $request->has('custom') ? $request->get('custom') : $request->get('payer_email');
+
         //logging raw entry to have entries if stuff will go wrong
         DB::table('paypal_logs')->insert([
             'created_at' => Carbon::now()->toDateTimeString(),
@@ -47,13 +55,12 @@ class PaymentController extends Controller
         if (strcasecmp($request->get('payment_status'), 'Completed') !== 0)
             return $this->customPaypalError($request, 'status not completed');
 
-        //check if status is completed - we want to count only the money that reached us
         if (!in_array($request->get('receiver_email'), $this->receiver_email))
             return $this->customPaypalError($request, 'wrong receiver email');
 
         //seems okay
 
-        $user = $user->where('email', $request->get('payer_email'))->first();
+        $user = $user->where('email', $email)->first();
 
         if (!isset($user->id))
             $user_id = 0;
@@ -68,19 +75,21 @@ class PaymentController extends Controller
 
         $payment = $payment->create([
             'user_id' => $user_id,
-            'email' => $request->get('payer_email'),
+            'email' => $email,
             'visitors' => $visitors,
             'plan' => $request->get('item_number'),
             'quantity' => $request->get('quantity'),
             'gross' => $request->get('mc_gross'),
+            'currency' => $request->get('mc_currency'),
             'txn_id' => $request->get('txn_id'),
             'dump' => json_encode($request->all()),
 
         ]);
 
+        event(new \App\Events\UserPaymentReceived($payment));
+
         //gotta return empty 200 response to make paypal happy
         return '';
-
     }
 
     public function success(Request $request)
@@ -102,7 +111,10 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $user = $this->user;
+        $payments = $user->payments;
+
+        return view('payments.index', compact('payments', 'user'));
     }
 
     /**

@@ -55,7 +55,7 @@
                     <td align="center">
                         <p style="font-size: 11px; color: #666666; font-weight: normal; margin: 0 0 10px; padding: 0;">
                             Don't want to receive these emails in the future? You can unsubscribe by changing email settings
-                            <a href="{{ URL::route('user.settings') }}" target="blank" style="color: #999999;"><unsubscribe>here</unsubscribe></a>.
+                            <a href="{{ URL::route('account') }}" target="blank" style="color: #999999;"><unsubscribe>here</unsubscribe></a>.
                         </p>
                     </td>
                     </tr>

@@ -6,11 +6,10 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserPaymentReceived extends Event
+class LogNewVisit extends Event
 {
     use SerializesModels;
 
-    public $payment;
     public $user;
 
     /**
@@ -18,10 +17,9 @@ class UserPaymentReceived extends Event
      *
      * @return void
      */
-    public function __construct($payment)
+    public function __construct($user)
     {
-        $this->payment = $payment;
-        $this->user = $payment->user;
+        $this->user = $user;
     }
 
     /**

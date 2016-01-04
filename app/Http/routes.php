@@ -1,8 +1,8 @@
 <?php
 use App\User;
 
-Route::get('email_test', function() {
-
+Route::get('test', function() {
+    event(new App\Events\LogNewVisit(User::find(1)));
 });
 
 Route::group(['prefix' => 'api', ], function () {
@@ -23,14 +23,9 @@ Route::group(['prefix' => 'api', ], function () {
 Route::group(['middleware' => 'auth'], function ()
 {
     Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'DashboardController@index']);
-
-    Route::group(['prefix' => 'user'], function ()
-    {
-        Route::get('settings', ['as' => 'user.settings', 'uses' => 'UserController@edit']);
-        Route::get('billing', ['as' => 'user.billing', 'uses' => 'UserController@index']);
-        Route::post('update', ['as' => 'user.update', 'uses' => 'UserController@update']);
-
-    });
+    Route::get('account', ['as' => 'account', 'uses' => 'UserController@edit']);
+    Route::get('payments', ['as' => 'payments', 'uses' => 'PaymentController@index']);
+    Route::post('update', ['as' => 'user.update', 'uses' => 'UserController@update']);
 
     Route::group(['prefix' => 'websites'], function ()
     {
@@ -46,18 +41,30 @@ Route::group(['middleware' => 'auth'], function ()
 
         Route::get('', ['as' => 'website.index', 'uses' => 'WebsiteController@index']);
         Route::get('{id}', ['as' => 'website.show', 'uses' => 'WebsiteController@show']);
-        Route::post('', ['as' => 'website.store', 'uses' => 'WebsiteController@store']);
+
+        Route::group(['middleware' => 'checkResources'], function()
+        {
+            Route::get('create', ['as' => 'website.create', 'uses' => 'WebsiteController@create']);
+            Route::get('edit/{id}', ['as' => 'website.edit', 'uses' => 'WebsiteController@edit']);
+            Route::post('update', ['as' => 'website.update', 'uses' => 'WebsiteController@update']);
+            Route::post('', ['as' => 'website.store', 'uses' => 'WebsiteController@store']);
         });
+    });
 
     Route::group(['prefix' => 'tests'], function ()
     {
-        Route::get('disable/{id}', ['as' => 'tests.disable', 'uses' => 'TestController@changePublicStatus']);
-        Route::get('enable/{id}', ['as' => 'tests.enable', 'uses' => 'TestController@changePublicStatus']);
-        Route::get('publish/{id}', ['as' => 'tests.publish', 'uses' => 'TestController@publish']);
-        Route::get('manager/{id}', ['as' => 'tests.manager', 'uses' => 'TestController@manager']);
         Route::get('archive/{id}', ['as' => 'tests.archive', 'uses' => 'TestController@changeArchiveStatus']);
         //Route::get('delete/{id}', ['as' => 'tests.delete', 'uses' => 'TestController@delete']);
-        Route::get('destroy/{id}', ['as' => 'tests.destroy', 'uses' => 'TestController@destroy']);
+
+        Route::group(['middleware' => 'checkResources'], function()
+        {
+            Route::get('destroy/{id}', ['as' => 'tests.destroy', 'uses' => 'TestController@destroy']);
+            Route::get('disable/{id}', ['as' => 'tests.disable', 'uses' => 'TestController@changePublicStatus']);
+            Route::get('enable/{id}', ['as' => 'tests.enable', 'uses' => 'TestController@changePublicStatus']);
+            Route::get('publish/{id}', ['as' => 'tests.publish', 'uses' => 'TestController@publish']);
+            Route::get('manager/{id}', ['as' => 'tests.manager', 'uses' => 'TestController@manager']);
+        });
+
     });
 });
 
@@ -95,4 +102,4 @@ Route::get('/', ['as' => 'index', 'uses' => 'PagesController@index']);
 Route::get('about', ['as' => 'about', 'uses' => 'PagesController@about']);
 Route::get('help', ['as' => 'help', 'uses' => 'PagesController@about']);
 Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@about']);
-Route::get('pricing', ['as' => 'contact', 'uses' => 'PagesController@pricing']);
+Route::get('pricing', ['as' => 'pricing', 'uses' => 'PagesController@pricing']);

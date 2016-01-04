@@ -70,9 +70,23 @@
         </div>
     </div>
     </div>
+    <div class="panel panel-default">
+    <div class="panel-heading">
+       Payments
+    </div>
+    <div class="panel-body">
+        <p>
+            You have <strong>{{ $user->getAvailable() }}</strong> unique test views left to use. Do not wait until
+            you run out - <a href="{{ route('pricing') }} ">buy more now</a>.
+        </p>
+        <p>
+            <a href="{{ route('payments') }}">Your previous payments</a>.
+        </p>
+    </div>
+    </div>
 </div>
 </div>
-    
+
 <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 

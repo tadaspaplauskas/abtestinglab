@@ -20,6 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->string('plan');
             $table->tinyinteger('quantity')->unsigned();
             $table->float('gross');
+            $table->char('currency', 3);
             $table->string('txn_id', 17)->unique();
             $table->json('dump');
             $table->timestamps();

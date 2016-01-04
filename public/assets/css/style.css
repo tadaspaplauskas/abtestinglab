@@ -378,3 +378,8 @@ label.explain {
 .paypal-btn:hover{
     background: #e05c04;
 }
+
+.alert a {
+    color: #fff;
+    text-decoration: underline;
+}
