@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\File;
 
 class BackendTest extends TestCase
 {
-    
+
     use DatabaseTransactions;
-    
+
     public function testRegisterLoginAndLogout()
     {
         $this->visit('/')
@@ -22,13 +22,13 @@ class BackendTest extends TestCase
         ->visit('auth/logout')
         ->seePageIs('/');
     }
-    
+
     public function testAddEditDeleteWebpage()
     {
         $user = App\User::find(1); // used only for testing
-        
+
         $this->actingAs($user)
-            ->visit('websites')
+            ->visit('/websites')
             ->click('Add a new one')
             ->type('http://abtestinglab.dev/blog.html', 'url')
             ->type('Testy test', 'title')
@@ -44,7 +44,7 @@ class BackendTest extends TestCase
             ->see('Success')
             ->cleanup($user);
     }
-    
+
     public function cleanup($user)
     {
         File::deleteDirectory($user->path(), true);

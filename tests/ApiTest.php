@@ -21,7 +21,7 @@ class ApiTest extends TestCase
         $this->manager()->call('POST', '/api/load', [
                 'website_id' => $this->website->id,
             ], [], [], $this->serverHeaders());
-        
+
         $this->assertResponseOk();
         $this->seeJson([]);
     }
@@ -64,32 +64,31 @@ class ApiTest extends TestCase
                 }],"website_id":"' . $this->website->id . '"
                 }
             ', true), [], [], $this->serverHeaders());
-        
         $this->assertResponseOk();
         $this->seeJson([]);
     }
-    
+
     /*********** visitor part ***********/
-    
+
     public function testSaveConversion()
     {
         $this->manager()->call('POST', '/api/save_conversion', json_decode('{
-            "test_id": ' . $this->test->id . ', 
-            "variation": "b", 
-            "visitor_id": ' . $this->visitor->id . ' 
+            "test_id": ' . $this->test->id . ',
+            "variation": "b",
+            "visitor_id": ' . $this->visitor->id . '
             }', true));
-        
+
         $this->assertResponseOk();
     }
-    
+
     public function testNewVisitor()
     {
         $this->manager()->call('POST', '/api/new_visitor',
             ['website_id' => $this->website->id]);
-        
+
         $this->assertResponseOk();
     }
-    
+
     public function testLogVisit()
     {
         $this->manager()->call('POST', '/api/log_visit', [

@@ -29,8 +29,6 @@ class CheckUsersResources
     {
         $user = $event->user;
 
-        $user->increment('used_reach');
-
         if ($user->getAvailableResources() === 0)
         {
             $tests = new TestController;
@@ -40,7 +38,10 @@ class CheckUsersResources
                 $website->disableTests();
                 $tests->refreshTestsJS($website);//implement checks on manage/enable/add website
             }
-
+        }
+        else
+        {
+            $user->increment('used_reach');
         }
     }
 }

@@ -18,7 +18,7 @@ class FileController extends Controller
         $dir = dirname($path);
         if (!is_dir($dir))
         {
-            mkdir($dir);
+            mkdir($dir, 0777, true);
         }
         $return = file_put_contents($path, $content, LOCK_EX);
 

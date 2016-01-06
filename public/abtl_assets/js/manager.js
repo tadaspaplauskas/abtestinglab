@@ -764,7 +764,7 @@ jQuery.fn.extend({
             preview.attr('src', reader.result);
             toField().val(reader.result);
             applyActiveTest();
-        }
+        };
 
         if (file) {
             reader.readAsDataURL(file);
@@ -788,6 +788,7 @@ jQuery.fn.extend({
     {
         toField().val($(this).val());
         $(this).up(5).find('.image-upload-preview').attr('src', $(this).val());
+        applyActiveTest();
     },
     changeImageSource: function ()
     {
@@ -821,7 +822,7 @@ jQuery.fn.extend({
     changeTitle: function ()
     {
         link = $(this).parent().find('.abtl-pick-test');
-        $(this).parent().find('span').each(function(){ $(this).css('visibility', 'visible'); });
+        $(this).parent().find('span').each(function(){ $(this).css('visibility', ''); });
         link.text($(this).val());
         link.show();
         $(this).hide();

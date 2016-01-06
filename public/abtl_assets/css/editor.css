@@ -191,10 +191,6 @@
     border-bottom: none !important;
 }
 
-#abtl-nav-tabs .active .abtl-delete-tab {
-    display: inherit;
-}
-
 #abtl-nav-tabs .active {
     cursor: text;
 }
@@ -205,7 +201,11 @@
     right: 0.3em;
     cursor: pointer;
     color: #D9534F;
-    display: none;
+    visibility: hidden;
+}
+
+.active .abtl-delete-tab {
+    visibility: visible;
 }
 
 .status-icon {

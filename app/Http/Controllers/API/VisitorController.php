@@ -62,7 +62,7 @@ class VisitorController extends ApiController
             {
                 $test = Test::find($testID);
 
-                $user = $test->website->user();
+                $user = $test->website->user;
                 //check if user has enough reach
                 if (!$user->paid())
                     return $this->respondSuccess();
