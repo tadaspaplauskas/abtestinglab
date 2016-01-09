@@ -1,6 +1,6 @@
 @extends('auth.master')
 
-@section('title', 'Join in')
+@section('title', 'Log in')
 
 @section('form')
 

@@ -1,6 +1,6 @@
 @extends('auth.master')
 
-@section('title', 'Join in')
+@section('title', 'Sign up')
 
 @section('form')
 
@@ -26,5 +26,5 @@
   <button type="submit" class="btn btn-confirm">Sign up</button>
 </div>
 </form>
-    
+
 @endsection

@@ -14,7 +14,7 @@ class AddReachFieldsToUser extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->integer('used_reach')->unsigned();
-            $table->integer('total_available_reach')->unsigned();
+            $table->integer('total_available_reach')->unsigned()->default(5000);
         });
     }
 

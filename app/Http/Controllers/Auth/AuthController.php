@@ -65,7 +65,7 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        event(new App\Events\UserSignedUp($user));
+        event(new \App\Events\UserSignedUp($user));
 
         return $user;
     }

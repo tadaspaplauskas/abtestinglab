@@ -104,3 +104,12 @@ Route::get('about', ['as' => 'about', 'uses' => 'PagesController@about']);
 Route::get('help', ['as' => 'help', 'uses' => 'PagesController@about']);
 Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@about']);
 Route::get('pricing', ['as' => 'pricing', 'uses' => 'PagesController@pricing']);
+
+
+/* only for testing */
+Route::get('/test_user_created', function() {
+    event(new \App\Events\TestUserCreated('tester@abtestinglab.com'));
+});
+Route::get('/test_end', function() {
+    event(new \App\Events\TestsEnded('tester@abtestinglab.com'));
+});

@@ -33,6 +33,14 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TestsModified' => [
             'App\Listeners\CheckAvailableResourcesNotice',
         ],
+
+        /* testing stuff */
+        'App\Events\TestUserCreated' => [
+            'App\Listeners\TestUpdateJSPaths'
+        ],
+        'App\Events\TestsEnded' => [
+            'App\Listeners\TestCleanup'
+        ],
     ];
 
     /**

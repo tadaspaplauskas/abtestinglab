@@ -10,7 +10,7 @@ class BackendTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testRegisterLoginAndLogout()
+    public function testLoginAndLogout()
     {
         $this->visit('/')
         ->click('Log in')
