@@ -15,9 +15,6 @@ class VisitorController extends ApiController
 
     function __construct()
     {
-        //TODO authentication with some kind of token
-        $this->user = new \stdClass();
-        $this->user->id = 1;
     }
 
     public function newVisitor(Request $request)

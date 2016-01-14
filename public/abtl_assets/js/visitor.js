@@ -1,13 +1,13 @@
 testsVariationsStorage = 'abtl_t_v';
 visitorStorage = 'abtl_vstr';
 
-$(document).ready(function() { 
+$(document).ready(function() {
     //do not track the manager
     if (getLocal('abtl_do_not_track') !== '1')
         applyTestsAndConversions(abtlData);
-    
+
     //display body
-    $('body').css('visibility', 'initial');   
+    $('body').css('visibility', 'initial');
 });
 
 function applyTestsAndConversions(data)
@@ -22,7 +22,7 @@ function applyTestsAndConversions(data)
     var tests = data.tests;
     var conversions = data.conversions;
     var finished = data.finished;
-    
+
     //looking for time conversions to apply
     for(i = 0; i < conversions.length; i++)
     {
@@ -31,9 +31,7 @@ function applyTestsAndConversions(data)
         var type = conversions[i].conversion_type;
         if (type === 'time')
         {
-            setTimeout(function() {
-                saveConversion(testID);
-            }, element * 1000);
+            setTimeConversion(testID, element);
         }
     }
 
@@ -50,11 +48,7 @@ function applyTestsAndConversions(data)
                     || customTrim($(this).attr('href')) === element
                     || customTrim($(this).attr('src')) === element)
                 {
-                    $(this).data('test_id', testID);
-                    $(this).mousedown(function(ev){
-                        saveConversion(testID);
-                        ev.preventDefault();
-                    });
+                    setClickConversion($(this), testID);
                 }
             }
         }
@@ -104,7 +98,7 @@ function applyTestsAndConversions(data)
                 }
             }
         }
-        
+
         //looking for finished variations to apply
         for(i = 0; i < finished.length; i++)
         {
@@ -112,7 +106,7 @@ function applyTestsAndConversions(data)
             var element = finished[i].element;
             var variation = finished[i].variation;
             var attributes = finished[i].attributes || null;
-            
+
             if (elementType === 'image' && customTrim($(this).attr('src')) === element)
             {
                 $(this).attr('src', variation);
@@ -135,10 +129,9 @@ function applyTestsAndConversions(data)
     {
         newVisitor(newTestVariations);
     }
-    
+
     //saving variations for future use
     setLocal(testsVariationsStorage, newTestVariations);
-    
 }
 
 function logVisit(tests)
@@ -163,14 +156,13 @@ function saveConversion(testID)
     var visitor = getLocal(visitorStorage);
     var variation = getLocal(testsVariationsStorage);
 
-    if (visitor !== null && visitor !== undefined
-            && variation !==null && variation !== undefined)
+    if (visitor !== null && visitor !== undefined && variation !==null && variation !== undefined)
     {
         variation = variation[testID];
         //sending to backend
         conversionData = { test_id: testID, variation: variation, visitor_id: visitor['visitor'] };
         $.ajax({
-            url:"/api/save_conversion",
+            url:'/api/save_conversion',
             method: 'POST',
             async: true,
             data: conversionData});
@@ -213,3 +205,16 @@ function randomChoice(variationWeight)
     }
 }
 
+function setTimeConversion(test, seconds)
+{
+    setTimeout(function () { saveConversion(test); }, seconds * 1000);
+}
+
+function setClickConversion(obj, test)
+{
+    obj.data('test_id', test);
+    obj.mousedown(function(ev){
+        saveConversion(test);
+        ev.preventDefault();
+    });
+}

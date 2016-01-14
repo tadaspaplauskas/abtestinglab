@@ -20,7 +20,7 @@ class Test extends Model
         /* click,*/
         'original_conversion_count',
         'variation_conversion_count',
-        'original_pageviews', 
+        'original_pageviews',
         'variation_pageviews',
         'adaptive',
         'goal_type',
@@ -35,60 +35,65 @@ class Test extends Model
     {
         return $this->belongsTo('App\Models\Website');
     }
-    
+
+    public function conversions()
+    {
+        return $this->hasMany('App\Models\Conversion');
+    }
+
     public function totalReach()
     {
         return $this->original_pageviews + $this->variation_pageviews;
     }
-    
+
     public function disable()
     {
         $this->status = 'disabled';
         return $this->save();
     }
-    
+
     public function enable()
     {
         $this->status = 'enabled';
         return $this->save();
     }
-    
+
     public function archive()
     {
         $this->status = 'archived';
         return $this->save();
     }
-    
+
     public function isDisabled()
     {
         return ($this->status === 'disabled' ? true : false);
     }
-    
+
     public function isEnabled()
     {
         return ($this->status === 'enabled' ? true : false);
     }
-    
+
     public function isArchived()
     {
         return ($this->status === 'archived' ? true : false);
     }
-    
+
     public function scopeEnabled($query)
     {
         return $query->where('status', 'enabled');
     }
-    
+
     public function scopeDisabled($query)
     {
         return $query->where('status', 'disabled');
     }
-    
+
     public function scopeNotArchived($query)
     {
         return $query->where('status', '!=', 'archived');
     }
-    
+
     public function scopeMy($query)
     {
         $user = Auth::user();
@@ -102,61 +107,61 @@ class Test extends Model
             return $query->whereRaw('true = false');
         }
     }
-    
+
     public function originalConv()
     {
         if ($this->original_pageviews == 0)
             return 0;
-        
+
         $calc = round($this->original_conversion_count / $this->original_pageviews * 100, 2);
         return $calc;
-        
+
     }
-    
+
     public function variationConv()
     {
         if ($this->variation_pageviews == 0)
             return 0;
-        
+
         $calc = round($this->variation_conversion_count / $this->variation_pageviews * 100, 2);
         return $calc;
     }
-    
+
     public function convChange()
     {
         if ($this->original_pageviews === 0 || $this->variation_pageviews === 0)
             return 0;
-        
+
         $calcOrig = $this->original_conversion_count / $this->original_pageviews * 100;
-        
+
         $calcVar = $this->variation_conversion_count / $this->variation_pageviews * 100;
-        
+
         if ($calcOrig === 0)
         {
             return 0;
         }
-        else 
+        else
         {
-            $calc = round(($calcVar / $calcOrig - 1) * 100, 2);        
+            $calc = round(($calcVar / $calcOrig - 1) * 100, 2);
             return $calc;
         }
     }
-    
+
     public function convDiff()
     {
         return $this->variationConv() - $this->originalConv();
     }
-    
+
     public function imagePath()
     {
-        return $this->website->path() . 'images/' . $this->id . '.jpg';        
+        return $this->website->path() . 'images/' . $this->id . '.jpg';
     }
-    
+
     public function imageUrl()
     {
         return asset($this->website->url() . '/images/' . $this->id . '.jpg');
     }
-    
+
     public function nullifyStatistics()
     {
         $this->original_conversion_count = 0;
@@ -165,44 +170,48 @@ class Test extends Model
         $this->variation_pageviews = 0;
         return $this->save();
     }
-    
+
     public function calculateSignificance($percentage = true)
     {
         $controlConv = $this->original_conversion_count;
         $controlVisitors = $this->original_pageviews;
-        
+
         $variationConv = $this->variation_conversion_count;
         $variationVisitors = $this->variation_pageviews;
-        
+
         if ($controlConv === 0 || $controlVisitors === 0
                 || $variationConv === 0 || $variationVisitors === 0)
             return 0;
-        
+
         $controlP = $controlConv / $controlVisitors;
         $variationP = $variationConv / $variationVisitors;
-        
+
         $controlSE = sqrt($controlP * (1 - $controlP) / $controlVisitors);
         $variationSE = sqrt($variationP * (1 - $variationP) / $variationVisitors);
-        
-        $zScore = ($controlP - $variationP) /
-                sqrt(pow($controlSE, 2) + pow($variationSE, 2));
-        
+
+        $bottom = sqrt(pow($controlSE, 2) + pow($variationSE, 2));
+
+        if ($bottom > 0)
+            $zScore = ($controlP - $variationP) / $bottom;
+        else
+            $zScore = 0;
+
         //$pValue = stats_cdf_normal($zScore, 0, 1, 1);
         $pValue = self::cumnormdist($zScore);
-        
+
         if ($pValue < 0.5)
             $confidence = (1 - $pValue);
         else
             $confidence = $pValue;
-        
+
         if ($percentage)
         {
             $confidence = round($confidence * 100);
         }
-        
+
         return $confidence;
     }
-    
+
     public static function cumNormDist($x)
     {
       $b1 =  0.319381530;
@@ -224,7 +233,7 @@ class Test extends Model
           ( $t *( $t * ( $t * ( $t * $b5 + $b4 ) + $b3 ) + $b2 ) + $b1 ));
         }
     }
-    
+
     public function getWeight()
     {
         //default half 50/100

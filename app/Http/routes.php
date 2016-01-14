@@ -113,3 +113,25 @@ Route::get('/test_user_created', function() {
 Route::get('/test_end', function() {
     event(new \App\Events\TestsEnded('tester@abtestinglab.com'));
 });
+
+Route::get('/test_conversions_check', function () {
+    $user = \App\User::where('email', 'tester@abtestinglab.com')->first();
+
+    $website = $user->websites()->first();
+
+    $totalConversions = 0;
+    $totalViews = 0;
+
+    foreach ($website->tests as $test)
+    {
+        $totalConversions += $test->original_conversion_count + $test->variation_conversion_count;
+        $totalViews += $test->original_pageviews + $test->variation_pageviews;
+
+        if (!$test->conversions()->exists())
+            return 'no conversion logged for test ' . $test->id;
+    }
+
+    $check = ($totalConversions > 0 && $totalViews === $totalConversions);
+
+    return $check ? 'pass' : $totalConversions . ' : ' . $totalViews;
+});

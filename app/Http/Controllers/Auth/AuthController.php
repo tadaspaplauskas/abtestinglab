@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Auth;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -34,6 +35,26 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'getLogout']);
+    }
+
+
+    public function getLogout()
+    {
+        //clean tokens and shit
+        if (Auth::check())
+        {
+            $user = Auth::user();
+
+            foreach($user->websites as $website)
+            {
+                $website->token = '';
+                $website->save();
+            }
+        }
+
+        Auth::logout();
+
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
 
     /**
@@ -100,7 +121,5 @@ class AuthController extends Controller
     public function handleProviderCallbackGoogle()
     {
         $user = Socialite::driver('google')->user();
-
-        // $user->token;
     }
 }

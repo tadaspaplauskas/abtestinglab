@@ -1,14 +1,12 @@
 testUrl = 'http://abtestinglab.dev';
 
 
-//cleanup - remove user ect.
 casper.test.tearDown(function() {
-    casper.echo('Cleanup...');
-    casper.capture('screen.jpg');
+    //casper.capture('screen.jpg');
     casper.exit();
 });
 
-casper.test.begin('Test JS manager', 24, function suite(test) {
+casper.test.begin('Creating user, website, tests', 22, function suite(test) {
     casper.options.viewportSize = {width: 1920, height: 1080};
     //casper.options.verbose = true;
     //casper.options.logLevel ="debug";
@@ -24,7 +22,7 @@ casper.test.begin('Test JS manager', 24, function suite(test) {
 
         //fill in login data and submit immediately
         this.fill('form', {
-            name: "Tester Testirson",
+            name: "Tester Testerson",
             email: "tester@abtestinglab.com",
             password: "password",
             password_confirmation: "password"
@@ -33,11 +31,13 @@ casper.test.begin('Test JS manager', 24, function suite(test) {
         this.waitForUrl(/dashboard/, function() {
             test.assertTitle('Dashboard', 'User created');
             this.clickLabel('Log out');
-        }, null, 10000);
+        }, null, 20000);
     });
 
     //login
     casper.then(function() {
+
+        casper.capture('screen_login.jpg');
         this.clickLabel('Log in');
     });
 
@@ -98,7 +98,7 @@ casper.test.begin('Test JS manager', 24, function suite(test) {
     casper.then(function() {
         this.waitUntilVisible('#abtl-placeholder', function() {
             test.assertTextExists('Add new', 'Control Panel loaded');
-        });
+        }, null, 15000);
     });
 
     //add first test (text)
@@ -161,8 +161,7 @@ casper.test.begin('Test JS manager', 24, function suite(test) {
             'https://www.google.com/images/nav_logo242.png',
             'Changed image is visible');
 
-
-        this.click('.abtl-step-conversion');
+        //this.click('.abtl-step-conversion');
 
         this.click('.active .abtl-cutom-style-button');
 
@@ -223,30 +222,15 @@ casper.test.begin('Test JS manager', 24, function suite(test) {
     casper.then(function() {
         this.clickLabel('Save all');
 
-        this.wait(3000, function(){
+        this.wait(4000, function(){
             this.clickLabel('Exit');
-            this.wait(3000, function(){
+            this.wait(4000, function(){
                 test.assertTextExists('first test title', 'First test saved.');
                 test.assertTextExists('second test picture url', 'Second test saved');
                 test.assertTextExists('third test picture upload', 'Third test saved.');
             });
         });
     });
-
-    //delete testing website
-    casper.then(function () {
-        this.click('.btn-danger');
-    });
-    casper.then(function () {
-        this.click('button[type=submit].btn-danger');
-    });
-    casper.then(function () {
-        test.assertTextExists('Success', 'Success message displayed');
-        test.assertTextDoesntExist('For testing', 'Testing website is gone');
-    });
-
-    //cleanup again just to be sure
-    casper.thenOpen(testUrl + "/test_end");
 
     casper.run(function() {
         test.done();

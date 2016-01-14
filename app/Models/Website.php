@@ -125,6 +125,6 @@ class Website extends Model
 
     public function jsCode()
     {
-        return '<script type="text/javascript" src="' . $this->jsUrl() . '" async></script><script type="text/javascript">var s=document.createElement("style");s.type="text/css";s.appendChild(document.createTextNode("body{visibility:hidden;}"));document.getElementsByTagName("head")[0].appendChild(s);setTimeout(function(){document.body.style.visibility="initial";},500);</script>';
+        return '<script type="text/javascript" src="' . $this->jsUrl() . '" async></script><script type="text/javascript">var s=document.createElement("style");s.type="text/css";s.appendChild(document.createTextNode("body{visibility:hidden;}"));document.getElementsByTagName("head")[0].appendChild(s);var t=setInterval(function(){if(document.body!=null){document.body.style.visibility="initial";clearInterval(t);}},500);</script>';
     }
 }
