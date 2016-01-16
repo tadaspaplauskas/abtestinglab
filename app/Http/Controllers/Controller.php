@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Response;
 
 /*abstract*/ class Controller extends BaseController
 {
@@ -21,14 +20,22 @@ use Response;
         return str_random(40);
     }
 
-    public function respondError($msg = 'error')
+    public function respondError($msg = '')
     {
-        return Response::json(['message' => $msg], 500);
+        $resp = [];
+
+        if (!empty($msg))
+            $resp = ['message' => $msg];
+
+        return response()->json($resp, 500);
     }
 
     public function respondSuccess($data = [])
     {
-        return Response::json($data, 200);
+        if (empty($data))
+            return '';
+        else
+            return response()->json($data, 200);
     }
 
 }

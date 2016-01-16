@@ -7,11 +7,11 @@
 @section('content')
 
 <p>
-<a href="{{ route('website.create') }}" class="btn btn-primary">Add a new one</a>
+<a href="{{ route('websites.create') }}" class="btn btn-primary">Add a new one</a>
 </p>
 
 @if($websites->isEmpty())
-<p class="text-center">You haven't added any websites yet. Let's <a href="{{ route('website.create') }}">do that</a> now.</p>
+<p class="text-center">You haven't added any websites yet. Let's <a href="{{ route('websites.create') }}">do that</a> now.</p>
 @else
     <table class="table">
         <tr>
@@ -25,7 +25,7 @@
     @foreach ($websites as $website)
     <tr>
         <td class="strong">
-            <a href="{{ route('website.show', ['id' => $website->id]) }}">{{ $website->title }}</a>
+            <a href="{{ route('websites.show', ['id' => $website->id]) }}">{{ $website->title }}</a>
         </td>
         <td class="text-center">
             <a href="{{ 'http://' . $website->url }}">{{ $website->url }}</a>
@@ -51,17 +51,17 @@
                     Manage tests</a>
                 </li>
                 <li>
-                    <a href="{{ route('website.edit', ['id' => $website->id]) }}">
+                    <a href="{{ route('websites.edit', ['id' => $website->id]) }}">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                     Edit</a>
                 </li>
                 <li>
-                    <a href="{{ route('website.stop', ['id' => $website->id]) }}" title="Enable">
+                    <a href="{{ route('websites.stop', ['id' => $website->id]) }}" title="Enable">
                     <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
                     Pause all tests</a>
                 </li>
                 <li>
-                    <a onclick='confirmLocation("{{ route('website.delete', ['id' => $website->id]) }}", "Deleted websites cannot be recovered. Are you sure?")'>
+                    <a onclick='confirmLocation("{{ route('websites.delete', ['id' => $website->id]) }}", "Deleted websites cannot be recovered. Are you sure?")'>
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     Delete</a>
                 </li>

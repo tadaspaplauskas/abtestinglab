@@ -108,10 +108,33 @@ class TestController extends Controller
         {
             return redirect($website->url . '#token=' . $token);
         }
-        else {
+        else
+        {
             Session::flash('fail', 'Something went wrong, please try again later.');
             return redirect()->back();
         }
+    }
+
+    public function managerExit($websiteID)
+    {
+        $website = Website::find($websiteID);
+
+        if ($website->user->id !== $this->user->id)
+            return $this->respondError();
+
+        $website->token = '';
+        $website->save();
+
+        if (!$this->refreshTestsJS($website))
+        {
+            session()->flash('fail', 'Something went wrong, but your changes are still saved. Carry on, we will fix that ASAP.');
+        }
+        else
+        {
+            session()->flash('success', 'All good');
+        }
+
+        return redirect(route('websites.show'));
     }
 
     public function refreshTestsJS($website)

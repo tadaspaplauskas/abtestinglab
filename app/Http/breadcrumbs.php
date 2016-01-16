@@ -10,7 +10,7 @@ Breadcrumbs::register('dashboard', function($breadcrumbs)
 Breadcrumbs::register('websites', function($breadcrumbs)
 {
     $breadcrumbs->parent('dashboard');
-    $breadcrumbs->push('Websites', route('website.index'));
+    $breadcrumbs->push('Websites', route('websites.index'));
 });
 
 // Dashboard > Websites > [Website]
@@ -19,7 +19,7 @@ Breadcrumbs::register('website', function($breadcrumbs, $website = null)
     $breadcrumbs->parent('websites');
 
     if ($website !== null)
-        $breadcrumbs->push($website->title, route('website.show', $website->id));
+        $breadcrumbs->push($website->title, route('websites.show', $website->id));
     else
         $breadcrumbs->push('New website');
 });

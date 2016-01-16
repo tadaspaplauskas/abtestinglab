@@ -606,7 +606,10 @@ function templateBindings()
     //help
     $('#abtl-save').prop('title', 'Save all changes to website and continue editing');
     $('#abtl-exit').prop('title', 'Exit editor now');
-    $('#abtl-exit').click(function() { window.location = abtlBackUrl; });
+    $('#abtl-exit').click(function(){
+        removeLocal('token');
+        window.location = abtlBackUrl;
+    });
 
     /*************** TEMPLATE FUNCTIONALITY ****************/
 

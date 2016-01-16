@@ -13,12 +13,12 @@
     <small>Last changes: {{ $website->lastChangesForHumans() }}</small>
 </div>
 <div class="col-md-6 text-right">
-    <a href="{{ route('website.stop', ['id' => $website->id]) }}" class="btn btn-default">Pause all testing</a>
+    <a href="{{ route('websites.stop', ['id' => $website->id]) }}" class="btn btn-default">Pause all testing</a>
 
-    <a href="{{ route('website.edit', ['id' => $website->id]) }}" class="btn btn-default">
+    <a href="{{ route('websites.edit', ['id' => $website->id]) }}" class="btn btn-default">
         {{--<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>--}}
         Edit website</a>
-    <a href="{{ route('website.delete', ['id' => $website->id]) }}" class="btn btn-danger">
+    <a href="{{ route('websites.delete', ['id' => $website->id]) }}" class="btn btn-danger">
         {{--<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>--}}
         Delete website</a>
 </div>
@@ -32,14 +32,14 @@
     @include('tests.tests_table')
     <hr>
     <p>
-        <a href="{{ route('website.archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>
+        <a href="{{ route('websites.archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>
     </p>
 @endif
 <hr>
 <div>
 <h2>JS code</h2>
 <p>
-    Add this JS code in the &lt;head&gt; tag of your website.
+    Add this JS code in the &lt;head&gt; tag of your websites.
     This code should be loaded in every page where you want to conduct tests.
 </p>
 <p>

@@ -81,17 +81,17 @@ class Test extends Model
 
     public function scopeEnabled($query)
     {
-        return $query->where('status', 'enabled');
+        return $query->where('tests.status', 'enabled');
     }
 
     public function scopeDisabled($query)
     {
-        return $query->where('status', 'disabled');
+        return $query->where('tests.status', 'disabled');
     }
 
     public function scopeNotArchived($query)
     {
-        return $query->where('status', '!=', 'archived');
+        return $query->where('tests.status', '!=', 'archived');
     }
 
     public function scopeMy($query)

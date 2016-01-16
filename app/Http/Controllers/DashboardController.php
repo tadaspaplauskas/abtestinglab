@@ -17,17 +17,17 @@ class DashboardController extends Controller
     {
 
         //stopped since last activity
-        $stopped = Test::disabled()
+        $stopped = $this->user->tests()->disabled()
                 ->my()
-                ->where('updated_at', '<=', $this->user->last_activity)
+                ->where('tests.updated_at', '<=', $this->user->last_activity)
                 ->get();
-        
-        $lastUpdated = Test::enabled()
+
+        $lastUpdated = $this->user->tests()->enabled()
                 ->my()
-                ->orderBy('updated_at', 'desc')
+                ->orderBy('tests.updated_at', 'desc')
                 ->take(5)
                 ->get();
-        
+
         return view('dashboard/index', compact('stopped', 'lastUpdated', 'idea'));
     }
 

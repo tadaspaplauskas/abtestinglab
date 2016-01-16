@@ -6,12 +6,12 @@
 
 @section('content')
 
-<form role="form" method="POST" action="{{ route('website.destroy') }}">
+<form role="form" method="POST" action="{{ route('websites.destroy') }}">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <input type="hidden" name="website_id" value="{{ $website->id }}">
 
     <p>Are you sure? Deleted websites cannot be recovered!</p>
-    
+
     <button type="submit" class="btn btn-danger">Delete {{ $website->title }}</button>
 </form>
 

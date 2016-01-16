@@ -48,6 +48,21 @@ function getLocal(name)
     }
 }
 
+function removeLocal(name)
+{
+    if (localStoreSupport)
+    {
+        return localStorage.removeItem(name);
+    }
+    else
+    {
+        var expires = "";
+
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
+        return true;
+    }
+}
+
 function customTrim(str) {
     if (str !== undefined && str !== null)
     {

@@ -16,7 +16,7 @@
 @endif
 <hr>
 <p>
-    <a href="{{ route('website.show', ['id' => $website->id]) }}" class="btn btn-default">See active tests</a>
+    <a href="{{ route('websites.show', ['id' => $website->id]) }}" class="btn btn-default">See active tests</a>
 </p>
 
 @endsection

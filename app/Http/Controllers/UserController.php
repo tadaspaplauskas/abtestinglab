@@ -13,12 +13,12 @@ use Hash;
 class UserController extends Controller
 {
     public $user;
-    
+
     public function __construct()
     {
         $this->user = Auth::user();
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -26,10 +26,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        return redirect('website.index');
+        return redirect('websites.index');
         return view('user/dashboard');
     }
-    
+
 
 
     /**
@@ -50,8 +50,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
-        
+
+
     }
 
     /**
@@ -98,7 +98,7 @@ class UserController extends Controller
             'email' => 'required|email|max:50',
             'new_password' => 'min:6|same:new_password_verification',
         ]);
-        
+
         $data = $request->all();
         $data['test_notifications'] = isset($data['test_notifications']);
         $data['weekly_reports'] = isset($data['weekly_reports']);

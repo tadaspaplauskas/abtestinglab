@@ -85,6 +85,5 @@ class VisitorController extends ApiController
         $visitor->save();
 
         return $this->respondSuccess();
-
     }
 }

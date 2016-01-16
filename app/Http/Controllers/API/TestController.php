@@ -129,10 +129,7 @@ class TestController extends ApiController
 
             Test::where('website_id', $websiteID)->whereNotIn('id', $testsToSave)->update(['status' => 'disabled']);
         }
-
-
-
-        return self::respondSuccess($tests);
+        return $this->respondSuccess($tests);
     }
 
     public function loadTests(Request $request)
@@ -145,7 +142,7 @@ class TestController extends ApiController
                 ->orderBy('updated_at', 'desc')
                 ->get();
 
-        return self::respondSuccess($tests);
+        return $this->respondSuccess($tests);
     }
 
 }

@@ -48,7 +48,7 @@ if ($loggedIn)
                 <ul id="menu-top" class="nav navbar-nav navbar-right">
                 @if($loggedIn)
                     <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('website.index') }}">Websites</a></li>
+                    <li><a href="{{ route('websites.index') }}">Websites</a></li>
                     <li><a href="{{ route('account') }}">Account</a></li>
                 @endif
                     <li><a href="{{ route('pricing') }}">Pricing</a></li>

@@ -5,7 +5,7 @@ require(public_path('abtl_assets/js/master_functions.js'));
 ?>
 
 websiteID = {{ $website->id }};
-abtlBackUrl = '{{ url(route('website.show', ['id' => $website->id])) }}';
+abtlBackUrl = '{{ url(route('tests.manager.exit', ['id' => $website->id])) }}';
 abtlUrl = '{{ url() }}';
 
 //entry point for token

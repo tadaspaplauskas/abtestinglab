@@ -19,12 +19,12 @@
             <ul>
                 @foreach($stopped as $test)
                 <li>
-                    <a href="{{ route('website.show', ['id' => $test->website_id]) }}#test-{{ $test->id }}">
+                    <a href="{{ route('websites.show', ['id' => $test->website_id]) }}#test-{{ $test->id }}">
                         {{ $test->title }}
-                    </a> in 
-                    <a href="{{ route('website.show', ['id' => $test->website_id]) }}">
+                    </a> in
+                    <a href="{{ route('websites.show', ['id' => $test->website_id]) }}">
                         {{ $test->website->title }}
-                    </a> 
+                    </a>
                 </li>
                 @endforeach
             </ul>
@@ -41,19 +41,19 @@
         @if ($lastUpdated->isEmpty())
             <p>
                 Not much is going on here. Wanna get to the testing?<br>
-                <a href="{{ route('website.create') }}">Add a new website</a> or 
-                <a href="{{ route('website.index') }}">create new tests</a>.
+                <a href="{{ route('websites.create') }}">Add a new website</a> or
+                <a href="{{ route('websites.index') }}">create new tests</a>.
             </p>
         @else
             <ul>
                 @foreach($lastUpdated as $test)
                 <li>
-                    <a href="{{ route('website.show', ['id' => $test->website_id]) }}#test-{{ $test->id }}">
+                    <a href="{{ route('websites.show', ['id' => $test->website_id]) }}#test-{{ $test->id }}">
                         {{ $test->title }}
-                    </a> in 
-                    <a href="{{ route('website.show', ['id' => $test->website_id]) }}">
+                    </a> in
+                    <a href="{{ route('websites.show', ['id' => $test->website_id]) }}">
                         {{ $test->website->title }}
-                    </a> 
+                    </a>
                 </li>
                 @endforeach
             </ul>

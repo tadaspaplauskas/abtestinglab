@@ -24,7 +24,7 @@ class WebsiteController extends Controller
 
     public function create()
     {
-        return view('websites.form');
+        return view('websites.create');
     }
 
     public function store(Request $request)
@@ -57,7 +57,7 @@ class WebsiteController extends Controller
             Session::flash('success', 'Website created.');
         }
 
-        return redirect(route('website.show', ['id' => $website->id]));
+        return redirect(route('websites.show', ['id' => $website->id]));
     }
 
     public function show($id)
@@ -84,11 +84,11 @@ class WebsiteController extends Controller
 
         if (isset($website->id))
         {
-            return view('websites.form', ['website' => $website]);
+            return view('websites.edit', ['website' => $website]);
         }
         else
         {
-            return redirect(route('website.index'));
+            return redirect(route('websites.index'));
         }
     }
 
@@ -107,7 +107,7 @@ class WebsiteController extends Controller
         }
         else
         {
-            return redirect(route('website.index'));
+            return redirect(route('websites.index'));
         }
     }
 
@@ -118,7 +118,7 @@ class WebsiteController extends Controller
                 ->delete();
 
         Session::flash('success', 'Website deleted.');
-        return redirect(route('website.index'));
+        return redirect(route('websites.index'));
     }
 
     public function stopAllTesting($id)
@@ -132,7 +132,7 @@ class WebsiteController extends Controller
         $tests = new TestController;
         $tests->refreshTestsJS($website);
 
-        Session::flash('success', 'All tests are stopped for this website.');
+        Session::flash('success', 'All tests are stopped for this websites.');
         return redirect()->back();
     }
 

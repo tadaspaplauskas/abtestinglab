@@ -1,10 +1,4 @@
 <?php
-use App\User;
-Route::get('test', function() {
-    $user = User::find(1);
-
-    event(new \App\Events\TestsModified($user));
-});
 
 Route::group(['prefix' => 'api', ], function () {
 
@@ -30,25 +24,25 @@ Route::group(['middleware' => 'auth'], function ()
 
     Route::group(['prefix' => 'websites'], function ()
     {
-        Route::get('archived/{id}', ['as' => 'website.archived', 'uses' => 'WebsiteController@showArchived']);
-        Route::get('create', ['as' => 'website.create', 'uses' => 'WebsiteController@create']);
-        Route::get('edit/{id}', ['as' => 'website.edit', 'uses' => 'WebsiteController@edit']);
-        Route::post('update', ['as' => 'website.update', 'uses' => 'WebsiteController@update']);
-        Route::get('delete/{id}', ['as' => 'website.delete', 'uses' => 'WebsiteController@delete']);
-        Route::post('destroy', ['as' => 'website.destroy', 'uses' => 'WebsiteController@destroy']);
-        //Route::get('enable/{id}', ['as' => 'website.enable', 'uses' => 'WebsiteController@enable']);
-        //Route::get('disable/{id}', ['as' => 'website.disable', 'uses' => 'WebsiteController@disable']);
-        Route::get('stop/{id}', ['as' => 'website.stop', 'uses' => 'WebsiteController@stopAllTesting']);
+        Route::get('archived/{id}', ['as' => 'websites.archived', 'uses' => 'WebsiteController@showArchived']);
+        Route::get('create', ['as' => 'websites.create', 'uses' => 'WebsiteController@create']);
+        Route::get('edit/{id}', ['as' => 'websites.edit', 'uses' => 'WebsiteController@edit']);
+        Route::post('update', ['as' => 'websites.update', 'uses' => 'WebsiteController@update']);
+        Route::get('delete/{id}', ['as' => 'websites.delete', 'uses' => 'WebsiteController@delete']);
+        Route::post('destroy', ['as' => 'websites.destroy', 'uses' => 'WebsiteController@destroy']);
+        //Route::get('enable/{id}', ['as' => 'websites.enable', 'uses' => 'WebsiteController@enable']);
+        //Route::get('disable/{id}', ['as' => 'websites.disable', 'uses' => 'WebsiteController@disable']);
+        Route::get('stop/{id}', ['as' => 'websites.stop', 'uses' => 'WebsiteController@stopAllTesting']);
 
-        Route::get('', ['as' => 'website.index', 'uses' => 'WebsiteController@index']);
-        Route::get('{id}', ['as' => 'website.show', 'uses' => 'WebsiteController@show']);
+        Route::get('', ['as' => 'websites.index', 'uses' => 'WebsiteController@index']);
+        Route::get('{id}', ['as' => 'websites.show', 'uses' => 'WebsiteController@show']);
 
         Route::group(['middleware' => 'checkResources'], function()
         {
-            Route::get('create', ['as' => 'website.create', 'uses' => 'WebsiteController@create']);
-            Route::get('edit/{id}', ['as' => 'website.edit', 'uses' => 'WebsiteController@edit']);
-            Route::post('update', ['as' => 'website.update', 'uses' => 'WebsiteController@update']);
-            Route::post('', ['as' => 'website.store', 'uses' => 'WebsiteController@store']);
+            Route::get('create', ['as' => 'websites.create', 'uses' => 'WebsiteController@create']);
+            Route::get('edit/{id}', ['as' => 'websites.edit', 'uses' => 'WebsiteController@edit']);
+            Route::post('update', ['as' => 'websites.update', 'uses' => 'WebsiteController@update']);
+            Route::post('', ['as' => 'websites.store', 'uses' => 'WebsiteController@store']);
         });
     });
 
@@ -63,6 +57,9 @@ Route::group(['middleware' => 'auth'], function ()
             Route::get('disable/{id}', ['as' => 'tests.disable', 'uses' => 'TestController@changePublicStatus']);
             Route::get('enable/{id}', ['as' => 'tests.enable', 'uses' => 'TestController@changePublicStatus']);
             Route::get('publish/{id}', ['as' => 'tests.publish', 'uses' => 'TestController@publish']);
+
+
+            Route::get('manager/exit/{id}', ['as' => 'tests.manager.exit', 'uses' => 'TestController@managerExit']);
             Route::get('manager/{id}', ['as' => 'tests.manager', 'uses' => 'TestController@manager']);
         });
 
