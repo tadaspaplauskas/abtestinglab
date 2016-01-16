@@ -22,7 +22,7 @@ class FileController extends Controller
         }
         $return = file_put_contents($path, $content, LOCK_EX);
 
-        if ($minify && $return)
+        if ($minify)
         {
             return self::minifyJS($path);
         }

@@ -125,16 +125,11 @@ class TestController extends Controller
         $website->token = '';
         $website->save();
 
-        if (!$this->refreshTestsJS($website))
-        {
-            session()->flash('fail', 'Something went wrong, but your changes are still saved. Carry on, we will fix that ASAP.');
-        }
-        else
-        {
-            session()->flash('success', 'All good');
-        }
+        $this->refreshTestsJS($website);
 
-        return redirect(route('websites.show'));
+        session()->flash('success', 'All good');
+
+        return redirect(route('websites.show', $website->id));
     }
 
     public function refreshTestsJS($website)
