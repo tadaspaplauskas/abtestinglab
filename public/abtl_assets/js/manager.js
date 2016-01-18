@@ -30,6 +30,8 @@ $(document).ready(function() {
 
         //display body
         $('body').css('visibility', 'initial');
+
+        var newChanges; //for logging new changes after save
     }
 });
 
@@ -542,6 +544,9 @@ function loadTests()
         //only show when loaded
         $('#abtl-placeholder').show();
         reAdjust();
+
+        //new changes
+        newChanges = false;
     });
 }
 
@@ -594,6 +599,7 @@ function saveTests()
                 tab = $('#' + resp.tab);
                 tab.data('id', resp.id);
             }
+            newChanges = false;
             alert('Saved successfully');
         });
     }
@@ -606,12 +612,11 @@ function templateBindings()
     //help
     $('#abtl-save').prop('title', 'Save all changes to website and continue editing');
     $('#abtl-exit').prop('title', 'Exit editor now');
-    $('#abtl-exit').click(function(){
-        removeLocal('token');
-        window.location = abtlBackUrl;
-    });
+    $('#abtl-exit').click(exitManager);
 
     /*************** TEMPLATE FUNCTIONALITY ****************/
+
+    $('textarea, input, select').change(function() { newChanges = true; });
 
     $('.abtl-steps li').click($(this).activateStep);
 
@@ -674,8 +679,6 @@ function templateBindings()
 
     $('#abtl-save').click(saveTests);
 
-    loadTests();
-
     $(window).on('resize',function(e){
         reAdjust();
     });
@@ -687,6 +690,9 @@ function templateBindings()
     $('.scroller-left').click(function() {
         $('.nav-list').animate({left: prevPos()}, {always: function() {reAdjust();}});
     });
+
+    /* other stuff */
+    loadTests();
 }
 
 /******************* VARIOUS FUNCTIONS, UTILITIES AND HELPERS ********************/
@@ -1030,4 +1036,16 @@ function em(input)
 {
     var emSize = parseFloat($("body").css("font-size"));
     return (emSize * input);
+}
+
+function exitManager()
+{
+    if (newChanges && !confirm('There are new unsaved changes. Are you sure?'))
+    {
+        return false;
+    }
+    removeLocal('token');
+    window.location = abtlBackUrl;
+
+    return true;
 }

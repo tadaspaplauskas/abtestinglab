@@ -110,9 +110,6 @@ class TestController extends ApiController
                 $testInDB->goal_type = 'views'; // hardcoded for now. Can be 'conversions' too.
                 $testInDB->goal = $test['goal'];
 
-                $testInDB->start = '';
-                $testInDB->end = '';
-
                 $testInDB->save();
 
                 $website->touch();
@@ -127,7 +124,7 @@ class TestController extends ApiController
 
             event(new \App\Events\TestsModified($website->user));
 
-            Test::where('website_id', $websiteID)->whereNotIn('id', $testsToSave)->update(['status' => 'disabled']);
+            Test::where('website_id', $websiteID)->whereNotIn('id', $testsToSave)->delete();
         }
         return $this->respondSuccess($tests);
     }
