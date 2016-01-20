@@ -33,6 +33,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TestsModified' => [
             'App\Listeners\CheckAvailableResourcesNotice',
         ],
+        'App\Events\DeveloperInstructionsSent' => [
+            'App\Listeners\EmailInstructionsToDeveloper',
+        ],
 
         /* testing stuff */
         'App\Events\TestUserCreated' => [

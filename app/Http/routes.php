@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth'], function ()
     {
         Route::get('archived/{id}', ['as' => 'websites.archived', 'uses' => 'WebsiteController@showArchived']);
         Route::get('create', ['as' => 'websites.create', 'uses' => 'WebsiteController@create']);
+        Route::get('{owned_website}/instructions', ['as' => 'websites.instructions', 'uses' => 'WebsiteController@installInstructions']);
+        Route::post('{owned_website}/send_instructions', ['as' => 'websites.send_instructions', 'uses' => 'WebsiteController@sendInstructions']);
         Route::get('edit/{id}', ['as' => 'websites.edit', 'uses' => 'WebsiteController@edit']);
         Route::post('update', ['as' => 'websites.update', 'uses' => 'WebsiteController@update']);
         Route::get('delete/{id}', ['as' => 'websites.delete', 'uses' => 'WebsiteController@delete']);
@@ -60,7 +62,7 @@ Route::group(['middleware' => 'auth'], function ()
 
 
             Route::get('manager/exit/{id}', ['as' => 'tests.manager.exit', 'uses' => 'TestController@managerExit']);
-            Route::get('manager/{id}', ['as' => 'tests.manager', 'uses' => 'TestController@manager']);
+            Route::get('manager/{owned_website}', ['as' => 'tests.manager', 'uses' => 'TestController@manager']);
         });
 
     });

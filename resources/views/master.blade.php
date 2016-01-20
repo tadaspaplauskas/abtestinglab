@@ -77,17 +77,17 @@ if ($loggedIn)
                 <div class="col-md-12">
                     @if(Session::has('success'))
                         <div class="alert alert-success">
-                            <strong>Success!</strong> {{ Session::get('success') }}
+                            <strong>Success!</strong> {!! Session::get('success') !!}
                         </div>
                     @endif
                     @if(Session::has('fail'))
                         <div class="alert alert-danger">
-                            <strong>Oops...</strong> {{ Session::get('fail') }}
+                            <strong>Oops...</strong> {!! Session::get('fail') !!}
                         </div>
                     @endif
                     @if(Session::has('warning'))
                         <div class="alert alert-warning">
-                            <strong>Warning</strong> {{ Session::get('warning') }}
+                            <strong>Warning</strong> {!! Session::get('warning') !!}
                         </div>
                     @endif
 

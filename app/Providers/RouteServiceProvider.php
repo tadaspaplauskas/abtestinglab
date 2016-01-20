@@ -7,7 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider
 {
-    
+
     protected $middleware = [
         'csrf'  => \App\Http\Middleware\VerifyCsrfToken::class
         ];
@@ -32,6 +32,19 @@ class RouteServiceProvider extends ServiceProvider
         $router->pattern('id', '[0-9]+');
 
         parent::boot($router);
+
+        //model binding
+        $router->bind('owned_website', function($value) {
+            $found = null;
+
+            if (\Auth::check())
+                $found = \App\Models\Website::where('user_id', \Auth::user()->id)->first();
+
+            if (empty($found))
+                \App::abort(404, 'Website not found');
+            else
+                return $found;
+        });
     }
 
     /**

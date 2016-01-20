@@ -12,7 +12,8 @@ class Website extends Model
 
     protected $table = 'websites';
 
-    protected $fillable = ['user_id',
+    protected $fillable = [
+        'user_id',
         'status',
         'url',
         'title',
@@ -126,5 +127,27 @@ class Website extends Model
     public function jsCode()
     {
         return '<script type="text/javascript" src="' . $this->jsUrl() . '" async></script><script type="text/javascript">var s=document.createElement("style");s.type="text/css";s.appendChild(document.createTextNode("body{visibility:hidden;}"));document.getElementsByTagName("head")[0].appendChild(s);var t=setInterval(function(){if(document.body!=null){document.body.style.visibility="initial";clearInterval(t);}},500);</script>';
+    }
+
+    public function jsCodeTextarea()
+    {
+        return '<textarea style="width:100%;height:6em;" readonly onclick="this.focus();this.select()">'
+         . $this->jsCode() .
+         '</textarea>';
+    }
+
+    public function isScriptOnline()
+    {
+        $content = file_get_contents($this->url);
+
+        if(stripos($content, $this->jsPath()) === false)
+            return false;
+        else
+            return true;
+    }
+
+    public function getUrlAttribuet($value)
+    {
+        return (stripos($value, 'http') === 0) ? $value : 'http://' . $value;
     }
 }

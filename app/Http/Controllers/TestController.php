@@ -93,12 +93,14 @@ class TestController extends Controller
         return redirect()->back();
     }
 
-    public function manager($websiteID)
+    public function manager(Website $website)
     {
-        $website = Website::find($websiteID);
-
-        if ($website->user->id !== $this->user->id)
-            return false;
+        //check if script exists
+        if (!$website->isScriptOnline())
+        {
+            session()->flash('fail', 'Our script is not installed on the webpage. You can find instructions <a href="'. route('websites.instructions', [$website->id]) .'">here</a>.');
+            return redirect()->back();
+        }
 
         $token = self::token();
         $website->token = $token;
@@ -110,7 +112,7 @@ class TestController extends Controller
         }
         else
         {
-            Session::flash('fail', 'Something went wrong, please try again later.');
+            session()->flash('fail', 'Something went wrong, please try again later.');
             return redirect()->back();
         }
     }

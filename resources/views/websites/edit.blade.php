@@ -29,6 +29,17 @@
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
+<hr>
+<div>
+<h2>JS code</h2>
+<p>
+    Add this JS code in the &lt;head&gt; tag of your website.
+    This code should be loaded in every page where you want to conduct tests.
+</p>
+<p>
+{!! $website->jsCodeTextarea() !!}
+</p>
+</div>
 
 
 @endsection

@@ -9,6 +9,7 @@ use App\Models\Website;
 use App\User;
 use Session;
 use App\Http\Controllers\TestController;
+use App\Models\Developer;
 
 class WebsiteController extends Controller
 {
@@ -57,7 +58,33 @@ class WebsiteController extends Controller
             Session::flash('success', 'Website created.');
         }
 
-        return redirect(route('websites.show', ['id' => $website->id]));
+        return redirect(route('websites.instructions', ['id' => $website->id]));
+    }
+
+    public function installInstructions(Website $website)
+    {
+        return view('websites.install_instructions', compact('website'));
+    }
+
+    public function sendInstructions(Website $website, Request $request, Developer $developer)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255',
+        ]);
+
+        $data = $request->all();
+
+        $data['website_id'] = $website->id;
+        $data['user_id'] = $this->user->id;
+
+        $newDev = $developer->create($data);
+
+        event(new \App\Events\DeveloperInstructionsSent($newDev));
+
+        session()->flash('success', 'Instructions will be sent to your developer shortly.');
+
+        return redirect(route('websites.show', [$website->id]));
     }
 
     public function show($id)
@@ -142,13 +169,13 @@ class WebsiteController extends Controller
     {
         $return = mkdir(public_path(User::USERS_PATH
                 . $website->user->hash() . '/'
-                . $website->hash()));
+                . $website->hash()), 0777, true);
 
         if ($return)
         {
             mkdir(public_path(User::USERS_PATH
                 . $website->user->hash() . '/'
-                . $website->hash() . '/images'));
+                . $website->hash() . '/images'), 0777, true);
         } else {
             return false;
         }

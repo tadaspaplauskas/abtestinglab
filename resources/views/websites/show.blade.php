@@ -35,16 +35,5 @@
         <a href="{{ route('websites.archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>
     </p>
 @endif
-<hr>
-<div>
-<h2>JS code</h2>
-<p>
-    Add this JS code in the &lt;head&gt; tag of your websites.
-    This code should be loaded in every page where you want to conduct tests.
-</p>
-<p>
-    <input type="text" style="width: 100%" readonly onclick="this.focus();this.select()" value='{!! $website->jsCode() !!}'>
-</p>
-</div>
 
 @endsection

@@ -13,9 +13,9 @@ abstract class ApiController extends Controller
     {
         $website = Website::find($websiteID) or $this->respondError('Website not found');
 
-        if ($website->user_id !== Auth::user()->id)
+        if (!Auth::check() || $website->user_id !== Auth::user()->id)
         {
-            $this->respondError('not your website');
+            return $this->respondError('not your website');
         }
     }
 }
