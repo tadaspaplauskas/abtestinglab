@@ -14,6 +14,7 @@ Route::group(['prefix' => 'api', ], function () {
     Route::any('log_visit', 'API\VisitorController@logVisit');
 });
 
+
 //Route::group(['prefix' => 'user'], function () {
 Route::group(['middleware' => 'auth'], function ()
 {
@@ -24,6 +25,8 @@ Route::group(['middleware' => 'auth'], function ()
 
     Route::group(['prefix' => 'websites'], function ()
     {
+        Route::get('manager_redirect/{url}', ['as' => 'websites.manager.redirect', 'uses' => 'WebsiteController@managerRedirect']);
+
         Route::get('archived/{id}', ['as' => 'websites.archived', 'uses' => 'WebsiteController@showArchived']);
         Route::get('create', ['as' => 'websites.create', 'uses' => 'WebsiteController@create']);
         Route::get('{owned_website}/instructions', ['as' => 'websites.instructions', 'uses' => 'WebsiteController@installInstructions']);

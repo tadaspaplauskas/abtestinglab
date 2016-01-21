@@ -163,6 +163,26 @@ class WebsiteController extends Controller
         return redirect()->back();
     }
 
+    public function managerRedirect($url, Website $website)
+    {
+        $found = $website->where('url', 'LIKE', '%' . $url . '%')->first();
+
+        /*if (is_null($found))
+        {
+            session()->flash('warning', 'The website is not yet added');
+            return redirect(route('websites.create'))->withInput(['url' => 'http://' . $url]);
+        }
+        else */
+        if (is_null($found) || $found->user_id !== $this->user->id)
+        {
+            \App::abort(404, 'Sorry, the website you asked for is not available.');
+        }
+        else
+        {
+            return redirect(route('websites.show', [$found->id]));
+        }
+    }
+
     /*********** HELPERS ****************/
 
     public static function createWebsitePath($website)

@@ -31,9 +31,19 @@
 
 <hr>
 <div>
+<h2>Bookmarklet</h2>
+<p>
+    Want to get to tests manager faster? Just drag the following link to your browsers bookmarks bar. You can click it in any website that is added to your account here and you will be instantly redirected to A/B tests. You've got to be logged in for it to work.
+</p>
+<p>
+<a href="javascript:window.location='{!! URL::route('websites.manager.redirect', ['']) !!}/'+window.location.hostname;">Go to A/B testing lab.</a>
+</p>
+</div>
+
+<div>
 <h2>JS code</h2>
 <p>
-    Add this JS code in the &lt;head&gt; tag of your website.
+    Do not forget to add this JS code in the &lt;head&gt; tag of your website.
     This code should be loaded in every page where you want to conduct tests.
 </p>
 <p>
