@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class Handler extends ExceptionHandler
 {
@@ -15,6 +17,8 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         HttpException::class,
+        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
     ];
 
     /**
@@ -25,8 +29,13 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $e
      * @return void
      */
-    public function report(Exception $e)
+    public function report(\Exception $e)
     {
+        if ($this->shouldReport($e))
+        {
+            event(new \App\Event\ExceptionThrown($e));
+        }
+
         return parent::report($e);
     }
 

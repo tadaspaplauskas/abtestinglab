@@ -19,9 +19,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserSignedUp' => [
             'App\Listeners\EmailWelcome',
         ],
-        'App\Events\SubscriptionEnded' => [
-            'App\Listeners\EmailSubscriptionEnded',
-        ],
         'App\Events\UserPaymentReceived' => [
             'App\Listeners\RefreshUserResources',
             'App\Listeners\EmailPaymentReceived',
@@ -35,6 +32,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\DeveloperInstructionsSent' => [
             'App\Listeners\EmailInstructionsToDeveloper',
+        ],
+
+        'App\Event\ExceptionThrown' => [
+            'App\Listeners\EmailAdminNotice',
         ],
 
         /* testing stuff */
