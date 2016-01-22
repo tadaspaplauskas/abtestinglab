@@ -26,6 +26,13 @@ class EmailPaymentReceived
      */
     public function handle(UserPaymentReceived $event)
     {
-        //
+        $payment = $event->payment;
+        $user = $event->user;
+
+        \Mail::queue('emails.your_payment_received', compact('payment', 'user'),
+            function ($m) use ($user) {
+                $m->to($user->email, $user->name)
+                ->subject('Your payment has been received');
+            });
     }
 }

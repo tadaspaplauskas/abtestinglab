@@ -28,18 +28,27 @@ class CheckUsersResources
     public function handle(LogNewVisit $event)
     {
         $user = $event->user;
-
-        if ($user->getAvailableResources() === 0)
+        $avail = $user->getAvailableResources();
+        if ($user->active && $avail === 0)
         {
             $tests = new TestController;
 
             foreach($user->websites as $website)
             {
+                $user->active = false;
                 $website->disableTests();
-                $tests->refreshTestsJS($website);//implement checks on manage/enable/add website
+                $tests->refreshTestsJS($website);
             }
+            //notify user that he ran out of resources
+            Mail::queue('emails.out_of_resources', compact('user'),
+                function ($m) use ($user) {
+                    $m->to($user->email, $user->name)
+                        ->subject('You ran out of resources');
+                }
+            );
+
         }
-        else
+        else if ($avail > 0)
         {
             $user->increment('used_reach');
         }

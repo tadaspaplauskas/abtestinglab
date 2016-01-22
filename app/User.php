@@ -37,6 +37,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'used_reach',
         'total_available_reach',
         'low_resources_notice',
+        'active',
         ];
 
     /**

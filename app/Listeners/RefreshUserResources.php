@@ -31,6 +31,9 @@ class RefreshUserResources
 
         $user->total_available_reach = $user->payments()->sum('visitors');
 
+        if ($user->getAvailableResources() > 0)
+            $user->active = true;
+
         $user->save();
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Mail;
 
 class EmailTestCompleted implements ShouldQueue
-{    
+{
 
     public function __construct()
     {
@@ -17,12 +17,13 @@ class EmailTestCompleted implements ShouldQueue
     public function handle(TestCompleted $event)
     {
         $test = $event->test;
-        
-        if ($test->website->user->test_notifications)
+        $user = $test->website->user;
+
+        if ($user->test_notifications)
         {
-            Mail::queue('emails.test_completed', compact('test'),
-            function ($m) use ($test) {
-                $m->to($test->website->user->email, $test->website->user->name)
+            Mail::queue('emails.test_completed', compact('test', 'user'),
+            function ($m) use ($test, $user) {
+                $m->to($user->email, $user->name)
                 ->subject('Test "' . $test->title . '" is completed');
             });
         }
