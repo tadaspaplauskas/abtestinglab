@@ -1,44 +1,45 @@
-<div id="abtl-control" data-website="1">
+<div id="abtl-control" class="abtl">
     <!--main controls-->
     <div class="abtl-menu">
-        <div class="row abtl-row abtl-menu-bar">
-            <div class="col-sm-10">
-                <div class="scroller scroller-left"><span class="glyphicon glyphicon-chevron-left"></span></div>
-                <div class="scroller scroller-right"><span class="glyphicon glyphicon-chevron-right"></span></div>
-                <div class="wrapper">
-                    <ul class="nav nav-tabs nav-list" id="abtl-nav-tabs">
+        <div class="abtl-row abtl-menu-bar">
+            <div class="abtl-col-sm-10">
+                <div class="abtl-scroller abtl-scroller-left"><span class="abtl-glyphicon abtl-glyphicon-chevron-left"></span></div>
+                <div class="abtl-scroller abtl-scroller-right"><span class="abtl-glyphicon abtl-glyphicon-chevron-right"></span></div>
+                <div class="abtl-nav-wrapper">
+                    <ul class="abtl-nav abtl-nav-pills abtl-nav-list" id="abtl-nav-tabs">
                         <li id="abtl-test-nav-template" class="abtl-hidden abtl-tab-label">
                             <a class="abtl-pick-test">New test</a>
-                            <input type="text" value="New test" style="display: none" class="test-title form-control" maxlength="30">
-                            <span class="abtl-delete-tab glyphicon glyphicon-remove"></span>
+                            <input type="text" value="New test" style="display: none" class="abtl-test-title abtl-form-control" maxlength="30">
+                            <span class="abtl-delete-tab abtl-glyphicon abtl-glyphicon-remove"></span>
                         </li>
                         <li id="abtl-add-new-test"><a>+ Add new</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-2 text-right">
-                <button id="abtl-save" class="btn btn-primary btn-sm">Save all</button>
-                <button id="abtl-exit" class="btn btn-danger btn-sm">Exit</button>
+            <div class="abtl-col-sm-2 abtl-text-right abtl-buttons">
+                <button id="abtl-save" class="abtl-btn abtl-btn-primary">Save all</button>
+                <button id="abtl-exit" class="abtl-btn abtl-btn-danger">Exit</button>
             </div>
         </div>
         <div class="abtl-menu-border"></div>
     </div>
-    <div class="abtl-container">
-        <div class="abtl-row container-fluid tab-content" id="abtl-tests-container">
-            <div class="abtl-test-tab tab-pane abtl-hidden" id="abtl-test-template" data-id="">
-                <div class="row abtl-tests-window">
-                    <div class="col-lg-2 col-sm-3 abtl-steps">
+    <div class="abtl-my-container">
+        <div class="abtl-row abtl-container-fluid abtl-tab-content" id="abtl-tests-container">
+            <div class="abtl-test-tab abtl-tab-pane abtl-hidden" id="abtl-test-template" data-id="">
+                <div class="abtl-row abtl-tests-window">
+                    <div class="abtl-col-lg-3 abtl-col-sm-3 abtl-steps">
                         <ol>
-                            <li class="abtl-step-element active-step">Choose element</li>
+                            <li class="abtl-step-element abtl-active-step">Choose element</li>
                             <li class="abtl-step-variation">Create a variation</li>
                             <li class="abtl-step-conversion">Define a conversion event</li>
                             <li class="abtl-step-reach">Define reach</li>
+                        </ol>
                     </div>
                     <!-- DEFINE ELEMENT -->
-                    <div class="abtl-before col-lg-10 col-sm-9 abtl-cell abtl-step-element active-step" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                    <div class="abtl-before abtl-col-lg-9 abtl-col-sm-9 abtl-cell abtl-step-element abtl-active-step" ondrop="drop(event, this)" ondragover="allowDrop(event)">
                         <div class="abtl-instructions">
                             <p>
-                            <button class="pull-left abtl-pick-element btn btn-default btn-sm">
+                            <button class="abtl-pull-left abtl-pick-element abtl-btn abtl-btn-default abtl-btn-sm">
                                 Pick
                             </button>
                             <strong>Pick</strong> the element you want to optimize
@@ -46,101 +47,98 @@
                             </p>
                         </div>
 
-                        <textarea class="abtl-identifier-text form-control" readonly></textarea>
+                        <textarea class="abtl-identifier-text abtl-form-control" readonly></textarea>
 
                         <div class="abtl-image-container">
-                             <img class="abtl-identifier-image img-responsive">
+                             <img class="abtl-identifier-image abtl-img-responsive">
                         </div>
                     </div>
                     <!-- DEFINE VARIATION -->
-                    <div class="abtl-after col-lg-10 col-sm-9 abtl-cell abtl-step-variation">
+                    <div class="abtl-after abtl-col-lg-9 abtl-col-sm-9 abtl-cell abtl-step-variation">
                         <div class="abtl-instructions">
                             <p>
-                                <button class="btn btn-default btn-sm abtl-cutom-style-button pull-left">
+                                <button class="abtl-btn abtl-btn-default abtl-btn-sm abtl-cutom-style-button abtl-pull-left">
                                     Style
                                 </button>
                                 Your changes go <strong>here</strong>.
                             </p>
                         </div>
-                        <textarea class="abtl-test-text form-control" disabled></textarea>
+                        <textarea class="abtl-test-text abtl-form-control" disabled></textarea>
 
                         <!-- style container -->
-                        <div class="custom-style-container" style="display: none">
-                            <div class="container-form">
+                        <div class="abtl-custom-style-container" style="display: none">
+                            <div class="abtl-container-form">
                                 <div>
                                     <label>Classes</label>
-                                    <input type="text" class="custom-style-classes form-control" placeholder="Class list">
+                                    <input type="text" class="abtl-custom-style-classes abtl-form-control" placeholder="Class list">
                                 </div>
                                 <div>
                                     <label>Custom style rules</label>
-                                    <textarea class="custom-style-css form-control" placeholder="Custom css style rules"></textarea>
+                                    <textarea class="abtl-custom-style-css abtl-form-control" placeholder="Custom css style rules"></textarea>
                                 </div>
                                 <div>
-                                    <button class="btn btn-default btn-lg custom-style-close-button">Close</button>
+                                    <button class="abtl-btn abtl-btn-default abtl-btn-lg abtl-custom-style-close-button">Close</button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row abtl-test-image center-block" style="display:none">
-                            <div class="col-lg-8">
-                                <div class="image-properties">
-                                    <select class="upload-or-url form-control abtl-input-short">
+                        <div class="abtl-test-image abtl-center-block" style="display:none">
+                            <div class="abtl-col-lg-8">
+                                <div class="abtl-image-properties">
+                                    <select class="abtl-upload-or-url abtl-form-control abtl-input-short">
                                         <option value="url">Image url</option>
                                         <option value="upload">Upload image</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <input type="text" name="inputUrl" class="abtl-image-url form-control" placeholder="http://" style="display: none">
+                                    <input type="text" name="inputUrl" class="abtl-image-url abtl-form-control" placeholder="http://" style="display: none">
                                     <input type="file" name="inputImage" class="abtl-image-upload" style="display: none">
                                 </div>
                             </div>
-                            <div class="col-lg-4 abtl-image-container">
-                                <img src="" class="image-upload-preview img-responsive center-block">
+                            <div class="abtl-col-lg-4 abtl-image-container">
+                                <img src="" class="abtl-image-upload-preview abtl-img-responsive abtl-center-block">
                             </div>
                         </div>
                     </div>
                     <!-- DEFINE CONVERSION -->
-                    <div class="abtl-conversion-picker col-lg-10 col-sm-9 abtl-cell abtl-step-conversion">
+                    <div class="abtl-conversion-picker abtl-col-lg-9 abtl-col-sm-9 abtl-cell abtl-step-conversion">
                         <div class="abtl-instructions">
                             <p>
                                 Configure what will count as a <strong>conversion</strong>.
                             </p>
                         </div>
-                        <div class="row text-center">
-                            <div>
-                                Conversion is: <select class="abtl-conversion-type form-control abtl-input-short">
+                        <div class="abtl-text-center">
+                                Conversion is: <select class="abtl-conversion-type abtl-form-control abtl-input-short">
                                     <option value="click" title="Clicks on the conversion element">A click on a defined element</option>
                                     <option value="time" title="Time spent on the website">Time spent on a web page</option>
                                 </select>
-                                <div class="abtl-click-conversion">
+                                <div class="abtl-click-conversion abtl-top-margin">
                                     <span class="abtl-default-conversion">
                                         <label class="abtl-default-conversion-checkbox">
                                             <input type="checkbox" checked>
                                             use the same element for conversion tracking
                                         </label>
                                     </span>
-                                    <div class="abtl-custom-conversion" style="display: none">
-                                        <button class="btn btn-default btn-sm abtl-custom-conversion-button">Pick element to track conversions.</button>
+                                    <div class="abtl-custom-conversion abtl-top-margin" style="display: none">
+                                        <button class="abtl-btn abtl-btn-default abtl-btn-sm abtl-custom-conversion-button">Pick element to track conversions.</button>
                                         <input type="hidden" class="abtl-click-conversion-input">
-                                        <span class="picked-not-picked"></span>
+                                        <span class="abtl-picked-not-picked"></span>
                                     </div>
                                 </div>
-                                <div class="abtl-time-conversion" style="display: none">
-                                    <input type="number" class="form-control abtl-time-conversion-input abtl-input-short text-right" title="Time spent on the website" value="15"> seconds
+                                <div class="abtl-time-conversion abtl-top-margin" style="display: none">
+                                    <input type="number" class="abtl-form-control abtl-time-conversion-input abtl-input-short abtl-text-right" title="Time spent on the website" value="15"> seconds
                                 </div>
-                            </div>
                         </div>
                     </div>
                     <!-- DEFINE REACH -->
-                    <div class="abtl-conversion-picker col-lg-10 col-sm-9 abtl-cell abtl-step-reach">
+                    <div class="abtl-conversion-picker abtl-col-lg-9 abtl-col-sm-9 abtl-cell abtl-step-reach">
                         <div class="abtl-instructions">
                             <p>
                                 Define how many visitors should see the test.
                             </p>
                         </div>
-                        <div class="row text-center">
-                            <div>
-                                Stop after <input type="number" min="100" max="100000" value="1000" class="form-control abtl-input-short abtl-conversion-goal text-right"> total visitors are reached
+                        <div class="abtl-text-center">
+                            Stop after <input type="number" min="100" max="100000" value="1000" class="abtl-form-control abtl-input-short abtl-conversion-goal abtl-text-right"> total visitors are reached
                         </div>
                     </div>
                 </div>

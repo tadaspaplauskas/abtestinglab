@@ -26,6 +26,12 @@
     cursor: pointer;
 }
 
+/*#abtl-newTest, .abtl-variationTabHandle {
+    border: 1px solid black;
+    padding: 5px;
+    cursor: pointer;
+}*/
+
 .abtl-row {
     white-space: nowrap;
     overflow-x: auto;
@@ -35,6 +41,15 @@
     margin-right: -15px;
     margin-left: -15px;
 }
+/*
+.abtl-menu {
+    background: #79CEEB;
+    height: 3em;
+    margin: 0;
+    padding-top: 0.4em;
+    padding-left: 0.4em;
+
+}*/
 .abtl-menu {
     background-color: beige;
     padding:0.5em 0 0 0;
@@ -69,12 +84,30 @@
   position: absolute;
 }
 
+/*.abtl-active {
+    background: grey;
+}*/
+
+
+/*.abtl-deleteTest {
+  text-align: right;
+  margin-bottom: 0.5em;
+}
+
+.abtl-deleteTest span{
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+}*/
+
 .abtl-instructions {
     text-align:center;
     line-height: 2em;
 }
 
 .abtl-instructions p {
+    /*awidth: 20;
+    amargin: auto;*/
     word-wrap: break-word;
 }
 
@@ -145,8 +178,7 @@
 
 .abtl-nav-pills > li.abtl-active > a, .abtl-nav-pills > li.abtl-active > a:hover, .abtl-nav-pills > li.abtl-active > a:focus {
     cursor: text;
-    background-color: #fff;
-    color: #23527c;
+    background-color: #494949;
 }
 
 .abtl-delete-tab {
@@ -162,6 +194,22 @@
     visibility: visible;
 }
 
+/*.status-icon {
+    position: absolute !important;
+    top: 1em !important;
+    cursor: default;
+    color: #CECECE;
+    margin-left: 1em;
+    display: none;
+}*/
+/*#abtl-nav-tabs {
+    white-space: nowrap;
+    height: 10vh;
+}
+#abtl-nav-tabs li {
+    display: inline-block;
+}*/
+
 .abtl-identifier-image {
     max-height: 7em;
     max-width: 20;
@@ -170,6 +218,7 @@
 
 .abtl-image-container {
     cursor: pointer;
+    /*width: 30;*/
     margin: auto;
 }
 .abtl-container-expanded {
@@ -190,8 +239,15 @@
     max-width: 80vh !important;
 }
 
+/*.abtl-test-image input {
+    width: 14em;
+}*/
+
 .abtl-test-image {
+    /*max-width: 40;*/
+    /*height: 6em;*/
     text-align: center;
+    /*border: 1px solid beige;*/
 }
 
 .abtl-test-image img{
@@ -208,6 +264,11 @@
 .abtl-tab-label input {
     width: 10em;
 }
+
+/*.imageWidth, .imageHeight {
+    width: 6em !important;
+    display: inline !important;
+}*/
 
 .abtl-default-conversion-checkbox {
     position: relative;
@@ -343,8 +404,4 @@ div>.abtl-active-step {
 
 .abtl-buttons {
     margin-top: 0.2em;
-}
-
-.abtl-top-margin {
-    margin-top: 0.5em;
 }

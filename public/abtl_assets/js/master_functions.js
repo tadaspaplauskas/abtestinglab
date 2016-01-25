@@ -1,116 +1,128 @@
-try {
-    localStoreSupport = ('localStorage' in window && window['localStorage'] !== null);
-} catch (e) {
-    localStoreSupport = false;
-}
-//only for testing
-//localStoreSupport = false;
-
-function setLocal(name, data)
-{
-    jsonData = JSON.stringify(data);
-
-    if (localStoreSupport)
+String.prototype.customTrim = function () {
+    var elem = this;
+    if (elem !== undefined && elem !== null)
     {
-        return localStorage.setItem(name, jsonData);
+        elem = elem.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ").replace(' draggable="true" ondragstart="drag(event)"', '');
     }
-    else
+    return elem;
+};
+abtl.extend({
+    compareElements: function(elem, value)
     {
-        var date = new Date();
-        date.setTime(date.getTime()+(365 * 24 * 60 * 60)); //for a year
-        var expires = "; expires=" + date.toGMTString();
+        var href = elem.attr('href') || undefined;
+        var src = elem.attr('src') || undefined;
+        var html = elem.html().customTrim() || undefined;
 
-        document.cookie = name + "=" + jsonData + expires + "; path=/";
-        return true;
-    }
-}
-
-function getLocal(name)
-{
-    if (localStoreSupport)
+        return ((html !== undefined && html === value) ||
+                    (href !== undefined && href === value) ||
+                    (src !== undefined && src === value));
+    },
+    localStorageSupport: function ()
     {
-        item = localStorage.getItem(name);
-        if (item === null || item === undefined)
-            return null;
+        try {
+            return ('localStorage' in window && window.localStorage !== null);
+        } catch (e) {
+            return false;
+        }
+    },
+    setLocal: function (name, data)
+    {
+        jsonData = JSON.stringify(data);
+
+        if (abtl.localStorageSupport())
+        {
+            return localStorage.setItem(name, jsonData);
+        }
         else
-            return JSON.parse(localStorage.getItem(name));
-    }
-    else
+        {
+            var date = new Date();
+            date.setTime(date.getTime()+(365 * 24 * 60 * 60)); //for a year
+            var expires = "; expires=" + date.toGMTString();
+
+            document.cookie = name + "=" + jsonData + expires + "; path=/";
+            return true;
+        }
+    },
+    getLocal: function (name)
     {
-        name += '=';
-        for (var ca = document.cookie.split(/;\s*/), i = ca.length - 1; i >= 0; i--)
-        {    if (!ca[i].indexOf(name))
-            {
-                return JSON.parse(ca[i].replace(name, ''));
+        if (abtl.localStorageSupport())
+        {
+            item = localStorage.getItem(name);
+            if (item === null || item === undefined)
+                return null;
+            else
+                return JSON.parse(localStorage.getItem(name));
+        }
+        else
+        {
+            name += '=';
+            for (var ca = document.cookie.split(/;\s*/), i = ca.length - 1; i >= 0; i--)
+            {    if (!ca[i].indexOf(name))
+                {
+                    return JSON.parse(ca[i].replace(name, ''));
+                }
             }
+            return null;
         }
-        return null;
-    }
-}
-
-function removeLocal(name)
-{
-    if (localStoreSupport)
+    },
+    removeLocal: function (name)
     {
-        return localStorage.removeItem(name);
-    }
-    else
-    {
-        var expires = "";
-
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
-        return true;
-    }
-}
-
-function customTrim(str) {
-    if (str !== undefined && str !== null)
-    {
-        str = str.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ");
-        str = str.replace(' draggable="true" ondragstart="drag(event)"', '');
-    }
-    return str;
-}
-
-function allElements()
-{
-    var tags = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
-    return $("body").find(tags).filter(function() {
-        return (directText($(this)).length > 0 || $(this).val() || $(this).attr('src'));
-    });
-}
-
-function directText(elem)
-{
-    str = '';
-    elem.contents().each(function() {
-        if (this.nodeType === 3) {
-            str += $(this).text();
+        if (abtl.localStorageSupport())
+        {
+            return localStorage.removeItem(name);
         }
-    });
-    return str.trim();
-}
+        else
+        {
+            var expires = "";
 
-function loadCSS(href)
-{
-    $('<link>')
-        .appendTo('head')
-        .attr({type : 'text/css', rel : 'stylesheet'})
-        .attr('href', href);
-}
-
-function loadJS(href)
-{
-    $('<script>')
-        .appendTo('head')
-        .attr({type : 'text/javascript'})
-        .attr('src', href);
-}
-
-function parentConversion(elem)
-{
-    if (elem.parents('a[href!=""]').length > 0)
-        return true;
-    else
-        return false;
-}
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/";
+            return true;
+        }
+    },
+    /*customTrim: function (elem) {
+        if (elem !== undefined && elem !== null)
+        {
+            elem = elem.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ");
+            elem = elem.replace(' draggable="true" ondragstart="drag(event)"', '');
+        }
+        return elem;
+    },*/
+    parentConversion: function (elem)
+    {
+        if (elem.parents('a[href!=""]').length > 0)
+            return true;
+        else
+            return false;
+    },
+    allElements: function ()
+    {
+        var tags = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
+        return abtl("body").find(tags).filter(function() {
+            return (abtl.directText(abtl(this)).length > 0 || abtl(this).val() || abtl(this).attr('src'));
+        });
+    },
+    directText: function (elem)
+    {
+        str = '';
+        elem.contents().each(function() {
+            if (this.nodeType === 3) {
+                str += abtl(this).text();
+            }
+        });
+        return str.trim();
+    },
+    loadCSS: function (href)
+    {
+        abtl('<link>')
+            .appendTo('head')
+            .attr({type : 'text/css', rel : 'stylesheet'})
+            .attr('href', href);
+    },
+    loadJS: function (href)
+    {
+        abtl('<script>')
+            .appendTo('head')
+            .attr({type : 'text/javascript'})
+            .attr('src', href);
+    }
+});

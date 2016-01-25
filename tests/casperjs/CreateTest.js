@@ -106,28 +106,28 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
         this.clickLabel('+ Add new');
 
         this.fillSelectors('#abtl-placeholder', {
-            '.active .test-title': 'first test title'
+            '.abtl-active .abtl-test-title': 'first test title'
         });
 
         //choose element to test
-        this.click('.active .abtl-pick-element');
+        this.click('.abtl-active .abtl-pick-element');
 
         this.click('.description');
 
         this.click('.abtl-step-variation');
 
-        test.assertVisible('.active .abtl-test-text', 'Variation field is visible');
+        test.assertVisible('.abtl-active .abtl-test-text', 'Variation field is visible');
 
         this.evaluate(function() {
-            $('.active .abtl-test-text').val('This is blog desc that supports <b>html</b>').keyup();
+            abtl('.abtl-active .abtl-test-text').val('This is blog desc that supports <b>html</b>').keyup();
         });
 
         this.click('.abtl-step-variation');
 
-        test.assertVisible('.active .abtl-conversion-type', 'Conversion fields are visible');
+        test.assertVisible('.abtl-active .abtl-conversion-type', 'Conversion fields are visible');
 
         this.evaluate(function() {
-            $('.active .abtl-conversion-type option').val('time').change();
+            abtl('.abtl-active .abtl-conversion-type option').val('time').change();
         });
 
         test.assertEquals(this.getElementInfo('.description').text, 'This is blog desc that supports html',
@@ -139,21 +139,22 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
         this.clickLabel('+ Add new');
 
         this.fillSelectors('#abtl-placeholder', {
-            '.active .test-title': 'second test picture url'
+            '.abtl-active .abtl-test-title': 'second test picture url'
         });
 
         //choose element to test
-        this.click('.active .abtl-pick-element');
+        this.click('.abtl-active .abtl-pick-element');
         this.click('.test-image');
 
         this.click('.abtl-step-variation');
-        test.assertVisible('.active .abtl-image-url', 'Image fields are visible');
+        casper.capture('debug.jpg');
+        test.assertVisible('.abtl-active .abtl-image-url', 'Image fields are visible');
 
         this.evaluate(function() {
-            $('.active .abtl-image-url').val('https://www.google.com/images/nav_logo242.png').change();
+            abtl('.abtl-active .abtl-image-url').val('https://www.google.com/images/nav_logo242.png').change();
         });
 
-        test.assertEquals(this.getElementInfo('.active .image-upload-preview').attributes.src,
+        test.assertEquals(this.getElementInfo('.abtl-active .abtl-image-upload-preview').attributes.src,
             'https://www.google.com/images/nav_logo242.png',
             'Image preview is loaded');
 
@@ -163,14 +164,14 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
 
         //this.click('.abtl-step-conversion');
 
-        this.click('.active .abtl-cutom-style-button');
+        this.click('.abtl-active .abtl-cutom-style-button');
 
         this.fillSelectors('#abtl-placeholder', {
-            '.active .custom-style-classes': 'test-image dummy-class',
-            '.active .custom-style-css': 'border: 10px solid red;'
+            '.abtl-active .abtl-custom-style-classes': 'test-image dummy-class',
+            '.abtl-active .abtl-custom-style-css': 'border: 10px solid red;'
         });
 
-        this.click('.active .custom-style-close-button');
+        this.click('.abtl-active .abtl-custom-style-close-button');
 
         test.assertMatch(this.getElementInfo('.test-image').attributes.class, /dummy-class/, 'Class modif. works');
         test.assertMatch(this.getElementInfo('.test-image').attributes.style, /border: 10px solid red;/, 'Style modif. works');
@@ -181,38 +182,38 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
         this.clickLabel('+ Add new');
 
         this.fillSelectors('#abtl-placeholder', {
-            '.active .test-title': 'third test picture upload'
+            '.abtl-active .abtl-test-title': 'third test picture upload'
         });
 
         //choose element to test
-        this.click('.active .abtl-pick-element');
+        this.click('.abtl-active .abtl-pick-element');
         this.click('.test-image-upload');
 
         this.click('.abtl-step-variation');
 
         this.evaluate(function() {
-            $('.active .upload-or-url').val('upload').change();
+            abtl('.abtl-active .abtl-upload-or-url').val('upload').change();
         });
 
-        test.assertVisible('.active .abtl-image-upload', 'Image upload field is visible');
+        test.assertVisible('.abtl-active .abtl-image-upload', 'Image upload field is visible');
 
-        this.page.uploadFile('.active .abtl-image-upload','panda.jpg');
+        this.page.uploadFile('.abtl-active .abtl-image-upload','panda.jpg');
 
         this.wait(1000, function() {
 
             this.evaluate(function() {
-                $('.active .abtl-image-upload').change();
+                abtl('.abtl-active .abtl-image-upload').change();
             });
 
-            test.assertVisible('.active .image-upload-preview', 'Upload image preview visible');
+            test.assertVisible('.abtl-active .abtl-image-upload-preview', 'Upload image preview visible');
         });
 
     });
 
     //add custom conversion
     casper.then(function() {
-        this.click('.active .abtl-step-conversion');
-        this.click('.active .abtl-custom-conversion-button');
+        this.click('.abtl-active .abtl-step-conversion');
+        this.click('.abtl-active .abtl-custom-conversion-button');
         this.clickLabel('#19 how to get better chroma key with Sony Vegas');
 
         test.assertTextExists('Conversion defined.', 'Conversion chosen.');

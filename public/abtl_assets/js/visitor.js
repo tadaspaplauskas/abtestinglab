@@ -1,95 +1,121 @@
-testsVariationsStorage = 'abtl_t_v';
-visitorStorage = 'abtl_vstr';
+(function($, window, document) {
+    testsVariationsStorage = 'abtl_t_v';
+    visitorStorage = 'abtl_vstr';
 
-$(document).ready(function() {
     //do not track the manager
-    if (getLocal('abtl_do_not_track') !== '1')
-        applyTestsAndConversions(abtlData);
-
-    //display body
-    $('body').css('visibility', 'initial');
-});
-
-function applyTestsAndConversions(data)
-{
-    var testVariations = getLocal(testsVariationsStorage);
-    if (testVariations === null)
+    if ($.getLocal('abtl_do_not_track') !== '1')
     {
-        var testVariations = {};
+        $(document).ready(function() {
+            applyTestsAndConversions(abtlData);
+            $('body').css('visibility', 'initial');
+        });
     }
-    var newTestVariations = {};
 
-    var tests = data.tests;
-    var conversions = data.conversions;
-    var finished = data.finished;
-
-    //looking for time conversions to apply
-    for(i = 0; i < conversions.length; i++)
+    function applyTestsAndConversions(data)
     {
-        var testID = conversions[i].test_id;
-        var element = conversions[i].element;
-        var type = conversions[i].conversion_type;
-        if (type === 'time')
+        var testVariations = $.getLocal(testsVariationsStorage);
+        if (testVariations === null)
         {
-            setTimeConversion(testID, element);
+            var testVariations = {};
         }
-    }
+        var newTestVariations = {};
 
-    allElements().each(function()
-    {
-        //looking for click conversions to apply. Has to happen before tests
+        var tests = data.tests;
+        var conversions = data.conversions;
+        var finished = data.finished;
+
+        //looking for time conversions to apply
         for(i = 0; i < conversions.length; i++)
         {
             var testID = conversions[i].test_id;
             var element = conversions[i].element;
             var type = conversions[i].conversion_type;
-            if (type === 'click')
-            {   if (customTrim($(this).html()) === element
-                    || customTrim($(this).attr('href')) === element
-                    || customTrim($(this).attr('src')) === element)
-                {
-                    setClickConversion($(this), testID);
-                }
+            if (type === 'time')
+            {
+                setTimeConversion(testID, element);
             }
         }
 
-        //looking for tests to apply
-        for(i = 0; i < tests.length; i++)
+        $.allElements().each(function()
         {
-            var testID = tests[i].id;
-            var elementType = tests[i].element_type;
-            var element = tests[i].element;
-            var variation = tests[i].variation;
-            var variationWeight = tests[i].variation_weight;
-            var attributes = tests[i].attributes || null;
-
-            //choosing a or b
-            if (testVariations[testID] !== undefined)
+            //looking for click conversions to apply. Has to happen before tests
+            for(i = 0; i < conversions.length; i++)
             {
-                variationChoice = testVariations[testID];
+                var testID = conversions[i].test_id;
+                var element = conversions[i].element;
+                var type = conversions[i].conversion_type;
+                if (type === 'click')
+                {
+                    if ($.compareElements($(this), element))
+                    {
+                        setClickConversion($(this), testID);
+                    }
+                }
             }
-            else
-            {
-                variationChoice = randomChoice(variationWeight);
-                testVariations[testID] = variationChoice;
-            }
-            //to omit removed tests from saving
-            newTestVariations[testID] = testVariations[testID];
 
-            if (variationChoice === 'b')
+            //looking for tests to apply
+            for(i = 0; i < tests.length; i++)
             {
-                var found = false;
-                if (elementType === 'image' && customTrim($(this).attr('src')) === element)
+                var testID = tests[i].id;
+                var elementType = tests[i].element_type;
+                var element = tests[i].element;
+                var variation = tests[i].variation;
+                var variationWeight = tests[i].variation_weight;
+                var attributes = tests[i].attributes || null;
+
+                //choosing a or b
+                if (testVariations[testID] !== undefined)
+                {
+                    variationChoice = testVariations[testID];
+                }
+                else
+                {
+                    variationChoice = randomChoice(variationWeight);
+                    testVariations[testID] = variationChoice;
+                }
+                //to omit removed tests from saving
+                newTestVariations[testID] = testVariations[testID];
+
+                if (variationChoice === 'b')
+                {
+                    var found = false;
+                    if (elementType === 'image' && $.compareElements($(this), element))
+                    {
+                        $(this).attr('src', variation);
+                        found = true;
+                    }
+                    else if ($.compareElements($(this), element))
+                    {
+                        $(this).html(variation);
+                        found = true;
+                    }
+                    if(found && attributes)
+                    {
+                        if (attributes.style !== undefined)
+                            $(this).attr('style', attributes.style);
+                        if (attributes.class !== undefined)
+                            $(this).attr('class', attributes.class);
+                    }
+                }
+            }
+
+            //looking for finished variations to apply
+            for(i = 0; i < finished.length; i++)
+            {
+                var elementType = finished[i].element_type;
+                var element = finished[i].element;
+                var variation = finished[i].variation;
+                var attributes = finished[i].attributes || null;
+
+                if (elementType === 'image' && $.compareElements($(this), element))
                 {
                     $(this).attr('src', variation);
-                    found = true;
                 }
-                else if (customTrim($(this).html()) === element || customTrim($(this).attr('href')) === element)
+                else if ($.compareElements($(this), element))
                 {
                     $(this).html(variation);
-                    found = true;
                 }
-                if(found && attributes)
+                if(attributes)
                 {
                     if (attributes.style !== undefined)
                         $(this).attr('style', attributes.style);
@@ -97,124 +123,98 @@ function applyTestsAndConversions(data)
                         $(this).attr('class', attributes.class);
                 }
             }
-        }
-
-        //looking for finished variations to apply
-        for(i = 0; i < finished.length; i++)
-        {
-            var elementType = finished[i].element_type;
-            var element = finished[i].element;
-            var variation = finished[i].variation;
-            var attributes = finished[i].attributes || null;
-
-            if (elementType === 'image' && customTrim($(this).attr('src')) === element)
-            {
-                $(this).attr('src', variation);
-            }
-            else if (customTrim($(this).html()) === element || customTrim($(this).attr('href')) === element)
-            {
-                $(this).html(variation);
-            }
-            if(attributes)
-            {
-                if (attributes.style !== undefined)
-                    $(this).attr('style', attributes.style);
-                if (attributes.class !== undefined)
-                    $(this).attr('class', attributes.class);
-            }
-        }
-    });
-    //log changes in tests and create new visitor if there is none yet
-    if (JSON.stringify(getLocal(testsVariationsStorage)) != JSON.stringify(newTestVariations))
-    {
-        newVisitor(newTestVariations);
-    }
-
-    //saving variations for future use
-    setLocal(testsVariationsStorage, newTestVariations);
-}
-
-function logVisit(tests)
-{
-    var visitor = getLocal(visitorStorage);
-
-    if (visitor !== null && visitor !== undefined
-            && tests !==null && tests !== undefined)
-    {
-        //sending to backend
-        var visitData = { visitor_id: visitor['visitor'], tests: tests };
-        $.ajax({
-            url:"/api/log_visit",
-            method: 'POST',
-            async: true,
-            data: visitData});
-    }
-}
-
-function saveConversion(testID)
-{
-    var visitor = getLocal(visitorStorage);
-    var variation = getLocal(testsVariationsStorage);
-
-    if (visitor !== null && visitor !== undefined && variation !==null && variation !== undefined)
-    {
-        variation = variation[testID];
-        //sending to backend
-        conversionData = { test_id: testID, variation: variation, visitor_id: visitor['visitor'] };
-        $.ajax({
-            url:'/api/save_conversion',
-            method: 'POST',
-            async: true,
-            data: conversionData});
-    }
-}
-
-function newVisitor(tests)
-{
-    var visitor = getLocal(visitorStorage);
-    if (visitor === null || visitor === undefined)
-    {
-        $.ajax({
-            url:"/api/new_visitor",
-            method: 'POST',
-            async: true,
-            data: { website_id: websiteID }
-        })
-        .done(function(data){
-            setLocal(visitorStorage, { visitor: data });
-            logVisit(tests);
         });
-    } else
-    {
-        logVisit(tests);
+        //log changes in tests and create new visitor if there is none yet
+        if (JSON.stringify($.getLocal(testsVariationsStorage)) != JSON.stringify(newTestVariations))
+        {
+            newVisitor(newTestVariations);
+        }
+
+        //saving variations for future use
+        $.setLocal(testsVariationsStorage, newTestVariations);
     }
-}
 
-function randomChoice(variationWeight)
-{
-    //random number 1-100
-    var random = Math.floor(Math.random() * 100);
-
-    if (random < variationWeight)
+    function logVisit(tests)
     {
-        return 'b';
+        var visitor = $.getLocal(visitorStorage);
+
+        if (visitor !== null && visitor !== undefined && tests !==null && tests !== undefined)
+        {
+            //sending to backend
+            var visitData = { visitor_id: visitor.visitor, tests: tests };
+            $.ajax({
+                url:"/api/log_visit",
+                method: 'POST',
+                async: true,
+                data: visitData});
+        }
     }
-    else
+
+    function saveConversion(testID)
     {
-        return 'a';
+        var visitor = $.getLocal(visitorStorage);
+        var variation = $.getLocal(testsVariationsStorage);
+
+        if (visitor !== null && visitor !== undefined && variation !==null && variation !== undefined)
+        {
+            variation = variation[testID];
+            //sending to backend
+            conversionData = { test_id: testID, variation: variation, visitor_id: visitor.visitor };
+            $.ajax({
+                url:'/api/save_conversion',
+                method: 'POST',
+                async: true,
+                data: conversionData});
+        }
     }
-}
 
-function setTimeConversion(test, seconds)
-{
-    setTimeout(function () { saveConversion(test); }, seconds * 1000);
-}
+    function newVisitor(tests)
+    {
+        var visitor = $.getLocal(visitorStorage);
+        if (visitor === null || visitor === undefined)
+        {
+            $.ajax({
+                url:"/api/new_visitor",
+                method: 'POST',
+                async: true,
+                data: { website_id: websiteID }
+            })
+            .done(function(data){
+                $.setLocal(visitorStorage, { visitor: data });
+                logVisit(tests);
+            });
+        } else
+        {
+            logVisit(tests);
+        }
+    }
 
-function setClickConversion(obj, test)
-{
-    obj.data('test_id', test);
-    obj.mousedown(function(ev){
-        saveConversion(test);
-        ev.preventDefault();
-    });
-}
+    function randomChoice(variationWeight)
+    {
+        //random number 1-100
+        var random = Math.floor(Math.random() * 100);
+
+        if (random < variationWeight)
+        {
+            return 'b';
+        }
+        else
+        {
+            return 'a';
+        }
+    }
+
+    function setTimeConversion(test, seconds)
+    {
+        setTimeout(function () { saveConversion(test); }, seconds * 1000);
+    }
+
+    function setClickConversion(obj, test)
+    {
+        obj.data('test_id', test);
+        obj.mousedown(function(ev){
+            saveConversion(test);
+            ev.preventDefault();
+        });
+    }
+}(window.abtl, window, document));

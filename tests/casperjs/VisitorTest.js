@@ -34,7 +34,7 @@ casper.test.begin('Test visitors side of things (js + api)', 2, function suite(t
     });
 
     casper.thenEvaluate(function() {
-        $('a').filter(function(index) { return $(this).text() == "#19 how to get better chroma key with Sony Vegas"; }).mousedown();
+        abtl('a').filter(function(index) { return abtl(this).text() == "#19 how to get better chroma key with Sony Vegas"; }).mousedown();
     });
 
     casper.thenOpen(url);
@@ -44,7 +44,7 @@ casper.test.begin('Test visitors side of things (js + api)', 2, function suite(t
     });
 
     casper.thenEvaluate(function() {
-        $('.test-image').mousedown();
+        abtl('.test-image').mousedown();
     });
 
     casper.thenOpen(url);
