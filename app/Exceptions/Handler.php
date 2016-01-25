@@ -19,6 +19,9 @@ class Handler extends ExceptionHandler
         HttpException::class,
         \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+        \Guzzle\Common\Exception\BadMethodCallException::class,
+        BadMethodCallException::class,
+
     ];
 
     /**
@@ -31,11 +34,10 @@ class Handler extends ExceptionHandler
      */
     public function report(\Exception $e)
     {
-        if ($this->shouldReport($e))
+        if (!$app->environment('production') && $this->shouldReport($e)) // only email in production
         {
             event(new \App\Event\ExceptionThrown($e));
         }
-
         return parent::report($e);
     }
 

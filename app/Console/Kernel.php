@@ -40,12 +40,11 @@ class Kernel extends ConsoleKernel
 
             $websites = Website::where('updated_at', '<', $dateLimit)->get();
 
-            $websites->update(['token' => '']);
-
             $testController = new TestController();
 
             foreach ($websites as $website)
             {
+                $website->update(['token' => '']);
                 $testController->refreshTestsJS($website);
             }
 
