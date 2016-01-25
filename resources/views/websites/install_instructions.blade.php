@@ -1,13 +1,13 @@
 @extends('master')
 
-@section('title', 'Success!')
+@section('title', 'Install instructions')
 @section('breadcrumbs', Breadcrumbs::render('website', $website))
 
 @section('content')
 
 <p>
-    Now you have to add the JS code below to the &lt;head&gt; tag of your website.
-    This code should be loaded in every page where you want to conduct tests.
+    You have to add the JS code below to the &lt;head&gt; tag of your website.
+    This code should be loaded in every page where you want to conduct tests. For best user experience make sure to put the script before any other scripts in the lt;head&gt; tag.
 </p>
 <p>
 <h3>Code</h3>

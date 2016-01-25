@@ -49,6 +49,8 @@ class WebsiteController extends Controller
             $website->save();
 
             Session::flash('success', 'Website updated.');
+
+            return redirect(route('websites.show', ['id' => $website->id]));
         }
         else
         {
@@ -56,9 +58,9 @@ class WebsiteController extends Controller
             self::createWebsitePath($website);
 
             Session::flash('success', 'Website created.');
-        }
 
-        return redirect(route('websites.instructions', ['id' => $website->id]));
+            return redirect(route('websites.instructions', ['id' => $website->id]));
+        }
     }
 
     public function installInstructions(Website $website)

@@ -140,7 +140,7 @@ class Website extends Model
     {
         $content = file_get_contents($this->url);
 
-        if(stripos($content, $this->jsPath()) === false)
+        if(stripos($content, $this->jsUrl()) === false)
             return false;
         else
             return true;
