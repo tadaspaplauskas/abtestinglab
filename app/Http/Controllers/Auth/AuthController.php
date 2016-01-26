@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Socialite;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -101,6 +102,23 @@ class AuthController extends Controller
         return view('auth/register');
     }
 
+    public function postRegister(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        Auth::login($this->create($request->all()));
+
+        session()->flash('success', 'Hi there and welcome abroad! Add your website here and start testing right away.');
+
+        return redirect(route('websites.create'));
+    }
+
     public function redirectToProviderFacebook()
     {
         return Socialite::driver('facebook')->redirect();
@@ -122,4 +140,6 @@ class AuthController extends Controller
     {
         $user = Socialite::driver('google')->user();
     }
+
+
 }
