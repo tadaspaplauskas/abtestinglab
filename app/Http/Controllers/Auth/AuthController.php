@@ -102,6 +102,11 @@ class AuthController extends Controller
         return view('auth/register');
     }
 
+    public function registerBuy()
+    {
+        return view('auth/register', ['buy' => 1]);
+    }
+
     public function postRegister(Request $request)
     {
         $validator = $this->validator($request->all());
@@ -114,9 +119,13 @@ class AuthController extends Controller
 
         Auth::login($this->create($request->all()));
 
-        session()->flash('success', 'Hi there and welcome abroad! Add your website here and start testing right away.');
+        session()->flash('success', 'Hi there and welcome abroad! Your first 3,000 visitors are on us.
+            You may add a website and start testing right away.');
 
-        return redirect(route('websites.create'));
+        if ($request->has('buy'))
+            return redirect(route('pricing'));
+        else
+            return redirect(route('websites.create'));
     }
 
     public function redirectToProviderFacebook()

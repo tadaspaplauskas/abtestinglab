@@ -15,7 +15,7 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
     casper.start(testUrl + "/test_end");
 
     //register
-    casper.thenOpen(testUrl + "/auth/register");
+    casper.thenOpen(testUrl + "/register");
 
     casper.then(function() {
         test.assertTitle("Sign up", "Registration page title as expected");
@@ -28,8 +28,8 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
             password_confirmation: "password"
         }, true);
 
-        this.waitForUrl(/dashboard/, function() {
-            test.assertTitle('Dashboard', 'User created');
+        this.waitForUrl(/websites\/create/, function() {
+            test.assertTitle('Add a new website', 'User created');
             this.clickLabel('Log out');
         }, null, 20000);
     });

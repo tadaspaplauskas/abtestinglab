@@ -14,7 +14,7 @@ casper.test.begin('Delete website', 5, function suite(test) {
     //casper.options.logLevel ="debug";
 
     //cleanup
-    casper.start(testUrl + "/auth/login");
+    casper.start(testUrl + "/login");
 
     casper.then(function() {
         test.assertTitle("Log in", "Login page title as expected");

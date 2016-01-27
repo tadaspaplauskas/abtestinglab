@@ -19,7 +19,7 @@ casper.test.begin('Test visitors side of things (js + api)', 2, function suite(t
 
     casper.echo('THIS HAS TO BE RUN AFTER CreatingTest.js');
 
-    casper.thenOpen(testUrl + '/auth/logout');
+    casper.thenOpen(testUrl + '/logout');
 
     casper.then(function() {
         casper.evaluate(function() {

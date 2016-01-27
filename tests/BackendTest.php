@@ -14,12 +14,12 @@ class BackendTest extends TestCase
     {
         $this->visit('/')
         ->click('Log in')
-        ->seePageIs('/auth/login')
+        ->seePageIs('/login')
         ->type('tadaspaplauskas@gmail.com', 'email')
         ->type('paplauskas', 'password')
         ->press('Log in')
         ->see('Dashboard')
-        ->visit('auth/logout')
+        ->visit('logout')
         ->seePageIs('/');
     }
 
