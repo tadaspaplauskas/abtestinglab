@@ -34,7 +34,7 @@ class Handler extends ExceptionHandler
      */
     public function report(\Exception $e)
     {
-        if (!$app->environment('production') && $this->shouldReport($e)) // only email in production
+        if (\App::environment('production') && $this->shouldReport($e)) // only email in production
         {
             event(new \App\Event\ExceptionThrown($e));
         }
