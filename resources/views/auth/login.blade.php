@@ -4,7 +4,7 @@
 
 @section('form')
 
-<form method="POST" action="/auth/login">
+<form method="POST" action="{{ URL::route('loginPOST') }}">
 {!! csrf_field() !!}
 <div class="form-group">
   <label for="email">Email address</label>

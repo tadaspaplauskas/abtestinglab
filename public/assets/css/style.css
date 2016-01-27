@@ -12,7 +12,7 @@ body {
 }
 
 .content-wrapper {
-    margin-top: 40px;
+    margin-top: 0px;
     min-height: 600px;
     padding-bottom: 60px;
 }
@@ -25,6 +25,7 @@ body {
     color: #555;
     font-size: 20px;
     margin-bottom: 40px;
+    margin-top: 20px;
 }
 
 .btn {
@@ -163,6 +164,10 @@ body {
 .navbar {
     margin-bottom: 0px;
     /*height: 130px;*/
+}
+
+.navbar {
+    border-radius: 0;
 }
 
 /* FOOTER SECTION STYLES */
@@ -312,6 +317,7 @@ footer a, footer a:hover {
 }
 
 .breadcrumb {
+    margin-top: 2em;
     margin-bottom: 5px;
 }
 
@@ -382,4 +388,61 @@ label.explain {
 .alert a {
     color: #fff;
     text-decoration: underline;
+}
+
+.narrow-paragraph {
+    width: 80%;
+    margin: auto;
+}
+
+.intro-paragraph {
+    font-size: 120%;
+}
+
+.form-inline .form-group input {
+    width: 5em;
+}
+
+.conversion {
+    margin: 2em 0 2em 0;
+}
+
+.conversion a, .buy, .buy input {
+    font-weight: bold;
+}
+
+.payment-options {
+    margin-top: 2em;
+}
+
+.most-popular {
+    background-color: #F8F8F8;
+    padding: 1em;
+}
+
+.pricing-option {
+    padding-top: 1em;
+}
+
+.pricing-option .buy {
+    margin-top: 1em;
+}
+
+.pricing-option ul {
+    list-style: none;
+    padding: 0;
+}
+
+.pricing-option .price {
+    font-size: 200%;
+    margin-top: 1em;
+}
+
+.most-popular .price {
+    font-size: 250%;
+    font-weight: bold;
+}
+
+.more-questions {
+    margin-top: 2em;
 }

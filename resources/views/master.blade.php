@@ -40,9 +40,9 @@ if ($loggedIn)
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
                     Menu
                 </button>
-            <a class="navbar-brand" href="{{ route('dashboard') }}">
-                <img src="/assets/img/abtl_logo.png" id="header-logo" />
-            </a>
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    <img src="/assets/img/abtl_logo.png" id="header-logo" />
+                </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul id="menu-top" class="nav navbar-nav navbar-right">
@@ -50,8 +50,10 @@ if ($loggedIn)
                     <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ route('websites.index') }}">Websites</a></li>
                     <li><a href="{{ route('account') }}">Account</a></li>
-                @endif
+                    <li><a href="{{ route('pricing') }}">Buy</a></li>
+                @else
                     <li><a href="{{ route('pricing') }}">Pricing</a></li>
+                @endif
                     <li><a href="{{ route('help') }}">FAQ</a></li>
                     <li><a href="{{ route('contact') }}">Contact</a></li>
                 @if($loggedIn)
@@ -68,11 +70,13 @@ if ($loggedIn)
     <div class="content-wrapper">
         <div class="container">
             @yield('breadcrumbs')
-            <div class="row">
-                <div class="col-md-12">
-                    <h4 class="page-head-line">@yield('title')</h4>
+            @if (!isset($noDefaultHeadline))
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="page-head-line">@yield('title')</h4>
+                    </div>
                 </div>
-            </div>
+            @endif
             <div class="row">
                 <div class="col-md-12">
                     @if(Session::has('success'))
@@ -124,7 +128,7 @@ if ($loggedIn)
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    &copy; 2015 A/B Testing Lab
+                    &copy; 2016 A/B Testing Lab
                 </div>
             </div>
         </div>

@@ -4,8 +4,13 @@
 
 @section('form')
 
-<form method="POST" action="/auth/register">
+<a href="{{ URL::route('login') }}">Already a member? Log in here.</a>
+
+<form method="POST" action="{{ URL::route('registerPOST') }}">
 {!! csrf_field() !!}
+@if (isset($buy))
+    <input type="hidden" name="buy" value="1">
+@endif
 <div class="form-group">
   <label for="name">Name</label>
   <input name="name" type="text" class="form-control" id="name" placeholder="Your name"  value="{{ old('name') }}">
