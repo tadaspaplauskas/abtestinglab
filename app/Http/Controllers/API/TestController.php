@@ -55,7 +55,10 @@ class TestController extends ApiController
                     $testInDB = Test::create(['website_id' => $websiteID]);
                 }
                 $testInDB->title = $test['title'];
-                $testInDB->status = 'enabled';
+
+                if ($testInDB->totalReach() < $test['goal'])
+                    $testInDB->status = 'enabled';
+
                 $testInDB->test_element = $test['from'];
 
                 if ($testInDB->test_variation !== $test['to'])

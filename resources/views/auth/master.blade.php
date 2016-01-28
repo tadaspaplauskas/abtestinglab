@@ -26,6 +26,10 @@
     </div>
     <div class="panel-body">
         Facebook, google
+
+        <p>
+        By signing up you are agreeing to <a href="{{ URL::route('privacy') }}">Privacy Policy</a>.
+        </p>
     </div>
     </div>
 </div>

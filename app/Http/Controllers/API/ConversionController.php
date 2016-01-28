@@ -50,7 +50,7 @@ class ConversionController extends ApiController
                 $testController = new MainTestController();
                 $testController->refreshTestsJS($test->website);
 
-                Event::fire(new TestCompleted($test));
+                event(new \App\Events\TestCompleted($test));
             }
             return $this->respondSuccess();
         }

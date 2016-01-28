@@ -37,7 +37,7 @@ class VisitorController extends ApiController
         //get all current tests from visitor
         $newTests = $request->get('tests');
         if (is_null($newTests))
-            return false;
+            return $this->respondSuccess();
 
         $visitor = Visitor::find($request->get('visitor_id'));
 

@@ -27,12 +27,11 @@
         //looking for time conversions to apply
         for(i = 0; i < conversions.length; i++)
         {
-            var testID = conversions[i].test_id;
-            var element = conversions[i].element;
-            var type = conversions[i].conversion_type;
-            if (type === 'time')
+            var conversion = conversions[i];
+
+            if (conversion.coversion_type === 'time')
             {
-                setTimeConversion(testID, element);
+                setTimeConversion(onversion.test_id, conversion.element);
             }
         }
 
@@ -41,14 +40,13 @@
             //looking for click conversions to apply. Has to happen before tests
             for(i = 0; i < conversions.length; i++)
             {
-                var testID = conversions[i].test_id;
-                var element = conversions[i].element;
-                var type = conversions[i].conversion_type;
-                if (type === 'click')
+                var conversion = conversions[i];
+
+                if (conversion.conversion_type === 'click')
                 {
-                    if ($.compareElements($(this), element))
+                    if ($.compareElements($(this), conversion.element))
                     {
-                        setClickConversion($(this), testID);
+                        setClickConversion($(this), conversion.test_id);
                     }
                 }
             }
@@ -56,45 +54,44 @@
             //looking for tests to apply
             for(i = 0; i < tests.length; i++)
             {
-                var testID = tests[i].id;
-                var elementType = tests[i].element_type;
-                var element = tests[i].element;
-                var variation = tests[i].variation;
-                var variationWeight = tests[i].variation_weight;
-                var attributes = tests[i].attributes || null;
+                var test = tests[i];
 
                 //choosing a or b
-                if (testVariations[testID] !== undefined)
+                if (testVariations[test.id] !== undefined)
                 {
-                    variationChoice = testVariations[testID];
+                    variationChoice = testVariations[test.id];
                 }
-                else
+                else if (test.enabled == 1)
                 {
-                    variationChoice = randomChoice(variationWeight);
-                    testVariations[testID] = variationChoice;
+                    variationChoice = randomChoice(test.variation_weight);
+                    testVariations[test.id] = variationChoice;
+                }
+                else //if test is disabled and user has not seen it - skip
+                {
+                    continue;
                 }
                 //to omit removed tests from saving
-                newTestVariations[testID] = testVariations[testID];
+                newTestVariations[test.id] = testVariations[test.id];
 
                 if (variationChoice === 'b')
                 {
                     var found = false;
-                    if (elementType === 'image' && $.compareElements($(this), element))
+                    if (test.element_type === 'image' && $.compareElements($(this), test.element))
                     {
-                        $(this).attr('src', variation);
+                        $(this).attr('src', test.variation);
                         found = true;
                     }
-                    else if ($.compareElements($(this), element))
+                    else if ($.compareElements($(this), test.element))
                     {
-                        $(this).html(variation);
+                        $(this).html(test.variation);
                         found = true;
                     }
-                    if(found && attributes)
+                    if(found && test.attributes)
                     {
-                        if (attributes.style !== undefined)
-                            $(this).attr('style', attributes.style);
-                        if (attributes.class !== undefined)
-                            $(this).attr('class', attributes.class);
+                        if (test.attributes.style !== undefined)
+                            $(this).attr('style', test.attributes.style);
+                        if (test.attributes.class !== undefined)
+                            $(this).attr('class', test.attributes.class);
                     }
                 }
             }
@@ -102,31 +99,32 @@
             //looking for finished variations to apply
             for(i = 0; i < finished.length; i++)
             {
-                var elementType = finished[i].element_type;
-                var element = finished[i].element;
-                var variation = finished[i].variation;
-                var attributes = finished[i].attributes || null;
+                var test = finished[i];
 
-                if (elementType === 'image' && $.compareElements($(this), element))
+                //avoid if user already has predefined version for this test
+                if (testVariations[test.id] !== undefined)
+                    continue;
+
+                if (test.element_type === 'image' && $.compareElements($(this), test.element))
                 {
-                    $(this).attr('src', variation);
+                    $(this).attr('src', test.variation);
                 }
-                else if ($.compareElements($(this), element))
+                else if ($.compareElements($(this), test.element))
                 {
-                    $(this).html(variation);
+                    $(this).html(test.variation);
                 }
-                if(attributes)
+                if(test.attributes)
                 {
-                    if (attributes.style !== undefined)
-                        $(this).attr('style', attributes.style);
-                    if (attributes.class !== undefined)
-                        $(this).attr('class', attributes.class);
+                    if (test.attributes.style !== undefined)
+                        $(this).attr('style', test.attributes.style);
+                    if (test.attributes.class !== undefined)
+                        $(this).attr('class', test.attributes.class);
                 }
             }
         });
         //log changes in tests and create new visitor if there is none yet
-        if (JSON.stringify($.getLocal(testsVariationsStorage)) != JSON.stringify(newTestVariations))
-        {
+        if (newTestVariations.length > 0 && JSON.stringify($.getLocal(testsVariationsStorage)) != JSON.stringify(newTestVariations))
+        {   console.log(newTestVariations.length);
             newVisitor(newTestVariations);
         }
 

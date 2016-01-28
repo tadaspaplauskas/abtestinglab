@@ -194,7 +194,7 @@ class TestController extends Controller
                 //variation wins
                 if ($test->convDiff() > 0)
                 {
-                    $applyFinished[] = [
+                    $applyFinished[] = ['id' => $test->id,
                         'element' => $test->test_element,
                         'element_type' => $test->element_type,
                         'variation' => $test->test_variation,
@@ -203,22 +203,22 @@ class TestController extends Controller
                 }
                 //if control wins - do nothing, it's already there
             }
-            else if ($test->isEnabled())
-            {
-                $applyTests[] = ['id' => $test->id,
-                    'element' => $test->test_element,
-                    'element_type' => $test->element_type,
-                    'variation' => $test->test_variation,
-                    'attributes' => json_decode($test->attributes),
-                    'variation_weight' => $test->getWeight(),
-                    ];
 
-                $trackConversions[] = [
-                    'test_id' => $test->id,
-                    'conversion_type' => $test->conversion_type,
-                    'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
-                    ];
-            }
+            $applyTests[] = ['id' => $test->id,
+                'enabled' => $test->isEnabled() ? 1 : 0,
+                'element' => $test->test_element,
+                'element_type' => $test->element_type,
+                'variation' => $test->test_variation,
+                'attributes' => json_decode($test->attributes),
+                'variation_weight' => $test->getWeight(),
+                ];
+
+            $trackConversions[] = [
+                'test_id' => $test->id,
+                'conversion_type' => $test->conversion_type,
+                'element' => (!empty($test->conversion_element) ? $test->conversion_element : $test->test_element),
+                ];
+
         }
         return [
             'tests' => $applyTests,

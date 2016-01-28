@@ -128,7 +128,7 @@ if ($loggedIn)
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    &copy; 2016 A/B Testing Lab
+                    &copy; 2016 A/B Testing Lab. <a href="{{ URL::route('privacy') }}">Privacy Policy</a>
                 </div>
             </div>
         </div>

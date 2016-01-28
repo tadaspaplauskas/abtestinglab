@@ -106,8 +106,9 @@ Route::get('/', ['as' => 'index', 'uses' => 'PagesController@index']);
 Route::get('about', ['as' => 'about', 'uses' => 'PagesController@about']);
 Route::get('help', ['as' => 'help', 'uses' => 'PagesController@about']);
 Route::get('faq', ['as' => 'faq', 'uses' => 'PagesController@faq']);
-Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@about']);
+Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@contact']);
 Route::get('pricing', ['as' => 'pricing', 'uses' => 'PagesController@pricing']);
+Route::get('privacy', ['as' => 'privacy', 'uses' => 'PagesController@privacy']);
 
 
 /* only for testing */

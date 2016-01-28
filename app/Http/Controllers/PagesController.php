@@ -25,4 +25,9 @@ class PagesController extends Controller
     {
     	return view('pages.pricing');
     }
+
+    public function privacy()
+    {
+        return view('pages.privacy');
+    }
 }

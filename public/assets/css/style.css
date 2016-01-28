@@ -446,3 +446,7 @@ label.explain {
 .more-questions {
     margin-top: 2em;
 }
+
+.form-control {
+    max-width: 20em;
+}
