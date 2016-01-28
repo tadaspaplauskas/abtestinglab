@@ -13,7 +13,8 @@
 <h3>Code</h3>
 <p>
     {!! $website->jsCodeTextarea() !!}
-<br>
+</p>
+<p>
 <a href="{{ URL::route('websites.show', [$website->id]) }}" class="btn btn-primary">Done</a>
 <p>
     <h4>OR send the instructions to your developer</h4>

@@ -28,7 +28,7 @@
         Facebook, google
 
         <p>
-        By signing up you are agreeing to <a href="{{ URL::route('privacy') }}">Privacy Policy</a>.
+        By signing up you are agreeing to our <a href="{{ URL::route('privacy') }}">Privacy Policy</a>.
         </p>
     </div>
     </div>

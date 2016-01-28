@@ -2,7 +2,7 @@ String.prototype.customTrim = function () {
     var elem = this;
     if (elem !== undefined && elem !== null)
     {
-        elem = elem.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ").replace(' draggable="true" ondragstart="drag(event)"', '');
+        elem = elem.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ").replace(' draggable="true" ondragstart="abtl.drag(event)"', '');
     }
     return elem;
 };
@@ -79,14 +79,6 @@ abtl.extend({
             return true;
         }
     },
-    /*customTrim: function (elem) {
-        if (elem !== undefined && elem !== null)
-        {
-            elem = elem.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ");
-            elem = elem.replace(' draggable="true" ondragstart="drag(event)"', '');
-        }
-        return elem;
-    },*/
     parentConversion: function (elem)
     {
         if (elem.parents('a[href!=""]').length > 0)
@@ -94,12 +86,43 @@ abtl.extend({
         else
             return false;
     },
-    allElements: function ()
+    allElements: function (avoidEmpty)
     {
+        var result;
+
+        avoidEmpty = avoidEmpty || false;
+
         var tags = 'img, tt, i, b, big, small, em, strong, dfn, code, samp, kbd, var, article, cite, abbr, acronym, sub, sup, span, bdo, address, div, a, object, p, h1, h2, h3, h4, h5, h6, pre, q, ins, del, dt, dd, li, label, option, legend, button, caption, td, th, title';
-        return abtl("body").find(tags).filter(function() {
-            return (abtl.directText(abtl(this)).length > 0 || abtl(this).val() || abtl(this).attr('src'));
-        });
+
+        if (avoidEmpty)
+        {
+            result = abtl("body").find(tags).filter(function() {
+                return (abtl.directText(abtl(this)).length > 0 || abtl(this).val() || abtl(this).attr('src'));
+            });
+            if (!abtl.elementsCacheWithEmpty)
+            {
+                result = abtl("body").find(tags);
+
+                abtl.elementsCacheWithEmpty = result;
+            }
+            else
+            {
+                result = abtl.elementsCacheWithEmpty;
+            }
+        }
+        else
+        {
+            if (!abtl.elementsCache)
+            {
+                result = abtl("body").find(tags);
+                abtl.elementsCache = result;
+            }
+            else
+            {
+                result = abtl.elementsCache;
+            }
+        }
+        return result;
     },
     directText: function (elem)
     {

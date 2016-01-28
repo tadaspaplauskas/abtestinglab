@@ -153,7 +153,7 @@ class TestController extends Controller
         $jsPath = $website->jsPath();
 
         $return = FileController::put($jsPath, view('js.manager', [
-            'website' => $website, 'tests' => $returnValue]));
+            'website' => $website, 'tests' => $returnValue])->render());
 
         return $return;
     }

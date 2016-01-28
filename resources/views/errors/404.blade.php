@@ -5,7 +5,11 @@
 @section('content')
 
 <p>
-    Uh-oh, seems like this link does not lead to anything...
+    @if($exception->getMessage())
+        {{ $exception->getMessage() }}
+    @else
+        Uh-oh, seems like this link does not lead to anything...
+    @endif
 </p>
 
 @endsection

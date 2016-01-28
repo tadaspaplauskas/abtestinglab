@@ -64,7 +64,7 @@ class Website extends Model
     }
     public function jsUrl()
     {
-        return url(User::USERS_PATH
+        return protocolRelativeUrl(User::USERS_PATH
                 . $this->user->hash() . '/'
                 . $this->hash() . '/'
                 . self::JS_FILENAME);
@@ -87,7 +87,7 @@ class Website extends Model
 
     public function url()
     {
-        return url(User::USERS_PATH
+        return protocolRelativeUrl(User::USERS_PATH
                 . $this->user->hash() . '/'
                 . $this->hash() . '/');
     }

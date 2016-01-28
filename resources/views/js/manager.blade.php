@@ -1,5 +1,5 @@
 <?php
-$publicUrl = url('abtl_assets/js/');
+$publicUrl = protocolRelativeUrl('abtl_assets/js/');
 require(public_path('abtl_assets/js/jquery.min.js'));
 ?>
 var abtl = jQuery.noConflict(true);
@@ -8,8 +8,8 @@ require(public_path('abtl_assets/js/master_functions.js'));
 ?>
 
 websiteID = {{ $website->id }};
-abtlBackUrl = '{{ url(route('tests.manager.exit', ['id' => $website->id])) }}';
-abtlUrl = '{{ url() }}';
+abtlBackUrl = '{{ protocolRelativeUrl(route('tests.manager.exit', ['id' => $website->id])) }}';
+abtlUrl = '{{ protocolRelativeUrl() }}';
 
 //entry point for token
 if(window.location.hash.substring(0, 7) === '#token=')

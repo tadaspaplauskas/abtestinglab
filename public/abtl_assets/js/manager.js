@@ -141,13 +141,14 @@
     /****************** DRAGGING AND DROPPING ****************/
 
     function toggleDragging(on) {
-        var selection = $.allElements().not("#abtl-placeholder");
+        var selection = $.allElements(true).not("#abtl-placeholder");
 
         //make specific things draggable
         selection.each(function() {
             if (on) {
                 $(this).attr("draggable", "true");
-                $(this).attr("ondragstart", "drag(event)");
+                //$(this).attr("ondragstart", "abtl.drag(event)");
+                $(this).on('dragstart', drag);
             } else {
                 $(this).attr("draggable", "false");
             }
@@ -166,26 +167,28 @@
     }
 
     function drag(ev) {
-        ev.dataTransfer.setData('html', $(ev.target).html());
-        ev.dataTransfer.setData('tag', ev.target.tagName);
-        ev.dataTransfer.setData('parent_conversion', $.parentConversion($(ev.target)));
+        var elem = ev.originalEvent.dataTransfer;
+        elem.setData('html', $(ev.target).html());
+        elem.setData('tag', ev.target.tagName);
+        elem.setData('parent_conversion', $.parentConversion($(ev.target)));
 
         if (ev.target.src)
         {
-            ev.dataTransfer.setData('src', ev.target.src);
-            ev.dataTransfer.setData('width', ev.target.clientWidth);
-            ev.dataTransfer.setData('height', ev.target.clientHeight);
+            elem.setData('src', ev.target.src);
+            elem.setData('width', ev.target.clientWidth);
+            elem.setData('height', ev.target.clientHeight);
         }
     }
 
     function drop(ev) {
         ev.preventDefault();
-        var html = ev.dataTransfer.getData('html').customTrim();
-        var tag = ev.dataTransfer.getData('tag').customTrim();
-        var src = ev.dataTransfer.getData('src');
-        var width = ev.dataTransfer.getData('width');
-        var height = ev.dataTransfer.getData('height');
-        var parentConversion = (ev.dataTransfer.getData('parent_conversion') === 'true');
+        var elem = ev.originalEvent.dataTransfer;
+        var html = elem.getData('html').customTrim();
+        var tag = elem.getData('tag').customTrim();
+        var src = elem.getData('src');
+        var width = elem.getData('width');
+        var height = elem.getData('height');
+        var parentConversion = (elem.getData('parent_conversion') === 'true');
 
         if (src.length)
             fillTest(src, tag, parentConversion, width, height);
@@ -317,6 +320,10 @@
         $("#abtl-tests-container .abtl-active, #abtl-nav-tabs .abtl-active").removeClass('abtl-active');
         newTest.addClass('abtl-active');
         newTestNav.addClass('abtl-active');
+
+        //enable dropping
+        newTest.find('.abtl-before').on('drop', drop);
+        newTest.find('.abtl-before').on('dragover', allowDrop);
 
         //assign values
         resetTests();
@@ -488,10 +495,9 @@
         {
             $.allElements().not("#abtl-placeholder").each(function()
             {
-                //check
                 if ($(this).data('original_value') === field || $(this).attr('href') === field)
                 {
-                    if (fn)
+                    if (fn !== undefined)
                     {
                         fn($(this));
                     }
@@ -568,7 +574,7 @@
                 || (tab.find('.abtl-conversion-type').val() === 'click' && !tab.find('.abtl-default-conversion-checkbox input').prop('checked') && tab.find('.abtl-click-conversion-input').val().length === 0) //is click conv set?
                 || (tab.find('.abtl-conversion-type').val() === 'time' && tab.find('.abtl-time-conversion-input').val().length === 0)) //or time goal?
             {
-                alert('Test "' + $(this).find('.abtl-pick-test').text() + '" is not completed; you should select the tested element and then define the variation, conversion event.');
+                alert('Test "' + $(this).find('.abtl-pick-test').text() + '" is not completed; you should select the tested element and then define the variation, conversion event, reach (>100).');
                 success = false;
                 return false;
             }
@@ -746,7 +752,7 @@
             if (response.status === 400 || response.status === 401)
             {
                 alert('Authentication failed, please open manager again');
-                window.location = abtlBackUrl;
+                //window.location = abtlBackUrl;
             }
             else
                 alert('Request failed, please try again in a minute or two');
@@ -1041,7 +1047,10 @@
         {
             link = $(this).parent().find('.abtl-pick-test');
             $(this).parent().find('span').each(function(){ $(this).css('visibility', ''); });
-            link.text($(this).val());
+
+            if ($(this).val().customTrim().length > 0)
+                link.text($(this).val());
+
             link.show();
             $(this).hide();
 
