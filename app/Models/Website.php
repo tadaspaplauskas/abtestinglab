@@ -126,7 +126,7 @@ class Website extends Model
 
     public function jsCode()
     {
-        return '<script type="text/javascript" src="' . $this->jsUrl() . '" async></script><script type="text/javascript">var s=document.createElement("style");s.type="text/css";s.appendChild(document.createTextNode("body{visibility:hidden;}"));document.getElementsByTagName("head")[0].appendChild(s);var t=setInterval(function(){if(document.body!=null){document.body.style.visibility="visible";clearInterval(t);}},500);</script>';
+        return '<script type="text/javascript" src="' . $this->jsUrl() . '"></script><script type="text/javascript">var s=document.createElement("style");s.type="text/css";s.appendChild(document.createTextNode("body{visibility:hidden;}"));document.getElementsByTagName("head")[0].appendChild(s);var t=setInterval(function(){if(document.body!=null){document.body.style.visibility="visible";clearInterval(t);}},500);</script>';
     }
 
     public function jsCodeTextarea()

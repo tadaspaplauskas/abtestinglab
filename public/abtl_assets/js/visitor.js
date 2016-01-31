@@ -7,7 +7,7 @@
     {
         $(document).ready(function() {
             applyTestsAndConversions(abtlData);
-            $('body').css('visibility', 'initial');
+            $('body').css('visibility', 'visible');
         });
     }
 
