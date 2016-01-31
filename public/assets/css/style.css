@@ -450,3 +450,11 @@ label.explain {
 .form-control {
     max-width: 20em;
 }
+
+.question {
+    font-weight: bold;
+}
+
+.answer {
+
+}

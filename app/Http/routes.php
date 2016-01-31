@@ -104,11 +104,12 @@ Route::group(['prefix' => 'payments', ], function () {
 
 Route::get('/', ['as' => 'index', 'uses' => 'PagesController@index']);
 Route::get('about', ['as' => 'about', 'uses' => 'PagesController@about']);
-Route::get('help', ['as' => 'help', 'uses' => 'PagesController@about']);
+//Route::get('help', ['as' => 'help', 'uses' => 'PagesController@about']);
 Route::get('faq', ['as' => 'faq', 'uses' => 'PagesController@faq']);
-Route::get('contact', ['as' => 'contact', 'uses' => 'PagesController@contact']);
+Route::get('contacts', ['as' => 'contacts', 'uses' => 'PagesController@contacts']);
 Route::get('pricing', ['as' => 'pricing', 'uses' => 'PagesController@pricing']);
 Route::get('privacy', ['as' => 'privacy', 'uses' => 'PagesController@privacy']);
+Route::get('questions', ['as' => 'questions', 'uses' => 'PagesController@questions']);
 
 
 /* only for testing */

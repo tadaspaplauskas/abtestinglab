@@ -30,4 +30,14 @@ class PagesController extends Controller
     {
         return view('pages.privacy');
     }
+
+    public function questions()
+    {
+        return view('pages.questions');
+    }
+
+    public function contacts()
+    {
+        return view('pages.contacts');
+    }
 }

@@ -54,8 +54,8 @@ if ($loggedIn)
                 @else
                     <li><a href="{{ route('pricing') }}">Pricing</a></li>
                 @endif
-                    <li><a href="{{ route('help') }}">FAQ</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                    <li><a href="{{ route('questions') }}">FAQ</a></li>
+                    <li><a href="{{ route('contacts') }}">Contact</a></li>
                 @if($loggedIn)
                     <li><a href="{{ route('logout') }}">Log out</a></li>
                 @else
