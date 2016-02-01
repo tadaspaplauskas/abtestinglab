@@ -4,3 +4,4 @@
 .env
 /public/users
 /node_modules
+/public/.htaccess
