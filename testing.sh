@@ -1,1 +1,0 @@
-./ephemeral-x.sh java -jar selenium-standalone.jar
