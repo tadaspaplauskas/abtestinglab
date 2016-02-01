@@ -3,5 +3,7 @@
 /vendor
 .env
 /public/users
+public/users
 /node_modules
+public/.htaccess
 /public/.htaccess
