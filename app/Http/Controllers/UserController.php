@@ -99,12 +99,12 @@ class UserController extends Controller
             'new_password' => 'min:6|same:new_password_verification',
         ]);
 
-        $data = $request->all();
+        $data = $request->except('password');
         $data['test_notifications'] = isset($data['test_notifications']);
         $data['weekly_reports'] = isset($data['weekly_reports']);
         $data['newsletter'] = isset($data['newsletter']);
 
-        if (($data['email'] !== $this->user->email || !empty($data['new_password']))
+        if (!empty($this->user->password) && ($data['email'] !== $this->user->email || !empty($data['new_password']))
             && (empty($data['old_password']) || !Hash::check($data['old_password'], $this->user->password)))
         {
             Session::flash('fail', 'Enter correct current password.');
@@ -127,7 +127,7 @@ class UserController extends Controller
                 Session::flash('warning', 'Something went wrong, please try again in a minute.');
             }
         }
-        return redirect()->back()->with(['user' => $data]);
+        return redirect()->back()->with(['user' => $this->user]);
     }
 
     /**

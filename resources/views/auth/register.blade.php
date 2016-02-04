@@ -28,7 +28,7 @@
   <input name="password_confirmation" type="password" class="form-control" id="password_confirmation" placeholder="Password again" />
 </div>
 <div class="form-group">
-  <button type="submit" class="btn btn-confirm">Sign up</button>
+  <button type="submit" class="btn btn-confirm btn-primary">Sign up</button>
 </div>
 </form>
 

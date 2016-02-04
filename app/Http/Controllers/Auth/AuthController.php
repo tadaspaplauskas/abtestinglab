@@ -138,7 +138,33 @@ class AuthController extends Controller
     {
         $user = Socialite::driver('facebook')->user();
 
-        // $user->token;
+        $token = $user->token;
+
+        $facebook_id = $user->getId();
+        $name = $user->getName();
+        $email = $user->getEmail();
+
+        if (empty($email))
+        {
+            return redirect($this->loginPath)->withMessage('error', 'Something went wrong, please try again');
+        }
+
+        $localUser = User::where("email", $email)->first();
+
+        if (isset($localUser->id))
+        {
+            Auth::login($localUser);
+        }
+        else
+        {
+            $newUser = User::create(array(
+               'name' => $name,
+               'email' => $email,
+               'password' => '',
+            ));
+            Auth::login($newUser);
+        }
+        return redirect($this->redirectPath);
     }
 
     public function redirectToProviderGoogle()

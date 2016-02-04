@@ -36,14 +36,14 @@ return [
     ],
 
     'facebook' => [
-        'client_id' => '1639486112957971',
-        'client_secret' => '05182b3be962d1014a37f8e78abe0fef',
-        'redirect' => '',
+        'client_id' => env('FACEBOOK_APP_ID', ''),
+        'client_secret' => env('FACEBOOK_APP_SECRET', ''),
+        'redirect' => env('FACEBOOK_REDIRECT_CALLBACK', ''),
     ],
     'google' => [
-        'client_id' => '',
-        'client_secret' => '',
-        'redirect' => '',//http://greatdest.dk.dev.fkly.dk/auth/google/callback',
+        'client_id' => env('GOOGLE_APP_ID', ''),
+        'client_secret' => env('GOOGLE_APP_SECRET', ''),
+        'redirect' => env('GOOGLE_REDIRECT_CALLBACK', ''),
     ],
 
 ];

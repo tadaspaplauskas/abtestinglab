@@ -20,7 +20,7 @@
     </div>
 </div>
 <div class="form-group">
-  <button type="submit" class="btn btn-confirm">Log in</button>
+  <button type="submit" class="btn btn-confirm btn-primary">Log in</button>
 </div>
 </form>
 

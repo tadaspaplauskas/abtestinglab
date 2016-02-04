@@ -80,6 +80,11 @@ Route::post('register', ['uses' => 'Auth\AuthController@postRegister', 'as' => '
 Route::post('login', ['uses' => 'Auth\AuthController@postLogin', 'as' => 'loginPOST']);
 Route::get('logout', ['uses' => 'Auth\AuthController@getLogout', 'as' => 'logout']);
 
+Route::get('login/facebook', ['uses' => 'Auth\AuthController@redirectToProviderFacebook', 'as' => 'loginFacebook']);
+Route::get('login/facebook/callback', ['uses' => 'Auth\AuthController@handleProviderCallbackFacebook','as' => 'callbackFacebook']);
+//Route::get('login/google', 'Auth\AuthController@redirectToProviderGoogle');
+//Route::get('login/google/callback', 'Auth\AuthController@handleProviderCallbackGoogle');
+
 // Password reset link request routes...
 Route::get('password/email', 'Auth\PasswordController@getEmail');
 Route::post('password/email', 'Auth\PasswordController@postEmail');
