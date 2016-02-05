@@ -82,8 +82,8 @@ Route::get('logout', ['uses' => 'Auth\AuthController@getLogout', 'as' => 'logout
 
 Route::get('login/facebook', ['uses' => 'Auth\AuthController@redirectToProviderFacebook', 'as' => 'loginFacebook']);
 Route::get('login/facebook/callback', ['uses' => 'Auth\AuthController@handleProviderCallbackFacebook','as' => 'callbackFacebook']);
-//Route::get('login/google', 'Auth\AuthController@redirectToProviderGoogle');
-//Route::get('login/google/callback', 'Auth\AuthController@handleProviderCallbackGoogle');
+Route::get('login/google', ['uses' => 'Auth\AuthController@redirectToProviderGoogle', 'as' => 'loginGoogle']);
+Route::get('login/google/callback', ['uses' => 'Auth\AuthController@handleProviderCallbackGoogle', 'as' => 'callbackGoogle']);
 
 // Password reset link request routes...
 Route::get('password/email', 'Auth\PasswordController@getEmail');

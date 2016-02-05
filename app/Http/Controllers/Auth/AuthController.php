@@ -138,6 +138,24 @@ class AuthController extends Controller
     {
         $user = Socialite::driver('facebook')->user();
 
+        return $this->socialLogin($user);
+    }
+
+    public function redirectToProviderGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleProviderCallbackGoogle()
+    {
+        $user = Socialite::driver('google')->user();
+
+        return $this->socialLogin($user);
+    }
+
+
+    public function socialLogin($user)
+    {
         $token = $user->token;
 
         $facebook_id = $user->getId();
@@ -166,16 +184,4 @@ class AuthController extends Controller
         }
         return redirect($this->redirectPath);
     }
-
-    public function redirectToProviderGoogle()
-    {
-        return Socialite::driver('google')->redirect();
-    }
-
-    public function handleProviderCallbackGoogle()
-    {
-        $user = Socialite::driver('google')->user();
-    }
-
-
 }

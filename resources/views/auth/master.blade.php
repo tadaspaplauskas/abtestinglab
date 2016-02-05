@@ -27,6 +27,7 @@
     <div class="panel-body">
         <p>
             <a href="{{ route('loginFacebook') }}" class="btn btn-primary">Join with Facebook</a>
+            <a href="{{ route('loginGoogle') }}" class="btn btn-primary">Join with Google</a>
         </p>
         <p>
         By signing up you are agreeing to our <a href="{{ URL::route('privacy') }}">Privacy Policy</a>.
