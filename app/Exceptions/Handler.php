@@ -36,7 +36,7 @@ class Handler extends ExceptionHandler
     {
         if (\App::environment('production') && $this->shouldReport($e)) // only email in production
         {
-            event(new \App\Event\ExceptionThrown($e));
+            event(new \App\Events\ExceptionThrown($e));
         }
         return parent::report($e);
     }

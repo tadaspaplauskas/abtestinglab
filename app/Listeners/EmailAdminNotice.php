@@ -31,7 +31,11 @@ class EmailAdminNotice
         $e = $event->e;
 
         $user = Auth::user();
-        $debug = $e->xdebug_message;
+
+        if (isset($e->xdebug_message))
+            $debug = $e->xdebug_message;
+        else
+            $debug = $e->getMessage() . '<br>' . $e->getFile() . '<br>' . $e->getLine();
 
         Mail::queue('admin.email_exception', compact('debug', 'user'),
             function ($m) {

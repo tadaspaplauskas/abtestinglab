@@ -34,7 +34,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EmailInstructionsToDeveloper',
         ],
 
-        'App\Event\ExceptionThrown' => [
+        'App\Events\ExceptionThrown' => [
             'App\Listeners\EmailAdminNotice',
         ],
 
