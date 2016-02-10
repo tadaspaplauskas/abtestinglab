@@ -451,7 +451,7 @@ label.explain {
 }
 
 .most-popular .price {
-    font-size: 250%;
+    /*font-size: 250%;*/
     font-weight: bold;
 }
 

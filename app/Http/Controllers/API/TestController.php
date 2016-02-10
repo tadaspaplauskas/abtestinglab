@@ -135,7 +135,6 @@ class TestController extends ApiController
     public function loadTests(Request $request)
     {
         $websiteID = $request->get('website_id');
-
         $this->checkWebsiteOwner($websiteID);
 
         $tests = Test::where('website_id', $websiteID)

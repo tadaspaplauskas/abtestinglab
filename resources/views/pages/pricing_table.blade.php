@@ -44,7 +44,7 @@ $envProd = \App::environment('production');
     </div>
 
     <div class="col-sm-4 most-popular pricing-option">
-        <h1>Most Popular</h1>
+        <h2>Most Popular</h2>
         <ul>
             <li><strong>50,000 unique visitors</strong></li>
             <li>Full control over your resources</li>

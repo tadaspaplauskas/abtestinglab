@@ -11,7 +11,7 @@ abtl.extend({
     {
         var href = elem.attr('href') || undefined;
         var src = elem.attr('src') || undefined;
-        var html = elem.html().customTrim() || undefined;
+        var html = (elem.html() !== undefined) ? elem.html().customTrim() : undefined;
 
         return ((html !== undefined && html === value) ||
                     (href !== undefined && href === value) ||

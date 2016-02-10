@@ -1,17 +1,34 @@
 (function($, window, document) {
-    testsVariationsStorage = 'abtl_t_v';
-    visitorStorage = 'abtl_vstr';
+    var newVisitorCallSent = false;
+    var testsVariationsStorage = 'abtl_t_v';
+    var visitorStorage = 'abtl_vstr';
 
     //do not track the manager
     if ($.getLocal('abtl_do_not_track') !== '1')
     {
+        //mutator
+        if ('MutationObserver' in window)
+        {
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    applyTestsAndConversions(abtlData, $(mutation.target));
+                });
+            }).observe(document, {
+                attributes: true,
+                childList: true,
+                characterData: true,
+                subtree: true
+            });
+        }
+
+        //ready
         $(document).ready(function() {
             applyTestsAndConversions(abtlData);
             $('body').css('visibility', 'visible');
         });
     }
 
-    function applyTestsAndConversions(data)
+    function applyTestsAndConversions(data, elem)
     {
         var testVariations = $.getLocal(testsVariationsStorage);
         if (testVariations === null)
@@ -35,7 +52,16 @@
             }
         }
 
-        $.allElements().each(function()
+        if (elem !== undefined)
+        {
+            var elements = elem;
+        }
+        else
+        {
+            var elements = $.allElements();
+        }
+
+        elements.each(function()
         {
             //looking for click conversions to apply. Has to happen before tests
             for(i = 0; i < conversions.length; i++)
@@ -123,11 +149,10 @@
             }
         });
         //log changes in tests and create new visitor if there is none yet
-        if (newTestVariations.length > 0 && JSON.stringify($.getLocal(testsVariationsStorage)) != JSON.stringify(newTestVariations))
-        {   console.log(newTestVariations.length);
+        if (newTestVariations.length > 0 && JSON.stringify($.getLocal(testsVariationsStorage)) != JSON.stringify(newTestVariations) || $.getLocal(visitorStorage) === null)
+        {
             newVisitor(newTestVariations);
         }
-
         //saving variations for future use
         $.setLocal(testsVariationsStorage, newTestVariations);
     }
@@ -169,8 +194,10 @@
     function newVisitor(tests)
     {
         var visitor = $.getLocal(visitorStorage);
-        if (visitor === null || visitor === undefined)
+        if ((visitor === null || visitor === undefined) && newVisitorCallSent === false)
         {
+            newVisitorCallSent = true;
+            console.log('siunciu');
             $.ajax({
                 url:"/api/new_visitor",
                 method: 'POST',
