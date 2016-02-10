@@ -18,9 +18,10 @@
         <h2>Why?</h2>
         <ul>
             <li><strong>Content is king.</strong> Test what really matters.</li>
-            <li>Make decisions backed up by data.</li>
-            <li>Optimize your website content to serve visitors as good as possible.</li>
-            <li>See what actually works and what only looks good on paper.</li>
+            <li>Get more conversions with the same amount of traffic.</li>
+            <li>Optimize your website to serve visitors as good as possible.</li>
+            {{--<li>Make decisions backed up by data.</li>--}}
+            {{--<li>See what actually works and what only looks good on paper.</li>--}}
             <li>Create different variations of web pages using a simple visual editor.</li>
             <li>Dead-simple integration - just copy-paste a small code snippet into your website and you are ready to go.</li>
         </ul>
