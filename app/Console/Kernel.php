@@ -53,7 +53,7 @@ class Kernel extends ConsoleKernel
         ->everyTenMinutes();
 
         //backups
-        if (app()->environment('production'))
+        if (\App::environment('production'))
         {
             $schedule->command('backup:clean')->daily();
             $schedule->command('backup:run')->daily();

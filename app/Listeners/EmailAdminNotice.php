@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Event\ExceptionThrown;
+use App\Events\ExceptionThrown;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mail;
