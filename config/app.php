@@ -152,6 +152,9 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
+        App\Providers\DropboxFilesystemServiceProvider::class,
+
     ],
 
     /*

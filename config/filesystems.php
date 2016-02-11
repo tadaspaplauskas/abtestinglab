@@ -79,6 +79,11 @@ return [
             'region'    => 'IAD',
             'url_type'  => 'publicURL',
         ],
+        'dropbox' => [
+            'driver' => 'dropbox',
+            'accessToken' => env('DROPBOX_ACCESS_TOKEN', ''),
+            'appSecret' => env('DROPBOX_APP_SECRET', ''),
+        ],
 
     ],
 

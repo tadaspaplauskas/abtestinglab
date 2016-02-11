@@ -50,6 +50,13 @@ class Kernel extends ConsoleKernel
 
             echo "Success\n";
         })
-        ->everyMinute();
+        ->everyTenMinutes();
+
+        //backups
+        if (app()->environment('production'))
+        {
+            $schedule->command('backup:clean')->daily();
+            $schedule->command('backup:run')->daily();
+        }
     }
 }
