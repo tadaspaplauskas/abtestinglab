@@ -3,7 +3,7 @@
             <th class="text-center">Test</th>
             <th class="text-right">Control conv.</th>
             <th class="text-right">Variation conv.</th>
-            <th class="text-right" title="Absolute and relative change is provided.">
+            <th class="text-right" title="Relative change is provided.">
                 Change
                 <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
             </th>
@@ -36,7 +36,7 @@
                 <strong>{{ $test->title }}</strong>
                 <div class="test-conclusion">
                     @if($reach < $goal)
-                        The test is still running, so let's wait for it to finish.
+                        The test is still running, have patience.
                     @else
                         @if ($convDiff > 0 && $significance > 90)
                             The variation looks promising.
@@ -57,7 +57,8 @@
                 {{ $variationConv }} % ({{ $test->variation_conversion_count}})
             </td>
             <td class="text-right {{ ($convDiff < 0) ? 'bad' : (($convDiff > 0) ? 'good' : '') }}">
-                {{ $convDiff }} % / {{ $test->convChange() }} %
+                {{-- {{ $convDiff }} % / --}}
+                {{ $test->convChange() }} %
             </td>
             {{--<td class="text-right">
                 {{ $test->adaptive }}

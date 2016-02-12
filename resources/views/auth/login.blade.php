@@ -8,11 +8,11 @@
 {!! csrf_field() !!}
 <div class="form-group">
   <label for="email">Email address</label>
-  <input name="email" type="email" class="form-control" id="email" placeholder="Enter email" value="{{ old('email') }}" />
+  <input name="email" type="email" class="form-control" id="email" placeholder="Enter email" value="{{ old('email') }}" required>
 </div>
 <div class="form-group">
   <label for="password">Password</label>
-  <input name="password" type="password" class="form-control" id="password" placeholder="Password" />
+  <input name="password" type="password" class="form-control" id="password" placeholder="Password" required>
 </div>
 <div class="form-group">
     <div class="checkbox">

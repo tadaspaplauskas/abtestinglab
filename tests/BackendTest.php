@@ -16,9 +16,9 @@ class BackendTest extends TestCase
         ->click('Log in')
         ->seePageIs('/login')
         ->type('tadaspaplauskas@gmail.com', 'email')
-        ->type('paplauskas', 'password')
+        ->type('password', 'password')
         ->press('Log in')
-        ->see('Dashboard')
+        ->see('Recently completed tests')
         ->visit('logout')
         ->seePageIs('/');
     }
@@ -34,6 +34,7 @@ class BackendTest extends TestCase
             ->type('Testy test', 'title')
             ->press('Save')
             ->see('Success!')
+            ->click('Done')
             ->click('Edit website')
             ->type('test2', 'title')
             ->press('Save')

@@ -17,11 +17,11 @@
 
     <div class="form-group required">
         <label for="name">Name</label>
-        <input name="name" id="name" type="text" class="form-control" value="{{ $user->name }}">
+        <input name="name" id="name" type="text" class="form-control" value="{{ $user->name }}" required>
     </div>
     <div class="form-group required">
         <label for="email">Email {{ Input::old('email') }}</label>
-        <input name="email" id="email" type="text" class="form-control" value="{{ $user->email }}">
+        <input name="email" id="email" type="text" class="form-control" value="{{ $user->email }}" required>
     </div>
     <div class="form-group required">
         <label for="old_password">Old password</label>
@@ -66,8 +66,8 @@
     </div>
     <div class="panel-body">
         <p>
-            You have <strong>{{ $user->getAvailableResources() }}</strong> unique test views left to use. Do not wait until
-            you run out - <a href="{{ route('pricing') }} ">buy more now</a>.
+            You have <strong>{{ $user->getAvailableResources() }}</strong> unique test views left to use. <a href="{{ route('pricing') }} ">Do not wait until
+            you run out</a>.
         </p>
         <p>
             <a href="{{ route('payments') }}">Your previous payments</a>.

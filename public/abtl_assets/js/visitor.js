@@ -20,16 +20,17 @@
                 subtree: true
             });
         }
-
         //ready
         $(document).ready(function() {
-            applyTestsAndConversions(abtlData);
+            applyTestsAndConversions(abtlData, null, true);
             $('body').css('visibility', 'visible');
         });
     }
 
-    function applyTestsAndConversions(data, elem)
+    function applyTestsAndConversions(data, elem, ready)
     {
+        var ready = ready || false;
+
         var testVariations = $.getLocal(testsVariationsStorage);
         if (testVariations === null)
         {
@@ -41,18 +42,20 @@
         var conversions = data.conversions;
         var finished = data.finished;
 
-        //looking for time conversions to apply
-        for(i = 0; i < conversions.length; i++)
+        //looking for time conversions to apply, only when webpage is ready
+        if (ready)
         {
-            var conversion = conversions[i];
-
-            if (conversion.coversion_type === 'time')
+            for(i = 0; i < conversions.length; i++)
             {
-                setTimeConversion(onversion.test_id, conversion.element);
+                var conversion = conversions[i];
+                if (conversion.conversion_type === 'time')
+                {
+                    setTimeConversion(conversion.test_id, conversion.element);
+                }
             }
         }
 
-        if (elem !== undefined)
+        if (elem !== undefined && elem !== null)
         {
             var elements = elem;
         }
@@ -197,7 +200,6 @@
         if ((visitor === null || visitor === undefined) && newVisitorCallSent === false)
         {
             newVisitorCallSent = true;
-            console.log('siunciu');
             $.ajax({
                 url:"/api/new_visitor",
                 method: 'POST',
@@ -237,7 +239,7 @@
     function setClickConversion(obj, test)
     {
         obj.data('test_id', test);
-        obj.mousedown(function(ev){
+        obj.off('.test-' + test).on('mousedown.test-' + test, function(ev){
             saveConversion(test);
             ev.preventDefault();
         });
