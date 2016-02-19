@@ -54,8 +54,8 @@ if ($loggedIn)
                 @else
                     <li><a href="{{ route('pricing') }}">Pricing</a></li>
                 @endif
-                    <li><a href="{{ route('questions') }}">FAQ</a></li>
-                    <li><a href="{{ route('contacts') }}">Contact</a></li>
+                    <li><a href="{{ route('faq') }}">FAQ</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
                 @if($loggedIn)
                     <li><a href="{{ route('logout') }}">Log out</a></li>
                 @else
@@ -128,7 +128,9 @@ if ($loggedIn)
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    &copy; 2016 A/B Testing Lab. <a href="{{ URL::route('privacy') }}">Privacy Policy</a>
+                    &copy; 2016 A/B Testing Lab.
+                    <a href=" {{ URL::route('about') }}">About</a>.
+                    <a href="{{ URL::route('privacy') }}">Privacy Policy</a>.
                 </div>
             </div>
         </div>

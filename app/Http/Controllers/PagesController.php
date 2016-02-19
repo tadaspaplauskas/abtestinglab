@@ -31,13 +31,13 @@ class PagesController extends Controller
         return view('pages.privacy');
     }
 
-    public function questions()
+    public function faq()
     {
-        return view('pages.questions');
+        return view('pages.faq');
     }
 
-    public function contacts()
+    public function contact()
     {
-        return view('pages.contacts');
+        return view('pages.contact');
     }
 }

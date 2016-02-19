@@ -53,6 +53,6 @@
 
 <p class="text-center more-questions">
 Have more questions? Check out our <a href="{{ URL::route('faq') }}">F.A.Q.</a>
-or <a href="{{ URL::route('contacts') }}">contact us</a>.
+or <a href="{{ URL::route('contact') }}">contact us</a>.
 </p>
 @endsection

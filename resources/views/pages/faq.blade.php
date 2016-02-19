@@ -9,7 +9,7 @@
 What exactly counts as a "unique visitor"?
 </p>
 <p class="answer">
-One unique visit is counted when the visitor is introduced to a new test for the first time. All the subsequent times when that same test is presented to the same visitor are not added to this number.
+One unique visitor is counted when the visitor is introduced to a new test for the first time. All the subsequent times when that same test is presented to the same visitor are not added to this number.
 <br>
 Example: You are running one test on the element that is present on every web page of your website. Jane visits your website for the first time and explores 10 web pages. Jack visits your website, but quits after checking out 2 web pages and comes back to on the next day. All this action will count as 2 unique visitors on your test.
 </p>
@@ -44,7 +44,7 @@ How does A/B Testing Lab work?
     <li>Choose the element you want to optimize.</li>
     <li>Describe a variation. You may specify different styling too.</li>
     <li>Choose a conversion event. How will you measure success?</li>
-    <li>Choose the reach of your test. How many users should participate?</li>
+    <li>Choose the reach of your test. How many visitors should participate?</li>
     <li>Let the test run for a while. We will notify you when it ends.</li>
     <li>Review the results and make changes accordingly.</li>
 </ul>
@@ -57,7 +57,7 @@ Does A/B Testing Lab affect the loading time?
 </p>
 <p class="answer">
 Barely if at all. The script is compressed and takes about 35Kb, depending on the number of tests you are running. Compare that to <a href="https://gigaom.com/2014/12/29/the-overweight-web-average-web-page-size-is-up-15-in-2014/">the average web page which is 1,935Kb and uses 95 HTTP requests</a>. It is completely static and it will be cached in the browser, so a file is downloaded only on the first visit or when you change the tests.<br>
-To avoid "flashing" effect (when the original content is visible for a split second until it is changed), which might occur on slower computers or bigger websites, script hides web page content for 500ms. This is rarely noticeable to end user, but gives enough time for the script to put variations in their place. If you have problems with this approach or simply do not like it, you can remove the content of the &lt;script&gt; tag while keeping the src attribute untouched.
+To avoid "flashing" effect (when the original content is visible for a split second until it is changed), which might occur on slower computers or bigger websites, script hides web page content for 500ms. This is rarely noticeable to the end user, but gives enough time for the script to put variations in their place. If you have problems with this approach or simply do not like it, you can adjust or remove the content of the &lt;script&gt; tag while keeping the src attribute untouched.
 </p>
 
 <p class="question">
@@ -71,11 +71,11 @@ No, <a href="https://support.google.com/analytics/answer/2576845?hl=en&ref_topic
 Why don't you allow to specify a test goal instead of reach? I want to stop testing once noticeable improvement is reached.
 </p>
 <p class="answer">
-    This might sound like a good idea, but in reality it's not statistically meaningful. If you run a test up until you get a result you want, the risk of getting a false-positive is greatly increased. Instead you should decide on test limits in advance and then stick to it. If you do not get a concrete result, then run a new, improved test, instead of running the same test longer.
+    This might sound like a good idea, but in reality the results of such tests might not be statistically meaningful. If you run a test up until you get a result you want, the risk of getting a false-positive is greatly increased. Instead you should decide on test limits in advance and then stick to it. If you do not get a concrete result, then run a new, improved test, instead of running the same test until you see the desired result.
     Read more on this topic <a href="http://blog.sumall.com/journal/optimizely-got-me-fired.html">here</a>.
 </p>
 <p>
-Did not find the answer you were looking for? <a href="{{ URL::route('contacts') }}">Contact us now</a>.
+Did not find the answer you were looking for? <a href="{{ URL::route('contact') }}">Contact us now</a>.
 </p>
 
 @endsection
