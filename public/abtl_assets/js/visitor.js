@@ -38,9 +38,9 @@
         }
         var newTestVariations = {};
 
-        var tests = data.tests;
-        var conversions = data.conversions;
-        var finished = data.finished;
+        var tests = data ? data.tests : [];
+        var conversions = data ? data.conversions : [];
+        var finished = data ? data.finished : [];
 
         //looking for time conversions to apply, only when webpage is ready
         if (ready)
@@ -169,7 +169,7 @@
             //sending to backend
             var visitData = { visitor_id: visitor.visitor, tests: tests };
             $.ajax({
-                url:"/api/log_visit",
+                url: abtlUrl + '/api/log_visit',
                 method: 'POST',
                 async: true,
                 data: visitData});
@@ -187,7 +187,7 @@
             //sending to backend
             conversionData = { test_id: testID, variation: variation, visitor_id: visitor.visitor };
             $.ajax({
-                url:'/api/save_conversion',
+                url: abtlUrl + '/api/save_conversion',
                 method: 'POST',
                 async: true,
                 data: conversionData});
@@ -201,7 +201,7 @@
         {
             newVisitorCallSent = true;
             $.ajax({
-                url:"/api/new_visitor",
+                url: abtlUrl + '/api/new_visitor',
                 method: 'POST',
                 async: true,
                 data: { website_id: websiteID }

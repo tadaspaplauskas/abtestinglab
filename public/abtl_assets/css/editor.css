@@ -120,7 +120,7 @@
 }
 
 .abtl-cursor-grab [draggable=true] {
-    cursor: url(http://abtestinglab.dev/assets/cursors/openhand.cur) 8 8, move !important;
+    cursor: url(https://abtestinglab.com/abtl_assets/cursors/openhand.cur) 8 8, move !important;
 }
 
 [draggable=false] {
@@ -128,7 +128,7 @@
 }
 
 .abtl-cursor-grabbing [draggable=true] {
-    cursor: url(http://abtestinglab.dev/assets/cursors/closedhand.cur) 8 8, move !important;
+    cursor: url(http://abtestinglab.com/abtl_assets/cursors/closedhand.cur) 8 8, move !important;
 }
 
 .abtl-menu-border {

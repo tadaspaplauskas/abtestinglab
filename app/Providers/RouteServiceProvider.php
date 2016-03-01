@@ -38,7 +38,9 @@ class RouteServiceProvider extends ServiceProvider
             $found = null;
 
             if (\Auth::check())
-                $found = \App\Models\Website::where('user_id', \Auth::user()->id)->first();
+                $found = \App\Models\Website::where('user_id', \Auth::user()->id)
+                ->where('id', $value)
+                ->first();
 
             if (empty($found))
                 \App::abort(404, 'Website not found');

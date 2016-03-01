@@ -130,7 +130,7 @@ if ($loggedIn)
                     &copy; 2016 A/B Testing Lab.
                     <a href=" {{ URL::route('about') }}">About</a> |
                     <a href=" {{ URL::route('contact') }}">Contact</a> |
-                    <a href="{{ URL::route('privacy') }}">Privacy Policy</a>.
+                    <a href="{{ URL::route('privacy') }}">Privacy Policy</a>
                 </div>
             </div>
         </div>

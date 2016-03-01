@@ -64,10 +64,10 @@ class Website extends Model
     }
     public function jsUrl()
     {
-        return protocolRelativeUrl(User::USERS_PATH
+        return env('CDN_URL')
                 . $this->user->hash() . '/'
                 . $this->hash() . '/'
-                . self::JS_FILENAME);
+                . self::JS_FILENAME;
     }
 
     public function path()
@@ -87,9 +87,9 @@ class Website extends Model
 
     public function url()
     {
-        return protocolRelativeUrl(User::USERS_PATH
+        return env('CDN_URL')
                 . $this->user->hash() . '/'
-                . $this->hash() . '/');
+                . $this->hash() . '/';
     }
 
     public function disableTests()
@@ -146,8 +146,11 @@ class Website extends Model
             return true;
     }
 
-    public function getUrlAttribuet($value)
+    public function getUrlAttribute($value)
     {
+        if (mb_substr($value, -1) === '/')
+            $value = mb_substr($value, 0, -1);
+
         return (stripos($value, 'http') === 0) ? $value : 'http://' . $value;
     }
 }

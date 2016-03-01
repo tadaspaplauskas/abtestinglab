@@ -743,8 +743,12 @@
         })
         .done(function(response, status, request) {
             //refresh token
-            $.setLocal('token', request.getResponseHeader('token'));
-            token = request.getResponseHeader('token');
+            var newToken = request.getResponseHeader('token');
+            if (newToken !== null && newToken !== undefined)
+            {
+                $.setLocal('token', newToken);
+                token = newToken;
+            }
             //do whats needed with response
             doneFn(response);
         })

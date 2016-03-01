@@ -28,7 +28,7 @@
             <a href="{{ route('websites.show', ['id' => $website->id]) }}">{{ $website->title }}</a>
         </td>
         <td class="text-center">
-            <a href="{{ 'http://' . $website->url }}">{{ $website->url }}</a>
+            <a href="{{ $website->url }}">{{ $website->url }}</a>
         </td>
         <td class="text-right">
             {{ $website->testsCount('enabled') }}

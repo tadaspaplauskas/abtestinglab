@@ -108,7 +108,7 @@ class TestController extends Controller
 
         if ($this->generateManagerJS($website))
         {
-            return redirect($website->url . '#token=' . $token);
+            return redirect($website->url . '/#token=' . $token);
         }
         else
         {

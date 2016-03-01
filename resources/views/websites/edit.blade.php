@@ -33,7 +33,7 @@
 <div>
 <h2>Bookmarklet</h2>
 <p>
-    Want to get to tests manager faster? Just drag the following link to your bookmarks bar. You can click it in any website that is added to your account and you will be instantly redirected here. You've got to be logged in for it to work.
+    Want to get to the test manager faster? Just drag the following link to your bookmarks bar. You can click it in any website that is added to your account and you will be instantly redirected here. You've got to be logged in for it to work.
 </p>
 <p>
 <a href="javascript:window.location='{!! URL::route('websites.manager.redirect', ['']) !!}/'+window.location.hostname;">Go to A/B testing lab.</a>

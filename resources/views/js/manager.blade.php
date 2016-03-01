@@ -7,9 +7,9 @@ var abtl = jQuery.noConflict(true);
 require(public_path('abtl_assets/js/master_functions.js'));
 ?>
 
-websiteID = {{ $website->id }};
-abtlBackUrl = '{{ protocolRelativeUrl(route('tests.manager.exit', ['id' => $website->id])) }}';
-abtlUrl = '{{ protocolRelativeUrl() }}';
+var websiteID = {{ $website->id }};
+var abtlBackUrl = '{{ url(route('tests.manager.exit', ['id' => $website->id])) }}';
+var abtlUrl = '{{ url('/') }}';
 
 //entry point for token
 if(window.location.hash.substring(0, 7) === '#token=')
@@ -21,7 +21,7 @@ if(window.location.hash.substring(0, 7) === '#token=')
     }
     else
     {
-        alert('Your browser is too old to edit tests.');
+        alert('Sorry, Your browser is not compatible. We recommend using the latest version of Chrome.');
         window.location = abtlBackUrl;
     }
 }
@@ -29,7 +29,7 @@ if(window.location.hash.substring(0, 7) === '#token=')
 else
 {
     //read manager token if its set
-    token = abtl.getLocal('token');
+    var token = abtl.getLocal('token');
     //request manager
     if (token !== null)
     {
@@ -38,7 +38,7 @@ else
     else
     {
         <?php
-        echo 'abtlData = ' . json_encode($tests, JSON_UNESCAPED_SLASHES) . ';';
+        echo 'var abtlData = ' . json_encode($tests, JSON_UNESCAPED_SLASHES) . ';';
 
         //abtl meat
         require(public_path('abtl_assets/js/visitor.js'));
