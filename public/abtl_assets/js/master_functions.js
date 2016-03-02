@@ -7,15 +7,34 @@ String.prototype.customTrim = function () {
     return elem;
 };
 abtl.extend({
+    setVariation: function(elem, value)
+    {
+        if (elem.html().length > 0)
+        {
+            return elem.html(value);
+        }
+        else if (elem.attr('placeholder') !== undefined && elem.attr('placeholder') !== null)
+        {
+            return elem.attr('placeholder', value);
+        }
+        else if (elem.attr('value') !== undefined && elem.attr('value') !== null)
+        {
+            return elem.attr('value', value);
+        }
+    },
     compareElements: function(elem, value)
     {
         var href = elem.attr('href') || undefined;
         var src = elem.attr('src') || undefined;
+        var placeholder = elem.attr('placeholder') || undefined;
+        var elemVal = elem.attr('value') || undefined;
         var html = (elem.html() !== undefined) ? elem.html().customTrim() : undefined;
 
         return ((html !== undefined && html === value) ||
                     (href !== undefined && href === value) ||
-                    (src !== undefined && src === value));
+                    (src !== undefined && src === value) ||
+                    (placeholder !== undefined && placeholder === value) ||
+                    (elemVal !== undefined && elemVal === value));
     },
     localStorageSupport: function ()
     {
@@ -97,30 +116,30 @@ abtl.extend({
         if (avoidEmpty)
         {
             result = abtl("body").find(tags).filter(function() {
-                return (abtl.directText(abtl(this)).length > 0 || abtl(this).val() || abtl(this).attr('src'));
+                return (abtl.directText(abtl(this)).length > 0 || abtl(this).val() || abtl(this).attr('src') || abtl(this).attr('placeholder'));
             });
-            if (!abtl.elementsCacheWithEmpty)
-            {
+            //if (!abtl.elementsCacheWithEmpty)
+            //{
                 result = abtl("body").find(tags);
 
-                abtl.elementsCacheWithEmpty = result;
-            }
-            else
-            {
-                result = abtl.elementsCacheWithEmpty;
-            }
+            //    abtl.elementsCacheWithEmpty = result;
+            //}
+            //else
+            //{
+            //    result = abtl.elementsCacheWithEmpty;
+            //}
         }
         else
         {
-            if (!abtl.elementsCache)
-            {
+            //if (!abtl.elementsCache)
+            //{
                 result = abtl("body").find(tags);
-                abtl.elementsCache = result;
-            }
-            else
-            {
-                result = abtl.elementsCache;
-            }
+                //abtl.elementsCache = result;
+            //}
+            //else
+            //{
+            //    result = abtl.elementsCache;
+            //}
         }
         return result;
     },

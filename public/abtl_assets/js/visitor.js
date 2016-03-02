@@ -112,7 +112,7 @@
                     }
                     else if ($.compareElements($(this), test.element))
                     {
-                        $(this).html(test.variation);
+                        $.setVariation($(this), test.variation);
                         found = true;
                     }
                     if(found && test.attributes)
@@ -140,7 +140,7 @@
                 }
                 else if ($.compareElements($(this), test.element))
                 {
-                    $(this).html(test.variation);
+                    $.setVariation($(this), test.variation);
                 }
                 if(test.attributes)
                 {

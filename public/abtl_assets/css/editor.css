@@ -3,9 +3,9 @@
 }
 
 #abtl-control {
-    position:fixed;
-    bottom:0;
-    width:100%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     height: 15em;
     border-top: 2px solid #ddd;
     font-size: 1em;
@@ -14,6 +14,7 @@
     overflow-y: hidden;
     cursor: inherit; /* initial is not supported in IE */
     background-color: white;
+    z-index: 999999;
 }
 
 @media screen and (max-width: 1024px) {
@@ -76,6 +77,10 @@
 
 .abtl-instructions p {
     word-wrap: break-word;
+}
+
+.abtl-instructions button {
+    margin-bottom: 0.5em;
 }
 
 .abtl-test-tab {

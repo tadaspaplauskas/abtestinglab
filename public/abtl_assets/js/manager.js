@@ -11,6 +11,13 @@
         $(document).ready(function() {
         //do not track the manager
         $.setLocal('abtl_do_not_track', '1');
+
+        //mutator too slow, lets make it an interval
+        setInterval(function () {
+            assignOriginalValues();
+            applyActiveTest();
+        }, 1000);
+
         /*************** PREPARING MANAGER **************/
         //assign original values to DOM objects
         assignOriginalValues();
@@ -43,13 +50,27 @@
             //set original value if not assigned
             if (!$(this).data('original_value'))
             {
-                if ($(this).prop('tagName') === 'IMG')
+                if ($(this).prop('tagName') === 'IMG' && $(this).attr('src'))
                 {
                     $(this).data('original_value', $(this).attr('src').customTrim());
                 }
                 else
                 {
-                    $(this).data('original_value', $(this).html().customTrim());
+                    var value = '';
+
+                    if ($(this).html().length > 0)
+                    {
+                        value = $(this).html().customTrim();
+                    }
+                    else if ($(this).attr('placeholder') !== undefined && $(this).attr('placeholder') !== null)
+                    {
+                        value = $(this).attr('placeholder', value);
+                    }
+                    else if ($(this).attr('value') !== undefined && $(this).attr('value') !== null)
+                    {
+                        value = $(this).attr('value', value);
+                    }
+                    $(this).data('original_value', value);
                 }
                 $(this).data('class', prepareClassNames($(this).attr('class')));
                 $(this).data('style', prepareCSS($(this).attr('style')));
@@ -459,7 +480,7 @@
             }
             else
             {
-                el.html(toField().val());
+                $.setVariation(el, toField().val());
             }
 
             if (testStyle.class.length > 0)
@@ -488,8 +509,11 @@
 
     function iterateThroughElements(field, fn)
     {
+        if (field === undefined)
+            return false;
+
         field = field.customTrim();
-        returnElem = null;
+        var returnElem = null;
 
         if (field.length > 0)
         {
@@ -523,7 +547,7 @@
             }
             else
             {
-                $(this).html($(this).data('original_value'));
+                $.setVariation($(this), $(this).data('original_value'));
             }
 
             $(this).removeClass('abtl-picked-test-border abtl-picked-conversion-border');
@@ -765,7 +789,8 @@
 
     function makeID(pre)
     {
-        i = 1;
+        var i = 1;
+        var id = '';
         do
         {
             id = pre + '-' + i;
@@ -803,7 +828,7 @@
 
     function confirmation(text)
     {
-        text = text || 'Are you sure? This cannot be undone';
+        var text = text || 'Are you sure? This cannot be undone';
         return confirm(text);
     }
 
