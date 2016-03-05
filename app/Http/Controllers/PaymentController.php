@@ -100,8 +100,7 @@ class PaymentController extends Controller
 
     public function cancel(Request $request)
     {
-
-
+        return view('payments.cancel');
     }
 
     /**
