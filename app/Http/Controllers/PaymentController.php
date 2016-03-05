@@ -94,7 +94,7 @@ class PaymentController extends Controller
 
     public function success(Request $request)
     {
-        return ' Thank you for your payment. Your transaction has been completed, and a receipt for your purchase has been emailed to you.';
+        return view('payments.success');
 
     }
 
