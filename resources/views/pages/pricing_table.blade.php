@@ -62,20 +62,20 @@ $envProd = \App::environment('production');
                     <input type="hidden" name="custom" value="{{ Auth::user()->email }}">
                 @endif
                 <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="BKVV2FCRND5G4">
+                <input type="hidden" name="hosted_button_id" value="K8HUJHWB38QMS">
                 <input type="submit" value="Buy now" name="submit" title="PayPal - The safer, easier way to pay online!" class="btn btn-primary btn-lg">
                 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                 </form>
             @else
                 <!-- testing -->
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="buy">
+                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top" class="buy">
                 @if($loggedIn)
                     <input type="hidden" name="custom" value="{{ Auth::user()->email }}">
                 @endif
                 <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="BKVV2FCRND5G4">
-                <input type="submit" value="Buy now" name="submit" title="PayPal - The safer, easier way to pay online!" class="btn btn-primary btn-lg">
-                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                <input type="hidden" name="hosted_button_id" value="W89XDHAGD8WCU">
+                <input type="submit" value="Buy now" name="submit" title="PayPal - The safer, easier way to pay online!" class="btn btn-primary">
+                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
                 </form>
             @endif
         @else
@@ -108,14 +108,14 @@ $envProd = \App::environment('production');
                 </form>
             @else
                 <!-- testing -->
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="buy">
+                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top" class="buy">
                 @if($loggedIn)
                     <input type="hidden" name="custom" value="{{ Auth::user()->email }}">
                 @endif
                 <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="8FH9S76EVR6T2">
+                <input type="hidden" name="hosted_button_id" value="ZFVALHZ89HYYA">
                 <input type="submit" value="Buy now" name="submit" title="PayPal - The safer, easier way to pay online!" class="btn btn-primary">
-                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
                 </form>
             @endif
         @else
