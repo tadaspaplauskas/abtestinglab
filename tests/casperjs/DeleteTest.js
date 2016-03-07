@@ -1,5 +1,6 @@
 testUrl = 'http://abtestinglab.dev';
-
+testUrl = 'https://abtestinglab.com';
+//testUrl = 'http://staging.abtestinglab.com';
 
 //cleanup - remove user ect.
 casper.test.tearDown(function() {

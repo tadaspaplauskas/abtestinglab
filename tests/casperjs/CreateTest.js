@@ -1,5 +1,6 @@
 testUrl = 'http://abtestinglab.dev';
-
+testUrl = 'https://abtestinglab.com';
+//testUrl = 'http://staging.abtestinglab.com';
 
 casper.test.tearDown(function() {
     //casper.capture('screen.jpg');
@@ -71,7 +72,7 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
         this.click('#keep_best_variation');
 
         this.fill('form', {
-            url: "http://abtestinglab.dev/tests/blog.html",
+            url: testUrl + "/tests/blog.html",
             title: "For testing"
         }, true);
 
