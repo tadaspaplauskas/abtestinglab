@@ -8,10 +8,10 @@ $mainLink = ['link' => URL::route('dashboard'), 'title' => 'Go to A/B Testing La
 @section('content')
 
 <p>
-    Hey, {{ $user->name }}
+    Hi, {{ $user->name }}
 </p>
 <p>
-    Just wanted to let you know that we received your payment of {{ $payment->gross }} and you can start using your new resources right away.
+    Just wanted to let you know that we received your payment of {{ $payment->gross }} and you can start creating new tests right away.
 </p>
 
 @endsection

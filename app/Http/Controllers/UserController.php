@@ -107,7 +107,7 @@ class UserController extends Controller
         if (!empty($this->user->password) && ($data['email'] !== $this->user->email || !empty($data['new_password']))
             && (empty($data['old_password']) || !Hash::check($data['old_password'], $this->user->password)))
         {
-            Session::flash('fail', 'Enter correct current password.');
+            Session::flash('fail', 'Enter the correct current password.');
         }
         else
         {
@@ -120,7 +120,7 @@ class UserController extends Controller
 
             if ($this->user->save())
             {
-                Session::flash('success', 'Changes saved.');
+                Session::flash('success', 'Changes were saved.');
             }
             else
             {

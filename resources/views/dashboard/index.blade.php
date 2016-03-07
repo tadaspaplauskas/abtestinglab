@@ -40,7 +40,7 @@
     <div class="panel-body">
         @if ($lastUpdated->isEmpty())
             <p>
-                Not much is going on here. Wanna get to the testing?<br>
+                Not much is going on here. Wanna start testing now?<br>
                 <a href="{{ route('websites.create') }}">Add a new website</a> or
                 <a href="{{ route('websites.index') }}">create new tests</a>.
             </p>

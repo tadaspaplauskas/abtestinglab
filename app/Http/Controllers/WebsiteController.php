@@ -48,7 +48,7 @@ class WebsiteController extends Controller
             $website->update($request);
             $website->save();
 
-            Session::flash('success', 'Website updated.');
+            Session::flash('success', 'Website was updated.');
 
             return redirect(route('websites.show', ['id' => $website->id]));
         }
@@ -57,7 +57,7 @@ class WebsiteController extends Controller
             $website = Website::create($request);
             self::createWebsitePath($website);
 
-            Session::flash('success', 'Website created.');
+            Session::flash('success', 'Website was created.');
 
             return redirect(route('websites.instructions', ['id' => $website->id]));
         }
@@ -161,7 +161,7 @@ class WebsiteController extends Controller
         $tests = new TestController;
         $tests->refreshTestsJS($website);
 
-        Session::flash('success', 'All tests are stopped for this websites.');
+        Session::flash('success', 'All tests are stopped for this website.');
         return redirect()->back();
     }
 

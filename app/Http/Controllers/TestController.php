@@ -37,7 +37,7 @@ class TestController extends Controller
                 }
                 else
                 {
-                    Session::flash('warning', 'Could not enable the test because the goal is already reached. Please adjust the goal or make a new test.');
+                    Session::flash('warning', 'Could not enable the test because the goal is already reached. Please adjust the reach or make a new test.');
                     return redirect()->back();
                 }
             }
@@ -89,7 +89,7 @@ class TestController extends Controller
         if ($test->website->user_id === $this->user->id)
             $test->delete();
 
-        Session::flash('success', 'Test deleted.');
+        Session::flash('success', 'The test was deleted.');
         return redirect()->back();
     }
 

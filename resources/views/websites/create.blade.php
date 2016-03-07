@@ -22,7 +22,7 @@
         <label for="title">Keep the winning variations</label>
         <label class="explain">
         <input {{ (old('keep_best_variation', 0) == 1) ? 'checked' : '' }} name="keep_best_variation" id="keep_best_variation" type="checkbox" value="1">
-        Display the best performing variation after the test has completed.
+        Display the best performing variation after the test is completed.
         </label>
     </div>
 
