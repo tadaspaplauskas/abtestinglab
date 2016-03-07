@@ -108,7 +108,10 @@ class TestController extends Controller
 
         if ($this->generateManagerJS($website))
         {
-            return redirect($website->url . '/#token=' . $token);
+            if (substr_count($website->url, '/') > 2)
+                return redirect($website->url . '#token=' . $token);
+            else
+                return redirect($website->url . '/#token=' . $token);
         }
         else
         {
