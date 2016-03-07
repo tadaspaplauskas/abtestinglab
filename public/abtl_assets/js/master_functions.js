@@ -26,16 +26,44 @@ abtl.extend({
     {
         var href = elem.attr('href') || undefined;
         var src = elem.attr('src') || undefined;
+        var id = elem.attr('id') || undefined;
         var placeholder = elem.attr('placeholder') || undefined;
         var elemVal = elem.attr('value') || undefined;
         var html = (elem.html() !== undefined) ? elem.html().customTrim() : undefined;
+        var className = elem.attr('class') || undefined;
 
         return ((html !== undefined && html === value) ||
                     (href !== undefined && href === value) ||
                     (src !== undefined && src === value) ||
+                    (id !== undefined && id === value) ||
                     (placeholder !== undefined && placeholder === value) ||
-                    (elemVal !== undefined && elemVal === value));
-    },
+                    (elemVal !== undefined && elemVal === value) ||
+                    (className !== undefined && className === value));
+    },/*
+    getIdentifier: function(elem)
+    {
+        var href = elem.attr('href') || undefined;
+        var src = elem.attr('src') || undefined;
+        var id = elem.attr('id') || undefined;
+        var elemVal = elem.attr('value') || undefined;
+        var html = (elem.html() !== undefined) ? elem.html().customTrim() : undefined;
+        var className = elem.attr('class') || undefined;
+
+        if (href !== undefined)
+            return href;
+        else if (src !== undefined)
+            return src;
+        else if (id !== undefined)
+            return id;
+        else if (elemVal !== undefined)
+            return elemVal;
+        else if (html !== undefined)
+            return html;
+        else if (className !== undefined)
+            return className;
+
+        return null;
+    },*/
     localStorageSupport: function ()
     {
         try {

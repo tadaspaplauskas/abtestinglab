@@ -1,5 +1,8 @@
+body {
+    padding-bottom: 15em !important;
+}
+
 #abtl-placeholder {
-    height: 15em;
 }
 
 #abtl-control {
@@ -14,7 +17,7 @@
     overflow-y: hidden;
     cursor: inherit; /* initial is not supported in IE */
     background-color: white;
-    z-index: 999999;
+    z-index: 9999;
 }
 
 @media screen and (max-width: 1024px) {
@@ -134,6 +137,10 @@
 
 .abtl-cursor-grabbing [draggable=true] {
     cursor: url(http://abtestinglab.com/abtl_assets/cursors/closedhand.cur) 8 8, move !important;
+}
+
+a.abtl-cursor-grab [draggable=true] {
+    cursor: pointer;
 }
 
 .abtl-menu-border {
@@ -325,8 +332,7 @@ div>.abtl-active-step {
     display:table-cell;
     position:relative;
     text-align:center;
-    cursor:grab;
-    cursor:-webkit-grab;
+    cursor:pointer;
     color:#efefef;
     vertical-align:middle;
 }

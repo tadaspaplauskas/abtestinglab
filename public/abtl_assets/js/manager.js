@@ -16,7 +16,12 @@
         setInterval(function () {
             assignOriginalValues();
             applyActiveTest();
-        }, 1000);
+
+            //dragging functionality
+            toggleDragging(true);
+            //cursor functionality
+            toggleCursor('grab');
+        }, 2000);
 
         /*************** PREPARING MANAGER **************/
         //assign original values to DOM objects
@@ -31,10 +36,6 @@
         $('#abtl-placeholder').on('click', function (ev) {
             ev.stopPropagation();
         });
-        //dragging functionality
-        toggleDragging(true);
-        //cursor functionality
-        toggleCursor('grab');
 
         //display body
         $('body').css('visibility', 'initial');
@@ -45,7 +46,7 @@
 
     function assignOriginalValues()
     {
-        $.allElements().not("#abtl-placeholder").each(function()
+        $.allElements().not("#abtl-placeholder *").each(function()
         {
             //set original value if not assigned
             if (!$(this).data('original_value'))
@@ -100,11 +101,19 @@
                 if (!confirm('This element doesnt appear to be optimal for click tracking. Are you sure you want to use it?'))
                 return false;
             }
-            currentObject.find('.abtl-click-conversion-input').val($(ev.target).attr('href'));
+
+            var inputField = currentObject.find('.abtl-click-conversion-input');
+
+            inputField.val($(ev.target).closest('a[href!=""]').attr('href'));
 
             setOneClass(target, 'abtl-picked-conversion-border');
             toggleCursor('grab');
-            btn.text('Conversion defined. Again?');
+
+            if (inputField.val().length > 0)
+                btn.text('Conversion defined. Again?');
+            else
+                btn.text('This element cannot be tracked, please try another.');
+
             btn.prop('disabled', false);
             selection.off('click');
         });
@@ -162,7 +171,8 @@
     /****************** DRAGGING AND DROPPING ****************/
 
     function toggleDragging(on) {
-        var selection = $.allElements(true).not("#abtl-placeholder");
+        var abtlPanel = $("#abtl-placeholder *");
+        var selection = $.allElements(true).not(abtlPanel);
 
         //make specific things draggable
         selection.each(function() {
@@ -177,7 +187,7 @@
         //make everything NOT draggable, unless you are gonna do it anw
         if (on)
         {
-            $('body').find('*').not(selection).each(function() {
+            $('body *').not(selection).not(abtlPanel).each(function() {
                 $(this).attr("draggable", "false");
             });
         }
@@ -517,7 +527,7 @@
 
         if (field.length > 0)
         {
-            $.allElements().not("#abtl-placeholder").each(function()
+            $.allElements().not("#abtl-placeholder *").each(function()
             {
                 if ($(this).data('original_value') === field || $(this).attr('href') === field)
                 {
@@ -592,13 +602,13 @@
             var tab = $('#' + $(this).data('tab'));
 
             //check if required info is provided: element, variation, conversion, goal
-            if (tab.find('.abtl-identifier-text').val().length ===0
+            if (tab.find('.abtl-identifier-text').val().length === 0
                 || tab.find('.abtl-test-text').val().length === 0
                 || tab.find('.abtl-conversion-goal').val() < 100 //is goal set?
                 || (tab.find('.abtl-conversion-type').val() === 'click' && !tab.find('.abtl-default-conversion-checkbox input').prop('checked') && tab.find('.abtl-click-conversion-input').val().length === 0) //is click conv set?
                 || (tab.find('.abtl-conversion-type').val() === 'time' && tab.find('.abtl-time-conversion-input').val().length === 0)) //or time goal?
             {
-                alert('Test "' + $(this).find('.abtl-pick-test').text() + '" is not completed; you should select the tested element and then define the variation, conversion event, reach (>100).');
+                alert('Test "' + $(this).find('.abtl-pick-test').text() + '" is not completed; you should select the element to be tested, then define the variation, conversion event, and finally the reach (>100).');
                 success = false;
                 return false;
             }
@@ -642,6 +652,14 @@
     //TEMPLATE MEAT HERE
     function templateBindings()
     {
+        window.onbeforeunload = function()
+        {
+            return "Careful! If you have any unsaved changes, they will be lost.";
+        }
+        $('#abtl-placeholder').on('click', function() {
+            window.onbeforeunload = null;
+        });
+
         //help
         $('#abtl-save').prop('title', 'Save all changes to website and continue editing');
         $('#abtl-exit').prop('title', 'Exit editor now');
@@ -978,13 +996,16 @@
             var style = container.find('.abtl-custom-style-css');
             var element = getCurrentElement();
 
-            if (classes.val().length === 0)
+            if (element !== undefined)
             {
-                classes.val(prepareClassNames(element.data('class')));
-            }
-            if (style.val().length === 0)
-            {
-                style.val(prepareCSS(element.data('style')));
+                if (classes.val().length === 0)
+                {
+                    classes.val(prepareClassNames(element.data('class')));
+                }
+                if (style.val().length === 0)
+                {
+                    style.val(prepareCSS(element.data('style')));
+                }
             }
         },
         closeCustomStyle: function ()
