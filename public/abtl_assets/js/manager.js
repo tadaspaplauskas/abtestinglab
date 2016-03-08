@@ -19,9 +19,14 @@
 
             //dragging functionality
             toggleDragging(true);
-            //cursor functionality
-            toggleCursor('grab');
         }, 2000);
+
+        assignOriginalValues();
+        applyActiveTest();
+        //dragging functionality
+        toggleDragging(true);
+        //cursor functionality
+        toggleCursor('grab');
 
         /*************** PREPARING MANAGER **************/
         //assign original values to DOM objects

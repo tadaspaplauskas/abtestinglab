@@ -37,8 +37,6 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
 
     //login
     casper.then(function() {
-
-        casper.capture('screen_login.jpg');
         this.clickLabel('Log in');
     });
 
@@ -97,7 +95,7 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
 
     //check if panel loaded
     casper.then(function() {
-        this.waitUntilVisible('#abtl-placeholder', function() {
+        this.waitUntilVisible('#abtl-control', function() {
             test.assertTextExists('Add new', 'Control Panel loaded');
         }, null, 15000);
     });
@@ -106,14 +104,14 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
     casper.then(function() {
         this.clickLabel('+ Add new');
 
-        this.fillSelectors('#abtl-placeholder', {
+        this.fillSelectors('#abtl-control', {
             '.abtl-active .abtl-test-title': 'first test title'
         });
 
         //choose element to test
         this.click('.abtl-active .abtl-pick-element');
 
-        this.click('.description');
+        this.click('div.description');
 
         this.click('.abtl-step-variation');
 
@@ -123,15 +121,18 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
             abtl('.abtl-active .abtl-test-text').val('This is blog desc that supports <b>html</b>').keyup();
         });
 
-        this.click('.abtl-step-variation');
+        this.click('.abtl-step-conversion');
 
         test.assertVisible('.abtl-active .abtl-conversion-type', 'Conversion fields are visible');
 
         this.evaluate(function() {
             abtl('.abtl-active .abtl-conversion-type option').val('time').change();
         });
+    });
 
-        test.assertEquals(this.getElementInfo('.description').text, 'This is blog desc that supports html',
+    casper.then(function() {
+        //casper.capture('debug.jpg');
+        test.assertEquals(this.getElementInfo('div.description').text, 'This is blog desc that supports html',
             'Test changes visible');
     });
 
@@ -139,16 +140,14 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
     casper.then(function() {
         this.clickLabel('+ Add new');
 
-        this.fillSelectors('#abtl-placeholder', {
+        this.fillSelectors('#abtl-control', {
             '.abtl-active .abtl-test-title': 'second test picture url'
         });
-
         //choose element to test
         this.click('.abtl-active .abtl-pick-element');
         this.click('.test-image');
 
         this.click('.abtl-step-variation');
-        casper.capture('debug.jpg');
         test.assertVisible('.abtl-active .abtl-image-url', 'Image fields are visible');
 
         this.evaluate(function() {
@@ -167,7 +166,7 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
 
         this.click('.abtl-active .abtl-cutom-style-button');
 
-        this.fillSelectors('#abtl-placeholder', {
+        this.fillSelectors('#abtl-control', {
             '.abtl-active .abtl-custom-style-classes': 'test-image dummy-class',
             '.abtl-active .abtl-custom-style-css': 'border: 10px solid red;'
         });
@@ -182,7 +181,7 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
     casper.then(function() {
         this.clickLabel('+ Add new');
 
-        this.fillSelectors('#abtl-placeholder', {
+        this.fillSelectors('#abtl-control', {
             '.abtl-active .abtl-test-title': 'third test picture upload'
         });
 
