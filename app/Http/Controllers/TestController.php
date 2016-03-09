@@ -48,7 +48,7 @@ class TestController extends Controller
             $test->save();
         }
         if ($this->refreshTestsJS($test->website))
-            Session::flash('success', 'Changes were saved and published.');
+            Session::flash('success', 'Changes were saved.');
         else
             Session::flash('fail', 'Something went wrong, please try again later.');
 

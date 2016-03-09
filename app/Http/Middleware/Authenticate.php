@@ -42,12 +42,15 @@ class Authenticate
                 return redirect()->guest('login');
             }
         }
+
+        $response = $next($request);
+
         /* touch last user activity */
         $user = Auth::user();
         $user->touchActivity();
 
         /* end */
 
-        return $next($request);
+        return $response;
     }
 }

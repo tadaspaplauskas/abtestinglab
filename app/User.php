@@ -86,7 +86,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         $left = $this->total_available_reach - $this->used_reach;
 
-        return $left < 0 ? 0 : $left;
+        return $left <= 0 ? 0 : $left;
     }
 
     public function lowResources()

@@ -6,6 +6,7 @@ use App\Events\LogNewVisit;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Http\Controllers\TestController;
+use Mail;
 
 class CheckUsersResources
 {
@@ -28,8 +29,11 @@ class CheckUsersResources
     public function handle(LogNewVisit $event)
     {
         $user = $event->user;
+
+        $user->increment('used_reach');
+
         $avail = $user->getAvailableResources();
-        if ($user->active && $avail === 0)
+        if (/*$user->active && */$avail <= 0)
         {
             $tests = new TestController;
 
@@ -46,11 +50,6 @@ class CheckUsersResources
                         ->subject('You ran out of resources');
                 }
             );
-
-        }
-        else if ($avail > 0)
-        {
-            $user->increment('used_reach');
         }
     }
 }

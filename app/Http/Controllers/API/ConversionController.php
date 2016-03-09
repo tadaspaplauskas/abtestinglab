@@ -34,6 +34,8 @@ class ConversionController extends ApiController
 
             $test = $conversion->test;
 
+            //$test->timestamps = false;
+
             if ($conversion->count === 1)
             {
                 if ($variation === 'a')
@@ -43,17 +45,8 @@ class ConversionController extends ApiController
 
                 $test->save();
             }
-            //goal is reached
-            if ($test->totalReach() >= $test->goal)
-            {
-                $test->disable();
-                $testController = new MainTestController();
-                $testController->refreshTestsJS($test->website);
-
-                event(new \App\Events\TestCompleted($test));
-            }
             return $this->respondSuccess();
         }
-        return $this->respondError();
+        return $this->respondSuccess();//return $this->respondError();
     }
 }

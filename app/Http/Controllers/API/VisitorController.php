@@ -8,6 +8,7 @@ use DB;
 use App\Http\Controllers\API\ApiController;
 use App\Models\Test;
 use App\Models\Visitor;
+use App\Http\Controllers\TestController as MainTestController;
 
 class VisitorController extends ApiController
 {
@@ -40,7 +41,6 @@ class VisitorController extends ApiController
             return $this->respondSuccess();
 
         $visitor = Visitor::find($request->get('visitor_id'));
-
         if (!isset($visitor->id))
         {
             return $this->respondError('Visitor does not exist');
@@ -58,6 +58,7 @@ class VisitorController extends ApiController
             if (!in_array($testID, $oldKeys))
             {
                 $test = Test::find($testID);
+                $test->timestamps = false;
 
                 $user = $test->website->user;
                 //check if user has enough reach
@@ -69,14 +70,27 @@ class VisitorController extends ApiController
 
                 if (isset($test->id))
                 {
-                    if ($variation === 'a')
-                        $test->original_pageviews++;
-                    else if ($variation === 'b')
-                        $test->variation_pageviews++;
+                    if ($test->isEnabled())
+                    {
+                        if ($variation === 'a')
+                            $test->original_pageviews++;
+                        else if ($variation === 'b')
+                            $test->variation_pageviews++;
 
-                    $test->save();
+                        $test->save();
 
-                    event(new \App\Events\LogNewVisit($user));
+                        event(new \App\Events\LogNewVisit($user));
+                    }
+
+                    //goal is reached
+                    if ($test->totalReach() >= $test->goal)
+                    {
+                        $test->disable();
+                        $testController = new MainTestController();
+                        $testController->refreshTestsJS($test->website);
+
+                        event(new \App\Events\TestCompleted($test));
+                    }
                 }
                 DB::commit();
             }

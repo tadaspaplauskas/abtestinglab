@@ -15,15 +15,12 @@ class DashboardController extends Controller
 
     public function index()
     {
-
         //stopped since last activity
         $stopped = $this->user->tests()->disabled()
-                ->my()
-                ->where('tests.updated_at', '<=', $this->user->last_activity)
+                ->take(3)
                 ->get();
 
         $lastUpdated = $this->user->tests()->enabled()
-                ->my()
                 ->orderBy('tests.updated_at', 'desc')
                 ->take(5)
                 ->get();
