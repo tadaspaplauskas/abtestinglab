@@ -138,7 +138,7 @@ class TestController extends ApiController
         $this->checkWebsiteOwner($websiteID);
 
         $tests = Test::where('website_id', $websiteID)
-                ->orderBy('updated_at', 'desc')
+                ->orderBy('updated_at', 'asc')
                 ->get();
 
         return $this->respondSuccess($tests);
