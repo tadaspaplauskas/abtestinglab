@@ -26,8 +26,6 @@ class TestController extends ApiController
         //print_r($tests);
         $websiteID = $request->get('website_id');
 
-        $this->checkWebsiteOwner($websiteID);
-
         $website = Website::find($websiteID);
 
         $testsToSave = [];
@@ -135,9 +133,9 @@ class TestController extends ApiController
     public function loadTests(Request $request)
     {
         $websiteID = $request->get('website_id');
-        $this->checkWebsiteOwner($websiteID);
 
-        $tests = Test::where('website_id', $websiteID)
+        $tests = Test::NotArchived()
+                ->where('website_id', $websiteID)
                 ->orderBy('updated_at', 'asc')
                 ->get();
 
