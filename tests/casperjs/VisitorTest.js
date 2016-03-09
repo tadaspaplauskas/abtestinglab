@@ -1,5 +1,5 @@
 testUrl = 'http://abtestinglab.dev';
-testUrl = 'https://abtestinglab.com';
+//testUrl = 'https://abtestinglab.com';
 //testUrl = 'http://staging.abtestinglab.com';
 url = testUrl + '/tests/blog.html';
 

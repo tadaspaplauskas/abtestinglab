@@ -1,5 +1,5 @@
 testUrl = 'http://abtestinglab.dev';
-testUrl = 'https://abtestinglab.com';
+//testUrl = 'https://abtestinglab.com';
 //testUrl = 'http://staging.abtestinglab.com';
 
 casper.test.tearDown(function() {
@@ -80,9 +80,7 @@ casper.test.begin('Creating user, website, tests', 22, function suite(test) {
     casper.thenOpen(testUrl + "/test_user_created");
 
     //navigate back
-    casper.thenOpen(testUrl + "/websites");
-
-    casper.then(function() {
+    casper.thenOpen(testUrl + "/websites").then(function() {
         this.clickLabel('For testing');
     });
 
