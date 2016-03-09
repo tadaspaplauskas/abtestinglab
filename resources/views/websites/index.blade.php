@@ -37,7 +37,7 @@
             {{ $website->testsCount() }}
         </td>
         <td class="text-right">
-            @if ($website->published_at->timestamp > 0)
+            @if (isset($website->updated_at) && $website->updated_at->timestamp > 0)
                 {{ $website->lastChangesForHumans() }}
             @endif
         </td>

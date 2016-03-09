@@ -35,7 +35,7 @@
 <div class="col-md-6">
     <div class="panel panel-default">
     <div class="panel-heading">
-       Most recent running tests
+       Currently running tests
     </div>
     <div class="panel-body">
         @if ($lastUpdated->isEmpty())

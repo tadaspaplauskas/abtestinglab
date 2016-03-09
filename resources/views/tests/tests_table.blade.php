@@ -56,7 +56,7 @@
             <td class="text-right">
                 {{ $variationConv }} % ({{ $test->variation_conversion_count}})
             </td>
-            <td class="text-right {{ ($convDiff < 0) ? 'bad' : (($convDiff > 0) ? 'good' : '') }}">
+            <td class="text-right {{ ($test->convChange() < 0) ? 'bad' : (($test->convChange() > 0) ? 'good' : '') }}">
                 {{-- {{ $convDiff }} % / --}}
                 {{ $test->convChange() }} %
             </td>

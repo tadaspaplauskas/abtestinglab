@@ -16,7 +16,7 @@ $mainLink = ['link' => URL::route('websites.show', [$test->website_id]), 'title'
 </p>
 <p>
     Your test "{{ $test->title }}" is completed,
-    head over to A/B Testing Lab to view the complete results and make changes accordingly.
+    head over to A/B Testing Lab to view the results and make changes accordingly.
 </p>
 
 @endsection
