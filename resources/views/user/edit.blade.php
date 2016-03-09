@@ -46,10 +46,10 @@
        Email notifications
     </div>
     <div class="panel-body">
-        <div class="form-group">
+        {{--<div class="form-group">
             <input {{ $user->weekly_reports ? 'checked' : ''  }} name="weekly_reports" id="weekly_reports" type="checkbox" value="1">
             <label for="weekly_reports"> Send me weekly reports</label>
-        </div>
+        </div>--}}
         <div class="form-group">
             <input {{ $user->test_notifications ? 'checked' : ''  }} name="test_notifications" id="test_notifications" type="checkbox" value="1">
             <label for="test_notifications"> Send me a notification when test is completed</label>
