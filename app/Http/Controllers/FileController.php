@@ -24,9 +24,9 @@ class FileController extends Controller
 
         if ($minify)
         {
-            return self::minifyJS($path);
+            self::minifyJS($path);
         }
-        return $return;
+        return $return !== false;
     }
 
     public static function minifyJS($path)
