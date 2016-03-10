@@ -52,6 +52,8 @@ class TestController extends Controller
         else
             Session::flash('fail', 'Something went wrong, please try again later.');
 
+        event(new \App\Events\TestsModified($this->user));
+
         return redirect()->back();
     }
 
@@ -71,11 +73,12 @@ class TestController extends Controller
                 $test->nullifyStatistics();
             }
             $test->save();
-
             if ($this->refreshTestsJS($test->website))
                 Session::flash('success', 'Changes were saved and published.');
             else
                 Session::flash('fail', 'Something went wrong, please try again later.');
+
+            event(new \App\Events\TestsModified($this->user));
         }
 
         return redirect()->back();
@@ -88,6 +91,8 @@ class TestController extends Controller
 
         if ($test->website->user_id === $this->user->id)
             $test->delete();
+
+        event(new \App\Events\TestsModified($this->user));
 
         Session::flash('success', 'The test was deleted.');
         return redirect()->back();
@@ -131,6 +136,8 @@ class TestController extends Controller
         $website->save();
 
         $this->refreshTestsJS($website);
+
+        event(new \App\Events\TestsModified($this->user));
 
         session()->flash('success', 'All good');
 

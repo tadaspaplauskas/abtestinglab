@@ -100,7 +100,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         foreach($this->websites as $website)
         {
-            $needed += $website->enabledTests()->sum(DB::raw('goal - original_pageviews - variation_pageviews'));
+            $needed += $website->tests()->notArchived()->sum(DB::raw('goal - original_pageviews - variation_pageviews'));
         }
 
         return $needed;
