@@ -768,6 +768,15 @@
             else
                 $(this).parent().find('.abtl-pick-element').text('Pick.');
         });
+
+        var elem = $('.abtl-click-conversion-input');
+        elem.each(function() {
+            if ($(this).val().length > 0)
+                    $(this).parent().find('.abtl-custom-conversion-button').text('Conversion defined. Again?');
+            else
+                $(this).parent().find('.abtl-pick-element').text('Pick element to track conversions.');
+        });
+
     }
 
     function apiCall(target, data, doneFn)
