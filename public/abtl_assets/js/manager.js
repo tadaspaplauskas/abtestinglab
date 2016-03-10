@@ -1037,6 +1037,13 @@
         {
             var preview = $(this).up(4).find('.abtl-image-upload-preview');
             var file = $(this).parent().find('input[type=file]').prop('files')[0];
+
+            if(file.size / 1024 > 2048) //2048kb limit
+            {
+                alert('Please select image smaller than 2 mb.');
+                return false;
+            }
+
             var reader = new FileReader();
 
             reader.onloadend = function () {
