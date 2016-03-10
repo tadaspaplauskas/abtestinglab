@@ -3,7 +3,7 @@ $mainLink = ['link' => url('password/reset/'.$token), 'title' => 'Reset password
 ?>
 @extends('emails.master')
 
-@section('title', 'Welcome to A/B Testing Lab!')
+@section('title', 'Reset your password')
 
 @section('content')
 

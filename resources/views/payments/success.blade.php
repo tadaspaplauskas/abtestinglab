@@ -10,4 +10,10 @@ Thank you for your payment. Your transaction has been completed and a receipt fo
 
 <a href="{{ URL::route('dashboard') }}" class="btn btn-primary">Continue</a>
 
+<style>
+.alert-warning {
+    display: none;
+}
+</style>
+
 @endsection

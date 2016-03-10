@@ -3,7 +3,7 @@ $mainLink = ['link' => URL::route('pricing'), 'title' => 'Buy now'];
 ?>
 @extends('emails.master')
 
-@section('title', 'Instructions to the developer')
+@section('title', 'You are out of resources')
 
 @section('content')
 

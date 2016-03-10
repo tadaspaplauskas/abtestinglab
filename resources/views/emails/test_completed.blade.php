@@ -7,7 +7,7 @@ $mainLink = ['link' => URL::route('websites.show', [$test->website_id]), 'title'
 ?>
 @extends('emails.master')
 
-@section('title', 'We received the payment')
+@section('title', 'The test is completed')
 
 @section('content')
 

@@ -116,7 +116,7 @@ if ($loggedIn)
                     @elseif($loggedIn && $user->lowResources())
                         <div class="alert alert-info">
                             <strong>Just so you know</strong> Currently you have {{ $user->getAvailableResources() }} visitors left but you need {{ $user->getCurrentlyNeededResources() }} to complete the tests.
-                            <p>You've created more tests that you can run with available reach. To avoid them stopping abruptly consider <a href="{{ route('pricing') }}">securing more resources</a> or reducing the reach of your tests.</p>
+                            <p>You've created more tests than you can run with the available reach. To avoid them stopping abruptly consider <a href="{{ route('pricing') }}">securing more resources</a> or reducing the reach of your tests.</p>
                         </div>
                     @endif
 
