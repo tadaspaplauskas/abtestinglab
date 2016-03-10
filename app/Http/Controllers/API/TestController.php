@@ -54,8 +54,8 @@ class TestController extends ApiController
                 }
                 $testInDB->title = $test['title'];
 
-                if ($testInDB->totalReach() < $test['goal'])
-                    $testInDB->status = 'enabled';
+                /*if ($testInDB->totalReach() < $test['goal'])
+                    $testInDB->status = 'enabled';*/
 
                 $testInDB->test_element = $test['from'];
 
