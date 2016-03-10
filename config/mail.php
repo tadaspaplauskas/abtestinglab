@@ -53,7 +53,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'info@abtestinglab.com', 'name' => 'A/B Testing Lab'],
+    'from' => ['address' => 'contact@abtestinglab.com', 'name' => 'A/B Testing Lab'],
 
     /*
     |--------------------------------------------------------------------------
