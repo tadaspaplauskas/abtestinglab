@@ -30,10 +30,11 @@
 @else
     <?php $tests = $website->tests; ?>
     @include('tests.tests_table')
+@endif
+
     <hr>
     <p>
         <a href="{{ route('websites.archived', ['id' => $website->id]) }}" class="btn btn-default">See archived tests</a>
     </p>
-@endif
 
 @endsection
