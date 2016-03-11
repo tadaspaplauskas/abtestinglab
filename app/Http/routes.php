@@ -86,7 +86,7 @@ Route::get('login/google', ['uses' => 'Auth\AuthController@redirectToProviderGoo
 Route::get('login/google/callback', ['uses' => 'Auth\AuthController@handleProviderCallbackGoogle', 'as' => 'callbackGoogle']);
 
 // Password reset link request routes...
-Route::get('password/email', 'Auth\PasswordController@getEmail');
+Route::get('password/email', ['uses' => 'Auth\PasswordController@getEmail', 'as' => 'password.reset']);
 Route::post('password/email', 'Auth\PasswordController@postEmail');
 
 // Password reset routes...

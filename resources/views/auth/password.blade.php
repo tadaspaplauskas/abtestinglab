@@ -11,8 +11,8 @@
   <input name="email" type="email" class="form-control" id="email" placeholder="Enter email" value="{{ old('email') }}">
 </div>
 <div class="form-group">
-  <button type="submit" class="btn btn-confirm">Send password reset link</button>
+  <button type="submit" class="btn btn-confirm btn-primary">Send password reset link</button>
 </div>
 </form>
-    
+
 @endsection

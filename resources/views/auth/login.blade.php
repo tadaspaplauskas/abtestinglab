@@ -23,5 +23,10 @@
   <button type="submit" class="btn btn-confirm btn-primary">Log in</button>
 </div>
 </form>
+<p>
+<small>
+<a href="{{ URL::route('password.reset') }}">Forgot your password?</a>
+</small>
+</p>
 
 @endsection

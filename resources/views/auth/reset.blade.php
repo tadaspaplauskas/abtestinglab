@@ -21,8 +21,8 @@
   <input name="password_confirmation" type="password" class="form-control" id="password_confirmation" placeholder="Password again" />
 </div>
 <div class="form-group">
-  <button type="submit" class="btn btn-confirm">Reset password</button>
+  <button type="submit" class="btn btn-confirm btn-primary">Reset password</button>
 </div>
 </form>
-    
+
 @endsection
