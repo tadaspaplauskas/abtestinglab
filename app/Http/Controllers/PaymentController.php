@@ -23,7 +23,8 @@ class PaymentController extends Controller
     ];
 
     public $paypal = [
-        'url' => 'ssl://www.sandbox.paypal.com', //live https://www.paypal.com/cgi-bin/webscr, sandbox https://www.sandbox.paypal.com/cgi-bin/webscr
+        //'url' => 'ssl://www.sandbox.paypal.com',
+        'url' => 'ssl://www.paypal.com',
         'path' => '/cgi-bin/webscr',
     ];
 

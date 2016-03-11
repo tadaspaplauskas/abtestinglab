@@ -103,7 +103,7 @@
                 target.prop('tagName') !== 'BUTTON' &&
                 !target.parents('a, button').length)
             {
-                if (!confirm('This element doesnt appear to be optimal for click tracking. Are you sure you want to use it?'))
+                if (!confirm('This element does not appear to be optimal for click tracking. Are you sure you want to use it?'))
                 return false;
             }
 
@@ -267,7 +267,7 @@
         }
         else
         {
-            alert('Sorry, cannot identify element.');
+            alert('Sorry, cannot identify the element.');
             return false;
         }
         //is element a link? if not, prepare to select conversion
@@ -666,7 +666,7 @@
         });
 
         //help
-        $('#abtl-save').prop('title', 'Save all changes to website and continue editing');
+        $('#abtl-save').prop('title', 'Save all changes and continue editing');
         $('#abtl-exit').prop('title', 'Exit editor now');
         $('#abtl-exit').click(exitManager);
 
@@ -774,7 +774,7 @@
             if ($(this).val().length > 0)
                     $(this).parent().find('.abtl-custom-conversion-button').text('Conversion defined. Again?');
             else
-                $(this).parent().find('.abtl-pick-element').text('Pick element to track conversions.');
+                $(this).parent().find('.abtl-pick-element').text('Pick an element to track conversions.');
         });
 
     }
@@ -815,7 +815,9 @@
                 //window.location = abtlBackUrl;
             }
             else
+            {
                 alert('Request failed, please try again in a minute or two');
+            }
         });
     }
 
@@ -1049,7 +1051,7 @@
 
             if(file.size / 1024 > 2048) //2048kb limit
             {
-                alert('Please select image smaller than 2 mb.');
+                alert('Please select an image smaller than 2 mb.');
                 return false;
             }
 

@@ -48,7 +48,7 @@ class WebsiteController extends Controller
             $website->update($request);
             $website->save();
 
-            Session::flash('success', 'Website was updated.');
+            Session::flash('success', 'The website was updated.');
 
             return redirect(route('websites.show', ['id' => $website->id]));
         }
@@ -57,7 +57,7 @@ class WebsiteController extends Controller
             $website = Website::create($request);
             self::createWebsitePath($website);
 
-            Session::flash('success', 'Website was created.');
+            Session::flash('success', 'The website was created.');
 
             return redirect(route('websites.instructions', ['id' => $website->id]));
         }
@@ -146,7 +146,7 @@ class WebsiteController extends Controller
                 ->where('user_id', $this->user->id)
                 ->delete();
 
-        Session::flash('success', 'Website deleted.');
+        Session::flash('success', 'The website was deleted.');
         return redirect(route('websites.index'));
     }
 
