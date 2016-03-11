@@ -12,7 +12,7 @@ $mainLink = ['link' => URL::route('websites.show', [$test->website_id]), 'title'
 @section('content')
 
 <p>
-    Hey, {{ $user->name }}
+    Hi, {{ $user->name }}
 </p>
 <p>
     Your test "{{ $test->title }}" is completed,

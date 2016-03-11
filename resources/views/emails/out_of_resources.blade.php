@@ -11,7 +11,7 @@ $mainLink = ['link' => URL::route('pricing'), 'title' => 'Buy now'];
     Hi, {{ $user->name }}
 </p>
 <p>
-    Too bad you used all your tests. All your activity has been stopped. To continue testing consider buying more resources.
+    You can no longer run any tests because you ran out of resources. Please consider purchasing more to resume testing.
 </p>
 
 @endsection
