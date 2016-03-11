@@ -3,7 +3,7 @@ $mainLink = ['link' => URL::route('dashboard'), 'title' => 'Go to A/B Testing La
 ?>
 @extends('emails.master')
 
-@section('title', 'We received the payment')
+@section('title', 'Payment received')
 
 @section('content')
 
@@ -11,7 +11,7 @@ $mainLink = ['link' => URL::route('dashboard'), 'title' => 'Go to A/B Testing La
     Hi, {{ $user->name }}
 </p>
 <p>
-    Just wanted to let you know that we received your payment of {{ $payment->gross }} and you can start creating new tests right away.
+    Just wanted to let you know that your payment of {{ $payment->gross }} has been received and you can start running tests right away.
 </p>
 
 @endsection

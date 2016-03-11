@@ -9,7 +9,7 @@ $mainLink = ['link' => URL::route('dashboard'), 'title' => 'Begin testing now'];
 
 <p>
     Happy to see You here!
-    You now have access to all the features.
+    You now have access to all exciting features.
     Let's not waste any time - create your first test today!
 </p>
 

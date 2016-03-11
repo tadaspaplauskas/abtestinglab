@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'FAQ')
+@section('title', 'Frequently asked questions')
 
 @section('content')
 
@@ -11,14 +11,14 @@ What exactly counts as a "unique visitor"?
 <p class="answer">
 One unique visitor is counted when the visitor is introduced to a new test for the first time. All the subsequent times when that same test is presented to the same visitor are not added to this number.
 <br>
-Example: You are running one test on the element that is present on every web page of your website. Jane visits your website for the first time and explores 10 web pages. Jack visits your website, but quits after checking out 2 web pages and comes back to on the next day. All this action will count as 2 unique visitors on your test.
+Example: You are running one test on the element that is present on every page of your website. Jane visits your website for the first time and explores 10 pages. Jack visits your website, but quits after checking out 2 pages and comes back the next day. All this action will count as 2 unique visitors on your test.
 </p>
 
 <p class="question">
 Do I need a lot of technical expertise to use A/B Testing Lab?
 </p>
 <p class="answer">
-Not really. Installing our snippet onto your website is rather straightforward if you have at least some knowledge on HTML. Creating tests with our visual editor is a breeze. If you know some CSS and HTML, it will allow you to create more complex tests, but that's not necessary to conduct effective testing.
+Not really. Installing our snippet onto your website is rather straightforward if you have at least some knowledge on HTML. Creating tests with visual editor is a breeze. If you know some CSS and HTML, it will allow you to create more complex tests, but that's not necessary to conduct effective testing.
 </p>
 
 <p class="question">
@@ -32,7 +32,7 @@ You can run as many tests as you want.
 Will A/B Testing Lab work with any browser?
 </p>
 <p class="answer">
-Visitors with all modern mobile and desktop browsers (IE6+) will be able to see your tests. The test editor will work fine with most browsers, but it is recommended to use the latest version of your preferred browser.
+Visitors with all modern mobile and desktop browsers (IE6+) will be able to see your tests. The visual editor will work fine with most browsers, but it is recommended to use the latest version of Chrome.
 </p>
 
 <p class="question">
@@ -71,7 +71,7 @@ No, <a href="https://support.google.com/analytics/answer/2576845?hl=en&ref_topic
 Why don't you allow to specify a test goal instead of reach? I want to stop testing once noticeable improvement is reached.
 </p>
 <p class="answer">
-    This might sound like a good idea, but in reality the results of such tests might not be statistically meaningful. If you run a test up until you get a result you want, the risk of getting a false-positive is greatly increased. Instead you should decide on test limits in advance and then stick to it. If you do not get a concrete result, then run a new, improved test, instead of running the same test until you see the desired result.
+    This might sound like a good idea, but in reality the results of such tests might not be statistically meaningful. If you run a test up until you get a result you want, the risk of getting a false-positive is greatly increased. Instead you should decide on test limits in advance and then stick to it. If you do not get a definitive result, then run a new, improved test, instead of running the same test until you see the desired result.
     Read more on this topic <a href="http://blog.sumall.com/journal/optimizely-got-me-fired.html">here</a>.
 </p>
 <p>

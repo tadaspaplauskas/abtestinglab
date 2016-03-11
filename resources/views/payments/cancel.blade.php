@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'Payment completed')
+@section('title', 'Payment was cancelled')
 
 @section('content')
 

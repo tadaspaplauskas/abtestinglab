@@ -6,11 +6,10 @@
 
 <div class="row">
 <div class="col-md-6">
-My name is Tadas Paplauskas and I'm a web developer from Lithuania. I'm the guy behind A/B Testing Lab. This is my passion project and I want to make it an awesome tool for content creators to test their ideas and draw insights about their visitors.
-</div>
-
-<div class="col-md-6">
 <strong>A/B Testing Lab</strong> was born out of the need to run a few simple A/B tests at my job some years ago. To my surprise I saw many great solutions for marketers, but there was no fast and easy way to run A/B tests for the uninitiated. After a bit of research I rolled up my sleeves and got to work.
+</div>
+<div class="col-md-6">
+My name is Tadas Paplauskas and I'm a web developer from Lithuania. I'm the guy behind A/B Testing Lab. This is my passion project and I want to make it an awesome tool for content creators to test their ideas and draw insights about their visitors.
 </div>
 </div>
 
