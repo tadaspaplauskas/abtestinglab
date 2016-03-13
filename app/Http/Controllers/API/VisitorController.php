@@ -8,6 +8,7 @@ use DB;
 use App\Http\Controllers\API\ApiController;
 use App\Models\Test;
 use App\Models\Visitor;
+use App\Models\Website;
 use App\Http\Controllers\TestController as MainTestController;
 
 class VisitorController extends ApiController
@@ -21,7 +22,7 @@ class VisitorController extends ApiController
     public function newVisitor(Request $request)
     {
         //check host, if it comes from the right website
-        if ($request->has('website_id'))
+        if ($request->has('website_id') && Website::where('id', $request->get('website_id'))->exists())
         {
             $visitor = Visitor::create([
                 'ip' => $request->ip(),
@@ -30,7 +31,7 @@ class VisitorController extends ApiController
 
             return $visitor->id;
         }
-        return $this->respondError();
+        return $this->respondSuccess();
     }
 
     public function logVisit(Request $request)

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Http\Controllers\Controller;
-use App\Models\Test;
 
 class DashboardController extends Controller
 {
