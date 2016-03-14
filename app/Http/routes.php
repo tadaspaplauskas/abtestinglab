@@ -69,10 +69,8 @@ Route::group(['middleware' => 'auth'], function ()
         });
 
     });
-
-
+    Route::get('admin/login_as/{user}', ['as' => 'admin.login_as', 'uses' => 'AdminController@login_as']);
 });
-Route::get('admin/login_as/{user}', ['as' => 'admin.login_as', 'uses' => 'AdminController@login_as']);
 
 //auth stuff
 Route::get('login', ['uses' => 'Auth\AuthController@login', 'as' => 'login']);
