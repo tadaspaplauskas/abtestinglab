@@ -47,6 +47,11 @@ class RouteServiceProvider extends ServiceProvider
             else
                 return $found;
         });
+
+        $router->bind('user', function($value)
+        {
+            return \App\User::find($value);
+        });
     }
 
     /**
