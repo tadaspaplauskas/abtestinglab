@@ -15,7 +15,7 @@ class AdminController extends Controller
 
     public function login_as(User $user)
     {
-        if (!is_null($user) && Auth::check() && Auth::user()->email === env('ADMIN_EMAIL'))
+        if (!is_null($user) && Auth::check() && Auth::user()->email === env('ADMIN_ACCESS'))
         {
             Auth::login($user);
             return redirect(route('dashboard'))->with('success', 'Now you\'re logged in as ' . $user->name);
