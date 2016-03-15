@@ -42,9 +42,21 @@
     </div>
 </div>
 
-<p class="text-center conversion">
+<div class="text-center conversion">
     <a href="{{ URL::route('register') }}" class="btn btn-lg btn-primary">Start my free trial now</a>
-</p>
+</div>
+<div class="text-center">
+    <h3>or</h3>
+</div>
+<div class="text-center">
+    <form class="form-inline" action="{{ URL::route('email_subscriptions.store') }}" method="POST" style="margin-top: 2em">
+        Consider subscribing to newsletter for news, tips & tricks and more.<br>
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input class="form-control" type="email" name="email" placeholder="Your email address">
+        <input class="form-control" type="text" name="name" placeholder="Your name">
+        <button type="submit" class="btn btn-default">Subscribe</button>
+    </form>
+</div>
 
 <h2>Pricing</h2>
 <p>

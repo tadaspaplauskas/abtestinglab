@@ -114,6 +114,7 @@ Route::get('pricing', ['as' => 'pricing', 'uses' => 'PagesController@pricing']);
 Route::get('privacy', ['as' => 'privacy', 'uses' => 'PagesController@privacy']);
 Route::get('faq', ['as' => 'faq', 'uses' => 'PagesController@faq']);
 
+Route::resource('email_subscriptions', 'EmailSubscriptionController');
 
 /* only for testing */
 Route::get('/test_user_created', function() {
