@@ -50,7 +50,7 @@
 </div>
 <div class="text-center">
     <form class="form-inline" action="{{ URL::route('email_subscriptions.store') }}" method="POST" style="margin-top: 2em">
-        Consider subscribing to newsletter for news, tips & tricks and more.<br>
+        Consider subscribing to the newsletter for news, tips & tricks and more <small>(no more than once a week.)</small>.<br>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <input class="form-control" type="email" name="email" placeholder="Your email address">
         <input class="form-control" type="text" name="name" placeholder="Your name">
