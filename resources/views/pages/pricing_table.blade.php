@@ -6,7 +6,7 @@ $envProd = \App::environment('production');
     <div class="col-sm-4 pricing-option">
         <h2>Starter</h2>
         <ul>
-            <li><strong>10,000 visitors tested</strong></li>
+            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">10,000 visitors tested</a></strong></li>
             <li>Full control over your resources</li>
             <li>Intuitive visual editor</li>
             <li>Unlimited websites</li>
@@ -46,7 +46,7 @@ $envProd = \App::environment('production');
     <div class="col-sm-4 most-popular pricing-option">
         <h2>Most Popular</h2>
         <ul>
-            <li><strong>50,000 visitors tested</strong></li>
+            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">50,000 visitors tested</a></strong></li>
             <li>Full control over your resources</li>
             <li>Intuitive visual editor</li>
             <li>Unlimited websites</li>
@@ -86,7 +86,7 @@ $envProd = \App::environment('production');
     <div class="col-sm-4 pricing-option">
         <h2>Business</h2>
         <ul>
-            <li><strong>100,000 visitors tested</strong></li>
+            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">100,000 visitors tested</a></strong></li>
             <li>Full control over your resources</li>
             <li>Intuitive visual editor</li>
             <li>Unlimited websites</li>
@@ -123,7 +123,6 @@ $envProd = \App::environment('production');
         @endif
     </div>
 </div>
-
 <div class="text-center payment-options">
 <img src="assets/img/payment_options.png">
 </div>
