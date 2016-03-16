@@ -9,18 +9,18 @@
   <h1>A/B testing for content creators. <small>Stop guessing. Start testing.</small></h1>
 </div>
 <p class="text-center narrow-paragraph intro-paragraph">
-<strong>A/B Testing Lab</strong> lets you test and optimize your website with real visitors without them noticing anything.
+<strong>A/B Testing Lab</strong> makes it easy to deliver the best experience for every visitor.
 </p>
 
 <div class="text-center">
     <h2>Why?</h2>
     <ul class="list-unstyled">
         <li><strong>Content is king.</strong> Test what really matters.</li>
-        <li>Get more conversions with the same amount of traffic.</li>
+        <li>Increase user engagement.</li>
         <li>Optimize your website to serve visitors as good as possible.</li>
         {{--<li>Make decisions backed up by data.</li>--}}
         {{--<li>See what actually works and what only looks good on paper.</li>--}}
-        <li>Create different variations of web pages using a simple visual editor.</li>
+        <li>Create different variations of your content using a simple visual editor.</li>
         <li>Dead-simple integration - just copy-paste a small code snippet into your website and you are ready to go.</li>
     </ul>
 </div>
@@ -50,7 +50,7 @@
 </div>
 <div class="text-center">
     <form class="form-inline" action="{{ URL::route('email_subscriptions.store') }}" method="POST" style="margin-top: 2em">
-        Consider subscribing to the newsletter for news, tips & tricks and more <small>(no more than once a week.)</small>.<br>
+        Consider subscribing to the newsletter for news, tips & tricks and more <small>(no more than once a week)</small><br>
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <input class="form-control" type="email" name="email" placeholder="Your email address">
         <input class="form-control" type="text" name="name" placeholder="Your name">
