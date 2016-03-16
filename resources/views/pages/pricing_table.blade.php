@@ -6,7 +6,7 @@ $envProd = \App::environment('production');
     <div class="col-sm-4 pricing-option">
         <h2>Starter</h2>
         <ul>
-            <li><strong>10,000 unique visitors</strong></li>
+            <li><strong>10,000 visitors tested</strong></li>
             <li>Full control over your resources</li>
             <li>Intuitive visual editor</li>
             <li>Unlimited websites</li>
@@ -46,7 +46,7 @@ $envProd = \App::environment('production');
     <div class="col-sm-4 most-popular pricing-option">
         <h2>Most Popular</h2>
         <ul>
-            <li><strong>50,000 unique visitors</strong></li>
+            <li><strong>50,000 visitors tested</strong></li>
             <li>Full control over your resources</li>
             <li>Intuitive visual editor</li>
             <li>Unlimited websites</li>
@@ -86,7 +86,7 @@ $envProd = \App::environment('production');
     <div class="col-sm-4 pricing-option">
         <h2>Business</h2>
         <ul>
-            <li><strong>100,000 unique visitors</strong></li>
+            <li><strong>100,000 visitors tested</strong></li>
             <li>Full control over your resources</li>
             <li>Intuitive visual editor</li>
             <li>Unlimited websites</li>

@@ -60,7 +60,7 @@
 
 <h2>Pricing</h2>
 <p>
-    Do not worry, when you sign up your <strong>first 3,000 visitors are on us</strong>. After that there are no hidden or monthly fees - pay only for what you use.
+    Do not worry, when you sign up your <strong>first 3,000 visitors tested are on us</strong>. After that there are no hidden or monthly fees - pay only for what you use.
 </p>
 
 @include('pages.pricing_table')
