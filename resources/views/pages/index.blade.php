@@ -1,3 +1,4 @@
+
 <?php $noDefaultHeadline = true; ?>
 
 @extends('master')

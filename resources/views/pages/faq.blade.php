@@ -10,8 +10,13 @@ What exactly counts as "visitors tested"?
 </p>
 <p class="answer">
 One visitor is counted when the visitor is introduced to a new test for the first time. All the subsequent times when that same test is presented to the same visitor are not added to this number. If you run out of this resource all active tests will be stopped.
-<br>
+</p>
+<p>
 Example: You are running one test on the element that is present on every page of your website. Jane visits your website for the first time and explores 10 pages. Jack visits your website, but quits after checking out 2 pages and comes back the next day. All this action will count as 2 visitors tested.
+</p>
+<p>
+<strong>Important!</strong>
+    A/B Testing Lab does NOT provide any new visitors to your website. This service provides the tools to run content experiments with the traffic that your website is already getting by itself. When your plan ends or you stop the tests, your visitors will see the default version of the website without any changes. Simple as that.
 </p>
 
 <p class="question">

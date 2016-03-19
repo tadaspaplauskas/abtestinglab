@@ -6,7 +6,9 @@ $envProd = \App::environment('production');
     <div class="col-sm-4 pricing-option">
         <h2>Starter</h2>
         <ul>
-            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">10,000 visitors tested</a></strong></li>
+            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">10,000 visitors tested</a></strong>
+            <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="A/B Testing Lab does NOT provide any new visitors to your website. This is the number of your visitors that can be included in your content experiments. Click the link for a full explanation if you have any questions."></span>
+            </li>
             <li>Full control over your resources</li>
             <li>Intuitive visual editor</li>
             <li>Unlimited websites</li>
@@ -46,7 +48,9 @@ $envProd = \App::environment('production');
     <div class="col-sm-4 most-popular pricing-option">
         <h2>Most Popular</h2>
         <ul>
-            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">50,000 visitors tested</a></strong></li>
+            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">50,000 visitors tested</a></strong>
+            <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="A/B Testing Lab does NOT provide any new visitors to your website. This is the number of your visitors that can be included in your content experiments. Click the link for a full explanation if you have any questions."></span>
+            </li>
             <li>Full control over your resources</li>
             <li>Intuitive visual editor</li>
             <li>Unlimited websites</li>
@@ -86,7 +90,9 @@ $envProd = \App::environment('production');
     <div class="col-sm-4 pricing-option">
         <h2>Business</h2>
         <ul>
-            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">100,000 visitors tested</a></strong></li>
+            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">100,000 visitors tested</a></strong>
+            <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="A/B Testing Lab does NOT provide any new visitors to your website. This is the number of your visitors that can be included in your content experiments. Click the link for a full explanation if you have any questions."></span>
+            </li>
             <li>Full control over your resources</li>
             <li>Intuitive visual editor</li>
             <li>Unlimited websites</li>
@@ -123,6 +129,11 @@ $envProd = \App::environment('production');
         @endif
     </div>
 </div>
-<div class="text-center payment-options">
+<p class="text-center margin-top">
+    <strong>Important!</strong>
+    A/B Testing Lab does NOT provide any new visitors to your website. This service provides the tools to run content experiments with the traffic that your website is already getting by itself. When your plan ends or you stop the tests, your visitors will see the default version of the website without any changes. Simple as that.<br>
+    <a href="{{ URL::route('faq') }}">Click here</a> for more information.
+</p>
+<div class="text-center margin-top">
 <img src="assets/img/payment_options.png">
 </div>
