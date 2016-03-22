@@ -45,7 +45,7 @@ How does A/B Testing Lab work?
 </p>
 <p class="answer">
 <ul>
-    <li>Load your website in visual test editor.</li>
+    <li>Load your website into visual test editor.</li>
     <li>Choose the element you want to optimize.</li>
     <li>Describe a variation. You may specify different styling too.</li>
     <li>Choose a conversion event. How will you measure success?</li>

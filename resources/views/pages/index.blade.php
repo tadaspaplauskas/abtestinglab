@@ -29,17 +29,19 @@
 <div class="row" style="margin-top: 3em">
     <div class="col-md-6">
         <h2>How?</h2>
-        <ol>
+        <ul>
+            <li><strong>Add a small javascript code to your website.</strong> Open our visual test editor.</li>
             <li><strong>Choose the element</strong> you want to optimize.</li>
             <li><strong>Describe a variation.</strong> You may specify different styling too.</li>
             <li><strong>Choose a conversion event.</strong> How will you measure success?</li>
-            <li><strong>Choose the reach of your test.</strong> How many users should participate?</li>
+            <li><strong>Choose the reach of your test.</strong> How many visitors should participate?</li>
+            <li><strong>Save everything and go grab a coffee.</strong> Our script is applying the test to your website every time it loads. This happens completely seamlessly.
             <li><strong>Let the test run for a while.</strong> We will notify you when it ends.</li>
             <li><strong>Review the results</strong> and make changes accordingly.</li>
-        </ol>
+        </ul>
     </div>
     <div class="col-md-6">
-        <img src="{{ url('assets/img/demo.png') }}" class="img-responsive img-thumbnail">
+        <img src="{{ url('assets/img/demo.png') }}" class="img-responsive img-thumbnail" style="margin-top: 1em">
     </div>
 </div>
 
