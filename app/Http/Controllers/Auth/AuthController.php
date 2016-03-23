@@ -159,7 +159,7 @@ class AuthController extends Controller
         $token = $user->token;
 
         $facebook_id = $user->getId();
-        $name = $user->getName();
+        $name = $user->getName() ? $user->getName() : $user->getEmail();
         $email = $user->getEmail();
 
         if (empty($email))
