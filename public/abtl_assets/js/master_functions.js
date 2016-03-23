@@ -2,7 +2,7 @@ String.prototype.customTrim = function () {
     var elem = this;
     if (elem !== undefined && elem !== null)
     {
-        elem = elem.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ").replace(' draggable="true" ondragstart="abtl.drag(event)"', '');
+        elem = elem.replace(/(\r\n|\n|\r)/gm,"").trim().replace(/(\s)/gm," ").replace("  ", " ").replace(' draggable="true"', '').replace('ondragstart="abtl.drag(event)"', '').replace('class="abtl-picked-test-border"', '').replace('class="abtl-picked-conversion-border"', '').replace('style=""', '');
     }
     return elem;
 };
