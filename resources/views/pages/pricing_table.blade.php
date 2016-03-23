@@ -3,7 +3,26 @@ $loggedIn = Auth::check();
 $envProd = \App::environment('production');
 ?>
 <div class="row text-center">
-    <div class="col-sm-4 pricing-option">
+    <div class="col-sm-3 pricing-option">
+        <h2>Trial</h2>
+        <ul>
+            <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">3,000 visitors tested</a></strong>
+            <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="A/B Testing Lab does NOT provide any new visitors to your website. This is the number of your visitors that can be included in your content experiments. Click the link for a full explanation if you have any questions."></span>
+            </li>
+            <li>Full control over your resources</li>
+            <li>Intuitive visual editor</li>
+            <li>Unlimited websites</li>
+            <li>Tests archive</li>
+            <li>Full stats</li>
+            <li class="price">Free</li>
+        </ul>
+
+        @if (!$loggedIn)
+            <a href="{{ URL::route('register') }}" class="btn btn-primary buy">Start now</a>
+        @endif
+    </div>
+
+    <div class="col-sm-3 pricing-option">
         <h2>Starter</h2>
         <ul>
             <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">10,000 visitors tested</a></strong>
@@ -45,7 +64,7 @@ $envProd = \App::environment('production');
         @endif
     </div>
 
-    <div class="col-sm-4 most-popular pricing-option">
+    <div class="col-sm-3 most-popular pricing-option">
         <h2>Most Popular</h2>
         <ul>
             <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">50,000 visitors tested</a></strong>
@@ -83,11 +102,11 @@ $envProd = \App::environment('production');
                 </form>
             @endif
         @else
-            <a href="{{ URL::route('register.buy') }}" class="btn btn-primary btn-lg buy">Buy now</a>
+            <a href="{{ URL::route('register.buy') }}" class="btn btn-primary buy">Buy now</a>
         @endif
     </div>
 
-    <div class="col-sm-4 pricing-option">
+    <div class="col-sm-3 pricing-option">
         <h2>Business</h2>
         <ul>
             <li><strong><a href="{{ URL::route('faq') }}#what_is_visitors_tested">100,000 visitors tested</a></strong>

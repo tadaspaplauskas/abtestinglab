@@ -62,8 +62,10 @@
 </div>
 
 <h2>Pricing</h2>
-<p>
-    Do not worry, when you sign up your <strong>first 3,000 visitors tested are on us</strong>. After that there are no hidden or monthly fees - pay only for what you use.
+<p class="text-center">
+<ul>
+    <li><strong>No hidden or monthly fees</strong> - pay only for what you use.</li>
+    <li><strong>One tested visitor</strong> is counted when the visitor is introduced to a new test for the first time. All the subsequent times when that same test is presented to the same visitor are not added to this number.</li>
 </p>
 
 @include('pages.pricing_table')
