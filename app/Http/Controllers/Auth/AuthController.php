@@ -136,9 +136,16 @@ class AuthController extends Controller
 
     public function handleProviderCallbackFacebook()
     {
-        $user = Socialite::driver('facebook')->user();
+        try
+        {
+            $user = Socialite::driver('facebook')->user();
 
-        return $this->socialLogin($user);
+            return $this->socialLogin($user);
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->route('login');
+        }
     }
 
     public function redirectToProviderGoogle()
@@ -148,11 +155,17 @@ class AuthController extends Controller
 
     public function handleProviderCallbackGoogle()
     {
-        $user = Socialite::driver('google')->user();
+        try
+        {
+            $user = Socialite::driver('google')->user();
 
-        return $this->socialLogin($user);
+            return $this->socialLogin($user);
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->route('login');
+        }
     }
-
 
     public function socialLogin($user)
     {
