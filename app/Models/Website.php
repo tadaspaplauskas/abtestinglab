@@ -138,12 +138,16 @@ class Website extends Model
 
     public function isScriptOnline()
     {
-        $content = file_get_contents($this->url);
+        try
+        {
+            $content = file_get_contents($this->url);
 
-        if(stripos($content, $this->jsUrl()) === false)
+            return stripos($content, $this->jsUrl()) !== false;
+        }
+        catch (\Exception $e)
+        {
             return false;
-        else
-            return true;
+        }
     }
 
     public function getUrlAttribute($value)

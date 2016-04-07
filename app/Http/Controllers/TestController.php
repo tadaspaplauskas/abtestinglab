@@ -103,7 +103,7 @@ class TestController extends Controller
         //check if script exists
         if (!$website->isScriptOnline())
         {
-            session()->flash('fail', 'Our script is not installed on the webpage. You can find instructions <a href="'. route('websites.instructions', [$website->id]) .'">here</a>.');
+            session()->flash('fail', 'Our script is not installed on the website or the link you provided is unreachable. You can find instructions <a href="'. route('websites.instructions', [$website->id]) .'">here</a>.');
             return redirect()->back();
         }
 
