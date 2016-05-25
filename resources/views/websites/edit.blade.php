@@ -36,7 +36,7 @@
     Want to get to the test manager faster? Just drag the following link to your bookmarks bar. You can click it in any website that is added to your account and you will be instantly redirected here. You've got to be logged in for it to work.
 </p>
 <p>
-<a href="javascript:window.location='{!! URL::route('websites.manager.redirect', ['']) !!}/'+window.location.hostname;" class="btn btn-default btn-lg">Go to A/B testing lab</a>
+<a href="javascript:window.location='{!! URL::route('websites.manager.redirect', ['']) !!}/'+window.location.hostname;" class="btn btn-default btn-lg">Go to A/B Testing Lab</a>
 </p>
 </div>
 
