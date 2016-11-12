@@ -50,7 +50,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if (!env('APP_DEBUG'))
+        if (!env('APP_DEBUG') && !($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException))
             return response()->view('errors.exception', [], 500);
 
         return parent::render($request, $e);

@@ -1,5 +1,5 @@
 testUrl = 'http://blog.paplauskas.lt';
-testUrl = 'http://abtestinglab.dev/tests/blog.html';
+testUrl = 'http://abtestinglab.com/tests/blog.html';
 repeat = 100;
 //cleanup - remove user ect.
 casper.test.tearDown(function() {

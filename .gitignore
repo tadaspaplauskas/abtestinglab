@@ -5,6 +5,4 @@
 /public/users
 public/users
 /node_modules
-public/.htaccess
-/public/.htaccess
 tests/casperjs/*.jpg

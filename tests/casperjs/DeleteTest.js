@@ -9,7 +9,7 @@ casper.test.tearDown(function() {
     casper.exit();
 });
 
-casper.test.begin('Delete website', 5, function suite(test) {
+casper.test.begin('Delete website', 6, function suite(test) {
     casper.options.viewportSize = {width: 1920, height: 1080};
     //casper.options.verbose = true;
     //casper.options.logLevel ="debug";
